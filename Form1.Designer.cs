@@ -1,6 +1,6 @@
 ﻿namespace MultiscaleModelling
 {
-    partial class Form1
+    partial class MainWindowForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,75 +29,125 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.groupBoxNeighborhood = new System.Windows.Forms.GroupBox();
+            this.radioButton_Von_Neumann = new System.Windows.Forms.RadioButton();
+            this.radioButton_Moore = new System.Windows.Forms.RadioButton();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label_inclusions_type = new System.Windows.Forms.Label();
+            this.label_inclusions_size = new System.Windows.Forms.Label();
+            this.label_inclusions_no = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.button_space_generation = new System.Windows.Forms.Button();
             this.space_display = new System.Windows.Forms.PictureBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
+            this.groupBoxNeighborhood.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.space_display)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.textBox3);
+            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.groupBoxNeighborhood);
             this.groupBox1.Controls.Add(this.textBox2);
             this.groupBox1.Controls.Add(this.textBox1);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.label_inclusions_type);
+            this.groupBox1.Controls.Add(this.label_inclusions_size);
+            this.groupBox1.Controls.Add(this.label_inclusions_no);
             this.groupBox1.Controls.Add(this.checkBox1);
             this.groupBox1.Controls.Add(this.button3);
             this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.radioButton2);
-            this.groupBox1.Controls.Add(this.radioButton1);
+            this.groupBox1.Controls.Add(this.button_space_generation);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(296, 314);
+            this.groupBox1.Size = new System.Drawing.Size(361, 444);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "groupBox1";
             // 
-            // label3
+            // groupBoxNeighborhood
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(27, 216);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(35, 13);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "label3";
+            this.groupBoxNeighborhood.Controls.Add(this.radioButton_Von_Neumann);
+            this.groupBoxNeighborhood.Controls.Add(this.radioButton_Moore);
+            this.groupBoxNeighborhood.Location = new System.Drawing.Point(6, 19);
+            this.groupBoxNeighborhood.Name = "groupBoxNeighborhood";
+            this.groupBoxNeighborhood.Size = new System.Drawing.Size(158, 65);
+            this.groupBoxNeighborhood.TabIndex = 12;
+            this.groupBoxNeighborhood.TabStop = false;
+            this.groupBoxNeighborhood.Text = "Neighborhood type";
             // 
-            // label2
+            // radioButton_Von_Neumann
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(27, 191);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "label2";
+            this.radioButton_Von_Neumann.AutoSize = true;
+            this.radioButton_Von_Neumann.Location = new System.Drawing.Point(67, 34);
+            this.radioButton_Von_Neumann.Name = "radioButton_Von_Neumann";
+            this.radioButton_Von_Neumann.Size = new System.Drawing.Size(90, 17);
+            this.radioButton_Von_Neumann.TabIndex = 1;
+            this.radioButton_Von_Neumann.TabStop = true;
+            this.radioButton_Von_Neumann.Text = "VonNeumann";
+            this.radioButton_Von_Neumann.UseVisualStyleBackColor = true;
+            this.radioButton_Von_Neumann.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
-            // label1
+            // radioButton_Moore
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(27, 166);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "label1";
+            this.radioButton_Moore.AutoSize = true;
+            this.radioButton_Moore.Location = new System.Drawing.Point(6, 34);
+            this.radioButton_Moore.Name = "radioButton_Moore";
+            this.radioButton_Moore.Size = new System.Drawing.Size(55, 17);
+            this.radioButton_Moore.TabIndex = 0;
+            this.radioButton_Moore.TabStop = true;
+            this.radioButton_Moore.Text = "Moore";
+            this.radioButton_Moore.UseVisualStyleBackColor = true;
+            this.radioButton_Moore.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(122, 193);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(121, 20);
+            this.textBox2.TabIndex = 10;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(122, 165);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(121, 20);
+            this.textBox1.TabIndex = 9;
+            // 
+            // label_inclusions_type
+            // 
+            this.label_inclusions_type.AutoSize = true;
+            this.label_inclusions_type.Location = new System.Drawing.Point(0, 219);
+            this.label_inclusions_type.Name = "label_inclusions_type";
+            this.label_inclusions_type.Size = new System.Drawing.Size(92, 13);
+            this.label_inclusions_type.TabIndex = 8;
+            this.label_inclusions_type.Text = "Type of inclusions";
+            // 
+            // label_inclusions_size
+            // 
+            this.label_inclusions_size.AutoSize = true;
+            this.label_inclusions_size.Location = new System.Drawing.Point(0, 193);
+            this.label_inclusions_size.Name = "label_inclusions_size";
+            this.label_inclusions_size.Size = new System.Drawing.Size(88, 13);
+            this.label_inclusions_size.TabIndex = 7;
+            this.label_inclusions_size.Text = "Size of inclusions";
+            // 
+            // label_inclusions_no
+            // 
+            this.label_inclusions_no.AutoSize = true;
+            this.label_inclusions_no.Location = new System.Drawing.Point(0, 168);
+            this.label_inclusions_no.Name = "label_inclusions_no";
+            this.label_inclusions_no.Size = new System.Drawing.Size(105, 13);
+            this.label_inclusions_no.TabIndex = 6;
+            this.label_inclusions_no.Text = "Number of inclusions";
             // 
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(6, 120);
+            this.checkBox1.Location = new System.Drawing.Point(12, 261);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(80, 17);
             this.checkBox1.TabIndex = 5;
@@ -106,55 +156,32 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(6, 91);
+            this.button3.Location = new System.Drawing.Point(3, 130);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.Size = new System.Drawing.Size(127, 23);
             this.button3.TabIndex = 4;
             this.button3.Text = "button3";
             this.button3.UseVisualStyleBackColor = true;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(109, 62);
+            this.button2.Location = new System.Drawing.Point(136, 101);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 52);
             this.button2.TabIndex = 3;
             this.button2.Text = "button2";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // button1
+            // button_space_generation
             // 
-            this.button1.Location = new System.Drawing.Point(6, 62);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // radioButton2
-            // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(109, 19);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(85, 17);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "radioButton2";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(6, 19);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(85, 17);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "radioButton1";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.button_space_generation.Location = new System.Drawing.Point(3, 101);
+            this.button_space_generation.Name = "button_space_generation";
+            this.button_space_generation.Size = new System.Drawing.Size(127, 23);
+            this.button_space_generation.TabIndex = 2;
+            this.button_space_generation.Text = "Generate initial space";
+            this.button_space_generation.UseVisualStyleBackColor = true;
+            this.button_space_generation.Click += new System.EventHandler(this.button1_Click);
             // 
             // space_display
             // 
@@ -164,38 +191,27 @@
             this.space_display.TabIndex = 1;
             this.space_display.TabStop = false;
             // 
-            // textBox1
+            // comboBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(109, 159);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 9;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(122, 219);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.TabIndex = 13;
             // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(109, 185);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(100, 20);
-            this.textBox2.TabIndex = 10;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(109, 211);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 20);
-            this.textBox3.TabIndex = 11;
-            // 
-            // Form1
+            // MainWindowForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(891, 588);
             this.Controls.Add(this.space_display);
             this.Controls.Add(this.groupBox1);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "MainWindowForm";
+            this.Text = "Multiscale Modelling";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBoxNeighborhood.ResumeLayout(false);
+            this.groupBoxNeighborhood.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.space_display)).EndInit();
             this.ResumeLayout(false);
 
@@ -204,19 +220,20 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RadioButton radioButton_Von_Neumann;
+        private System.Windows.Forms.RadioButton radioButton_Moore;
+        private System.Windows.Forms.Label label_inclusions_type;
+        private System.Windows.Forms.Label label_inclusions_size;
+        private System.Windows.Forms.Label label_inclusions_no;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_space_generation;
         private System.Windows.Forms.PictureBox space_display;
-        private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.GroupBox groupBoxNeighborhood;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
 
