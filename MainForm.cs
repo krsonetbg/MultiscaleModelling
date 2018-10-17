@@ -106,6 +106,30 @@ namespace MultiscaleModelling
             } while (!current_state.isStructureFull());
         }
 
+        private void importDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("[MainForm.cs] import_data...");
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Title = "Load data from file";
+            ofd.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+
+            }
+        }
+
+        private void exportDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("[MainForm.cs] export_data...");
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Title = "Save data";
+            sfd.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            if (sfd.ShowDialog() == DialogResult.OK)
+            { 
+                FileWriter.SaveGrainStructureTxt(current_state);
+            }
+        }
+
         private neighborhood_type getNeighborhoodType()
     {
         if (radioButton_Moore.Checked == true)

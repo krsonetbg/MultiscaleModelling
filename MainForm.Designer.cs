@@ -44,16 +44,21 @@
             this.groupBox_inclusions = new System.Windows.Forms.GroupBox();
             this.label_inclusions_no = new System.Windows.Forms.Label();
             this.groupBox_config = new System.Windows.Forms.GroupBox();
+            this.numericUpDown_number_of_grains = new System.Windows.Forms.NumericUpDown();
+            this.label_grain_number = new System.Windows.Forms.Label();
             this.label_dimension = new System.Windows.Forms.Label();
             this.numericUpDown_dimension = new System.Windows.Forms.NumericUpDown();
-            this.label_grain_number = new System.Windows.Forms.Label();
-            this.numericUpDown_number_of_grains = new System.Windows.Forms.NumericUpDown();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.space_display)).BeginInit();
             this.groupBox_neighborhood.SuspendLayout();
             this.groupBox_inclusions.SuspendLayout();
             this.groupBox_config.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_dimension)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_number_of_grains)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_dimension)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // space_display
@@ -218,12 +223,38 @@
             this.groupBox_config.Controls.Add(this.button_growth);
             this.groupBox_config.Controls.Add(this.button_single_iteration);
             this.groupBox_config.Controls.Add(this.button_space_generation);
-            this.groupBox_config.Location = new System.Drawing.Point(12, 12);
+            this.groupBox_config.Location = new System.Drawing.Point(12, 56);
             this.groupBox_config.Name = "groupBox_config";
-            this.groupBox_config.Size = new System.Drawing.Size(611, 525);
+            this.groupBox_config.Size = new System.Drawing.Size(611, 481);
             this.groupBox_config.TabIndex = 0;
             this.groupBox_config.TabStop = false;
             this.groupBox_config.Text = "Configuration";
+            // 
+            // numericUpDown_number_of_grains
+            // 
+            this.numericUpDown_number_of_grains.Location = new System.Drawing.Point(103, 291);
+            this.numericUpDown_number_of_grains.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.numericUpDown_number_of_grains.Name = "numericUpDown_number_of_grains";
+            this.numericUpDown_number_of_grains.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDown_number_of_grains.TabIndex = 18;
+            this.numericUpDown_number_of_grains.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // label_grain_number
+            // 
+            this.label_grain_number.AutoSize = true;
+            this.label_grain_number.Location = new System.Drawing.Point(9, 293);
+            this.label_grain_number.Name = "label_grain_number";
+            this.label_grain_number.Size = new System.Drawing.Size(87, 13);
+            this.label_grain_number.TabIndex = 17;
+            this.label_grain_number.Text = "Number of grains";
             // 
             // label_dimension
             // 
@@ -251,31 +282,38 @@
             0,
             0});
             // 
-            // label_grain_number
+            // menuStrip1
             // 
-            this.label_grain_number.AutoSize = true;
-            this.label_grain_number.Location = new System.Drawing.Point(9, 293);
-            this.label_grain_number.Name = "label_grain_number";
-            this.label_grain_number.Size = new System.Drawing.Size(87, 13);
-            this.label_grain_number.TabIndex = 17;
-            this.label_grain_number.Text = "Number of grains";
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1157, 24);
+            this.menuStrip1.TabIndex = 2;
+            this.menuStrip1.Text = "menuStrip1";
             // 
-            // numericUpDown_number_of_grains
+            // fileToolStripMenuItem
             // 
-            this.numericUpDown_number_of_grains.Location = new System.Drawing.Point(103, 291);
-            this.numericUpDown_number_of_grains.Maximum = new decimal(new int[] {
-            500,
-            0,
-            0,
-            0});
-            this.numericUpDown_number_of_grains.Name = "numericUpDown_number_of_grains";
-            this.numericUpDown_number_of_grains.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown_number_of_grains.TabIndex = 18;
-            this.numericUpDown_number_of_grains.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.importDataToolStripMenuItem,
+            this.exportDataToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // importDataToolStripMenuItem
+            // 
+            this.importDataToolStripMenuItem.Name = "importDataToolStripMenuItem";
+            this.importDataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.importDataToolStripMenuItem.Text = "Import data";
+            this.importDataToolStripMenuItem.Click += new System.EventHandler(this.importDataToolStripMenuItem_Click);
+            // 
+            // exportDataToolStripMenuItem
+            // 
+            this.exportDataToolStripMenuItem.Name = "exportDataToolStripMenuItem";
+            this.exportDataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportDataToolStripMenuItem.Text = "Export data";
+            this.exportDataToolStripMenuItem.Click += new System.EventHandler(this.exportDataToolStripMenuItem_Click);
             // 
             // MainWindowForm
             // 
@@ -284,6 +322,8 @@
             this.ClientSize = new System.Drawing.Size(1157, 588);
             this.Controls.Add(this.space_display);
             this.Controls.Add(this.groupBox_config);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainWindowForm";
             this.Text = "Multiscale Modelling";
             ((System.ComponentModel.ISupportInitialize)(this.space_display)).EndInit();
@@ -293,9 +333,12 @@
             this.groupBox_inclusions.PerformLayout();
             this.groupBox_config.ResumeLayout(false);
             this.groupBox_config.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_dimension)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_number_of_grains)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_dimension)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -320,6 +363,10 @@
         private System.Windows.Forms.NumericUpDown numericUpDown_dimension;
         private System.Windows.Forms.NumericUpDown numericUpDown_number_of_grains;
         private System.Windows.Forms.Label label_grain_number;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importDataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportDataToolStripMenuItem;
     }
 }
 
