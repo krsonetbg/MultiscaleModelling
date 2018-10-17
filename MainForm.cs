@@ -45,20 +45,22 @@ namespace MultiscaleModelling
         private void button_generate_initial_space(object sender, EventArgs e)
         {
             Console.WriteLine("[MainForm.cs] button_generate_initial_space()");
-            previous_state = new State(50);
-            current_state = new State(50);
-            previous_state.initState(3);
+            int dim = Convert.ToInt32(numericUpDown_dimension.Value);
+            previous_state = new State(dim);
+            current_state = new State(dim);
+            int grains_number = Convert.ToInt32(numericUpDown_number_of_grains.Value);
+            previous_state.initState(grains_number);
             previous_state.updateState(previous_state);
-            space_display.Image = resizeImage(previous_state.grains_bmp, 150, 150);
+            space_display.Image = resizeImage(previous_state.grains_bmp, 300, 300);
         }
 
         private void button_proceed_single_iteration(object sender, EventArgs e)
         {
-            Console.WriteLine("[MainForm.cs] button_proceed_single_iteration()");
-            current_state.grains_structure = current_state.updateGrainsStructure2(previous_state);
-            current_state.updateState(current_state);
-            space_display.Image = resizeImage(current_state.grains_bmp, 150, 150);
-            previous_state = current_state;
+                Console.WriteLine("[MainForm.cs] button_proceed_single_iteration()");
+                current_state.grains_structure = current_state.updateGrainsStructure2(previous_state);
+                current_state.updateState(current_state);
+                space_display.Image = resizeImage(current_state.grains_bmp, 300, 300);
+                previous_state = current_state;
         }
 
         public static Bitmap resizeImage(Image image, int width, int height)
@@ -87,8 +89,22 @@ namespace MultiscaleModelling
             return destination_image;
         }
 
+        private void button_growth_Click(object sender, EventArgs e)
+        {
+            do
+            {
+                Console.WriteLine("[MainForm.cs] button_proceed_single_iteration()");
+                current_state.grains_structure = current_state.updateGrainsStructure2(previous_state);
+                current_state.updateState(current_state);
+                space_display.Image = resizeImage(current_state.grains_bmp, 300, 300);
+                //space_display.Image = current_state.grains_bmp;
 
-
+                previous_state = current_state;
+                System.Threading.Thread.Sleep(10);
+                Console.WriteLine("Waiting...\n");
+                space_display.Refresh();
+            } while (!current_state.isStructureFull());
+        }
 
         private neighborhood_type getNeighborhoodType()
     {

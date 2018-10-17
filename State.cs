@@ -21,10 +21,9 @@ namespace MultiscaleModelling
     public class State
     {
         public int dimension { get; set; }
-        public Grain[,] grains_structure { get; set;}
+        public Grain[,] grains_structure { get; set; }
         public Bitmap grains_bmp;
         public static Random rand = new Random();
-        static List<int> grain_IDs = new List<int>();
         static Dictionary<int, Color> grain_ID_Color_dict = new Dictionary<int, Color>();
 
         public State() { }
@@ -118,36 +117,48 @@ namespace MultiscaleModelling
 
         public Grain[,] updateGrainsStructure2(State state)
         {
-            // TODO Implement in loop while(any grain.id == 0 )...
-            //Grain[,] current_grains_structure = new Grain[state.dimension, state.dimension];
-            Grain[,] current_grains_structure = new Grain[state.dimension,state.dimension];//state.grains_structure;
+
+            Grain[,] current_grains_structure = new Grain[state.dimension, state.dimension];//state.grains_structure;
+            initGrainStructure(out current_grains_structure, state.dimension);
 
             for (int x = 0; x < state.dimension; ++x)
             {
                 for (int y = 0; y < state.dimension; ++y)
                 {
                     List<int> state_for_xy_coordinates = new List<int>();
-                    foreach (var id in grain_IDs)
+
+                    if (state.grains_structure[x, y].ID == 0) // Cell is empty, no viable grain is there
                     {
-                        state_for_xy_coordinates.Add(getNumberOfNeighbors(x, y, state.grains_structure.GetLength(0), id, state.grains_structure, false));
-                    }
-                    if (state_for_xy_coordinates.Max() == 0 && state.grains_structure[x, y].ID == 0)
-                    {
-                        current_grains_structure[x, y] = new Grain(0, 0, Color.CadetBlue); 
-                    }
-                    else if (state_for_xy_coordinates.Max() == 0 && state.grains_structure[x, y].ID != 0)
-                    {
-                        current_grains_structure[x, y] = state.grains_structure[x, y];
+                        foreach (var item in grain_ID_Color_dict)
+                        {
+                            if (item.Key != 0) // Count only non-zero neighbors
+                                state_for_xy_coordinates.Add(getNumberOfNeighbors(x, y, state.grains_structure.GetLength(0), item.Key, state.grains_structure, false));
+                        }
+
+                        if (state_for_xy_coordinates.Max() == 0 && state.grains_structure[x, y].ID == 0)
+                        {
+                            current_grains_structure[x, y] = new Grain(0, 0, grain_ID_Color_dict[0]);
+                        }
+
+                        else
+                        {
+                            int grain_id = state_for_xy_coordinates.IndexOf(state_for_xy_coordinates.Max()) + 1; // +1, because first ID to be considered is 1, but first element added to list has index 0 
+
+                            // What if there is more, than one max value? TODO
+                            // var max_indices =
+                            // state_for_xy_coordinates.Select((n, i) => new { n, i }).GroupBy(p => p.n, p => p.i).OrderByDescending(p => p.Key).Take(1).SelectMany(p => p).ToArray();
+                            // int grain_id = state_for_xy_coordinates[rand.Next(0, max_indices.Length)]+1;
+
+                            Color c = grain_ID_Color_dict[grain_id];
+                            //current_grains_structure[x, y] = new Grain(state_for_xy_coordinates.Max(), 0, c);
+                            current_grains_structure[x, y] = new Grain(grain_id, 0, c);
+
+                        }
                     }
                     else
                     {
-                        // TODO: extract color for grain_id
-                        int grain_id = state_for_xy_coordinates.IndexOf(state_for_xy_coordinates.Max());
-                        // Access grain_ID_Color_dict[grain_id]
-                        Color c = grain_ID_Color_dict[grain_id];
-                        current_grains_structure[x, y] = new Grain(state_for_xy_coordinates.Max(), 0, c);
-
-                    }
+                        current_grains_structure[x, y] = state.grains_structure[x, y];
+                    } // state.grains_structure[x, y].ID != 0, so rewrite previous ID
 
                 }
             }
@@ -182,6 +193,7 @@ namespace MultiscaleModelling
 
         public void initState(int number_of_grains)
         {
+            clearState();
             for (int y = 0; y < this.dimension; y++)
             {
                 for (int x = 0; x < this.dimension; x++)
@@ -189,23 +201,48 @@ namespace MultiscaleModelling
                     this.grains_structure[y, x] = new Grain(0, 0, Color.CadetBlue);
                 }
             }
-            grain_ID_Color_dict.Add(0,Color.CadetBlue);
+            grain_ID_Color_dict.Add(0, Color.Wheat);
 
-            for(int i = 1; i<=number_of_grains; ++i)
+            for (int i = 1; i <= number_of_grains; ++i)
             {
                 Color c = Color.FromArgb(rand.Next(10, 256), rand.Next(10, 256), 0);
                 this.grains_structure[rand.Next(0, this.dimension - 1), rand.Next(0, this.dimension - 1)] = new Grain(i, 0, c);
-                grain_IDs.Add(i);
-                grain_ID_Color_dict.Add(i,c);
+                grain_ID_Color_dict.Add(i, c);
             }
 
-
         }
 
-        public void addInclusion(Grain[,] grain_structure)
+        public void clearState()
+        {
+            grains_structure = new Grain[this.dimension, this.dimension];
+            grains_bmp = new Bitmap(this.dimension, this.dimension);
+            grain_ID_Color_dict.Clear();
+        }
+
+        private void initGrainStructure(out Grain[,] g_s, int dim)
+        {
+            g_s = new Grain[dim, dim];
+            for (int x = 0; x < dim; ++x)
+            {
+                for (int y = 0; y < dim; ++y)
+                {
+                    g_s[x, y] = new Grain(0, 0, grain_ID_Color_dict[0]);
+                }
+            }
+        }
+
+        public bool isStructureFull()
         {
 
-        }
+            for (int x = 0; x < this.dimension; ++x)
+            {
+                for (int y = 0; y < dimension;  ++y)
+                {
+                    if (grains_structure[x, y].ID == 0) return false;               
+                }
+            }
 
+            return true;
+        }
     }
 }
