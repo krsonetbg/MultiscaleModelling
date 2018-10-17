@@ -117,31 +117,30 @@ namespace MultiscaleModelling
 
         public Grain[,] updateGrainsStructure2(State state)
         {
-            List<int> IDs = new List<int>();
-            IDs.Add(1);
+            // TODO Implement in loop while(any grain.id == 0 )...
             //Grain[,] current_grains_structure = new Grain[state.dimension, state.dimension];
-            Grain[,] current_grains_structure = state.grains_structure;
+            Grain[,] current_grains_structure = new Grain[state.dimension,state.dimension];//state.grains_structure;
 
             for (int x = 0; x < state.dimension; ++x)
             {
                 for (int y = 0; y < state.dimension; ++y)
                 {
                     List<int> state_for_xy_coordinates = new List<int>();
-                    foreach (var id in IDs)
+                    foreach (var id in grain_IDs)
                     {
                         state_for_xy_coordinates.Add(getNumberOfNeighbors(x, y, state.grains_structure.GetLength(0), id, state.grains_structure, false));
                     }
                     if (state_for_xy_coordinates.Max() == 0 && state.grains_structure[x, y].ID == 0)
                     {
-                        current_grains_structure[x, y].ID = 0;
+                        current_grains_structure[x, y] = new Grain(0, 0, Color.CadetBlue); 
                     }
                     else if (state_for_xy_coordinates.Max() == 0 && state.grains_structure[x, y].ID != 0)
                     {
-                        current_grains_structure[x, y].ID = state.grains_structure[x, y].ID;
+                        current_grains_structure[x, y] = state.grains_structure[x, y];
                     }
                     else
                     {
-                        current_grains_structure[x, y].ID = state_for_xy_coordinates.Max();
+                        current_grains_structure[x, y] = new Grain(state_for_xy_coordinates.Max(), 0, Color.Crimson);
                     }
 
                 }
@@ -185,7 +184,17 @@ namespace MultiscaleModelling
                 }
             }
 
-            this.grains_structure[rand.Next(0, this.dimension - 1), rand.Next(0, this.dimension - 1)] = new Grain(1, 0, Color.DarkRed);
+            for(int i = 1; i<=number_of_grains; ++i)
+            {
+                this.grains_structure[rand.Next(0, this.dimension - 1), rand.Next(0, this.dimension - 1)] = new Grain(i, 0, Color.FromArgb(rand.Next(10, 256), rand.Next(10, 256), 0));
+                grain_IDs.Add(i);
+            }
+
+
+        }
+
+        public void addInclusion(Grain[,] grain_structure)
+        {
 
         }
 

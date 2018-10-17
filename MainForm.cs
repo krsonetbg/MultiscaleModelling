@@ -47,7 +47,7 @@ namespace MultiscaleModelling
             Console.WriteLine("[MainForm.cs] button_generate_initial_space()");
             previous_state = new State(50);
             current_state = new State(50);
-            previous_state.initState(1);
+            previous_state.initState(3);
             previous_state.updateState(previous_state);
             space_display.Image = resizeImage(previous_state.grains_bmp, 150, 150);
         }
@@ -87,75 +87,10 @@ namespace MultiscaleModelling
             return destination_image;
         }
 
-        int[,] test_state = new int[3, 3];
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-            for (var i=0; i<test_state.GetLength(0); ++i)
-            {
-                for (var j = 0; j < test_state.GetLength(1); ++j)
-                {
-                    test_state[i, j] = 0;
-                }
-            }
-            test_state[1, 1] = 1;
-
-            List<int> IDs = new List<int>();
-            IDs.Add(1);
-           // var current_state = TickAlgorithm(test_state.GetLength(1), IDs);
-
-            //for (var i = 0; i < test_state.GetLength(0); ++i)
-            //{       
-            //    for (var j = 0; j < test_state.GetLength(1); ++j)
-            //    {
-            //        //Console.WriteLine("Element [{0},{1}]:{2}, number of neighbors:{3}",i,j,test_state[i, j], getNumberOfNeighbors(i,j, test_state.GetLength(0),1, test_state,false) );
-            //        //Console.WriteLine("Element [{0},{1}]:{2}", i, j, test_state[i, j]);
-            //        Console.WriteLine("Element [{0},{1}]:{2}", i, j, current_state[i, j]);
-
-            //    }
-            //    Console.Write(Environment.NewLine + Environment.NewLine);
-            //}
-
-     
-    }
 
 
 
-    //public int[,] TickAlgorithm(int dim, List<int> IDs, int [,] previous_state = null)
-    //{
-    //    int[,] current_state = new int[dim, dim];
-
-    //    for (int x = 0; x < dim; ++x)
-    //    {
-    //        for (int y = 0; y < dim; ++y)
-    //        {
-    //            List<int> state_for_xy_coordinates = new List<int>();
-    //            foreach (var id in IDs)
-    //            {
-    //                    state_for_xy_coordinates.Add(getNumberOfNeighbors(x, y, test_state.GetLength(0), 1, test_state, false));
-    //            }
-    //                if (state_for_xy_coordinates.Max() == 0 && test_state[x, y] == 0)
-    //                {
-    //                    current_state[x, y] = 0;
-    //                }
-    //                else if (state_for_xy_coordinates.Max() == 0 && test_state[x, y] != 0)
-    //                {
-    //                    current_state[x, y] = test_state[x,y];
-    //                }
-    //                else
-    //                {
-    //                    current_state[x, y] = state_for_xy_coordinates.Max();
-    //                }
-
-    //            }
-    //    }
-    //    return current_state;
-    //}
-
-
-
-    private neighborhood_type getNeighborhoodType()
+        private neighborhood_type getNeighborhoodType()
     {
         if (radioButton_Moore.Checked == true)
         {
