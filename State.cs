@@ -25,6 +25,7 @@ namespace MultiscaleModelling
         public Bitmap grains_bmp;
         public static Random rand = new Random();
         static List<int> grain_IDs = new List<int>();
+        static Dictionary<int, Color> grain_ID_Color_dict = new Dictionary<int, Color>();
 
         public State() { }
         public State(int dim)
@@ -140,7 +141,12 @@ namespace MultiscaleModelling
                     }
                     else
                     {
-                        current_grains_structure[x, y] = new Grain(state_for_xy_coordinates.Max(), 0, Color.Crimson);
+                        // TODO: extract color for grain_id
+                        int grain_id = state_for_xy_coordinates.IndexOf(state_for_xy_coordinates.Max());
+                        // Access grain_ID_Color_dict[grain_id]
+                        Color c = grain_ID_Color_dict[grain_id];
+                        current_grains_structure[x, y] = new Grain(state_for_xy_coordinates.Max(), 0, c);
+
                     }
 
                 }
@@ -183,11 +189,14 @@ namespace MultiscaleModelling
                     this.grains_structure[y, x] = new Grain(0, 0, Color.CadetBlue);
                 }
             }
+            grain_ID_Color_dict.Add(0,Color.CadetBlue);
 
             for(int i = 1; i<=number_of_grains; ++i)
             {
-                this.grains_structure[rand.Next(0, this.dimension - 1), rand.Next(0, this.dimension - 1)] = new Grain(i, 0, Color.FromArgb(rand.Next(10, 256), rand.Next(10, 256), 0));
+                Color c = Color.FromArgb(rand.Next(10, 256), rand.Next(10, 256), 0);
+                this.grains_structure[rand.Next(0, this.dimension - 1), rand.Next(0, this.dimension - 1)] = new Grain(i, 0, c);
                 grain_IDs.Add(i);
+                grain_ID_Color_dict.Add(i,c);
             }
 
 

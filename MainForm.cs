@@ -58,7 +58,7 @@ namespace MultiscaleModelling
             current_state.grains_structure = current_state.updateGrainsStructure2(previous_state);
             current_state.updateState(current_state);
             space_display.Image = resizeImage(current_state.grains_bmp, 150, 150);
-
+            previous_state = current_state;
         }
 
         public static Bitmap resizeImage(Image image, int width, int height)
