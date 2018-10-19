@@ -25,6 +25,7 @@ namespace MultiscaleModelling
         public Bitmap grains_bmp;
         public static Random rand = new Random();
         static Dictionary<int, Color> grain_ID_Color_dict = new Dictionary<int, Color>();
+        //public List<>
 
         public State() { }
         public State(int dim)
@@ -81,39 +82,6 @@ namespace MultiscaleModelling
         }
 
 
-        public void updateGrainsStructure(State state)
-        {
-            List<int> IDs = new List<int>();
-            IDs.Add(1);
-            Grain[,] current_grains_structure = state.grains_structure;
-
-            for (int x = 0; x < state.dimension; ++x)
-            {
-                for (int y = 0; y < state.dimension; ++y)
-                {
-                    List<int> state_for_xy_coordinates = new List<int>();
-                    foreach (var id in IDs)
-                    {
-                        state_for_xy_coordinates.Add(getNumberOfNeighbors(x, y, state.grains_structure.GetLength(0), id, state.grains_structure, false));
-                    }
-                    if (state_for_xy_coordinates.Max() == 0 && state.grains_structure[x, y].ID == 0)
-                    {
-                        current_grains_structure[x, y].ID = 0;
-                    }
-                    else if (state_for_xy_coordinates.Max() == 0 && state.grains_structure[x, y].ID != 0)
-                    {
-                        current_grains_structure[x, y].ID = state.grains_structure[x, y].ID;
-                    }
-                    else
-                    {
-                        current_grains_structure[x, y].ID = state_for_xy_coordinates.Max();
-                    }
-
-                }
-            }
-
-            state.grains_structure = current_grains_structure;
-        }
 
         public Grain[,] updateGrainsStructure2(State state)
         {
@@ -131,7 +99,7 @@ namespace MultiscaleModelling
                     {
                         foreach (var item in grain_ID_Color_dict)
                         {
-                            if (item.Key != 0) // Count only non-zero neighbors
+                            if (item.Key != 0 && item.Key != -1) // Count only non-zero neighbors, do not count inclusions
                                 state_for_xy_coordinates.Add(getNumberOfNeighbors(x, y, state.grains_structure.GetLength(0), item.Key, state.grains_structure, false));
                         }
 
@@ -180,6 +148,11 @@ namespace MultiscaleModelling
                         for (int j = 0; j < state.dimension; j++)
                         {
                             state.grains_bmp.SetPixel(i, j, state.grains_structure[i, j].color);
+
+                            if (state.grains_structure[i, j].ID == -1)
+                            {
+                                var t = true;
+                            }
                         }
                     }
                 }
@@ -198,10 +171,11 @@ namespace MultiscaleModelling
             {
                 for (int x = 0; x < this.dimension; x++)
                 {
-                    this.grains_structure[y, x] = new Grain(0, 0, Color.CadetBlue);
+                    this.grains_structure[y, x] = new Grain(0, 0, Color.Wheat);
                 }
             }
             grain_ID_Color_dict.Add(0, Color.Wheat);
+            grain_ID_Color_dict.Add(-1, Color.Black);
 
             for (int i = 1; i <= number_of_grains; ++i)
             {
@@ -230,6 +204,14 @@ namespace MultiscaleModelling
                 }
             }
         }
+
+        public void addInclusion(Tuple<int,int> inclusion_center, char inclusion_type = 'c')
+        {
+            var x = inclusion_center.Item1; 
+            var y = inclusion_center.Item2;
+            this.grains_structure[x,y] =  new Grain(-1, 0, Color.Black);
+        }
+
 
         public bool isStructureFull()
         {

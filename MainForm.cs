@@ -26,6 +26,7 @@ namespace MultiscaleModelling
 
         public enum neighborhood_type {VonNeumann=0, Moore=1};
         private Random rand;
+        private double image_scaling_factor;
 
         public MainWindowForm()
         {
@@ -37,10 +38,7 @@ namespace MultiscaleModelling
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            space_display.Image = resizeImage(CA.grow(current_state).grains_bmp, 150, 150);
-        }
+
 
         private void button_generate_initial_space(object sender, EventArgs e)
         {
@@ -51,7 +49,11 @@ namespace MultiscaleModelling
             int grains_number = Convert.ToInt32(numericUpDown_number_of_grains.Value);
             previous_state.initState(grains_number);
             previous_state.updateState(previous_state);
-            space_display.Image = resizeImage(previous_state.grains_bmp, 300, 300);
+            int scaled_dim = 300;
+            space_display.Image = resizeImage(previous_state.grains_bmp, scaled_dim, scaled_dim);
+            image_scaling_factor = dim /(double)scaled_dim;
+            //space_display.Image = previous_state.grains_bmp;
+
         }
 
         private void button_proceed_single_iteration(object sender, EventArgs e)
@@ -128,6 +130,18 @@ namespace MultiscaleModelling
             { 
                 FileWriter.SaveGrainStructureTxt(current_state);
             }
+        }
+
+        private void space_display_Click(object sender, EventArgs e)
+        {
+            // Capture mouse coordinates on space to add inclusions
+            var mouseEventArgs = e as MouseEventArgs;
+            if (mouseEventArgs != null) Console.WriteLine("X= " + mouseEventArgs.X + " Y= " + mouseEventArgs.Y);
+            var x = Convert.ToInt32(this.image_scaling_factor * mouseEventArgs.X);
+            var y = Convert.ToInt32(this.image_scaling_factor * mouseEventArgs.Y);
+            Tuple<int, int>  center = new Tuple<int, int>(x,y);
+            previous_state.addInclusion(center, 'c');
+            previous_state.updateState(previous_state);
         }
 
         private neighborhood_type getNeighborhoodType()

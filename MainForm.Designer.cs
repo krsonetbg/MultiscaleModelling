@@ -35,13 +35,13 @@
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label_inclusions_size = new System.Windows.Forms.Label();
             this.label_inclusions_type = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.groupBox_neighborhood = new System.Windows.Forms.GroupBox();
             this.radioButton_Von_Neumann = new System.Windows.Forms.RadioButton();
             this.radioButton_Moore = new System.Windows.Forms.RadioButton();
             this.comboBox_inclusions = new System.Windows.Forms.ComboBox();
             this.groupBox_inclusions = new System.Windows.Forms.GroupBox();
+            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label_inclusions_no = new System.Windows.Forms.Label();
             this.groupBox_config = new System.Windows.Forms.GroupBox();
             this.numericUpDown_number_of_grains = new System.Windows.Forms.NumericUpDown();
@@ -55,6 +55,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.space_display)).BeginInit();
             this.groupBox_neighborhood.SuspendLayout();
             this.groupBox_inclusions.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.groupBox_config.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_number_of_grains)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_dimension)).BeginInit();
@@ -68,6 +70,7 @@
             this.space_display.Size = new System.Drawing.Size(439, 383);
             this.space_display.TabIndex = 1;
             this.space_display.TabStop = false;
+            this.space_display.Click += new System.EventHandler(this.space_display_Click);
             // 
             // button_space_generation
             // 
@@ -127,20 +130,6 @@
             this.label_inclusions_type.TabIndex = 8;
             this.label_inclusions_type.Text = "Type of inclusions";
             // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(144, 39);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(121, 20);
-            this.textBox1.TabIndex = 9;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(144, 67);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(121, 20);
-            this.textBox2.TabIndex = 10;
-            // 
             // groupBox_neighborhood
             // 
             this.groupBox_neighborhood.Controls.Add(this.radioButton_Von_Neumann);
@@ -180,7 +169,7 @@
             this.comboBox_inclusions.FormattingEnabled = true;
             this.comboBox_inclusions.Items.AddRange(new object[] {
             "Circular",
-            "Rectangular"});
+            "Square"});
             this.comboBox_inclusions.Location = new System.Drawing.Point(144, 93);
             this.comboBox_inclusions.Name = "comboBox_inclusions";
             this.comboBox_inclusions.Size = new System.Drawing.Size(121, 21);
@@ -189,18 +178,42 @@
             // 
             // groupBox_inclusions
             // 
+            this.groupBox_inclusions.Controls.Add(this.numericUpDown2);
+            this.groupBox_inclusions.Controls.Add(this.numericUpDown1);
             this.groupBox_inclusions.Controls.Add(this.label_inclusions_no);
             this.groupBox_inclusions.Controls.Add(this.comboBox_inclusions);
             this.groupBox_inclusions.Controls.Add(this.label_inclusions_size);
             this.groupBox_inclusions.Controls.Add(this.label_inclusions_type);
-            this.groupBox_inclusions.Controls.Add(this.textBox2);
-            this.groupBox_inclusions.Controls.Add(this.textBox1);
             this.groupBox_inclusions.Location = new System.Drawing.Point(6, 90);
             this.groupBox_inclusions.Name = "groupBox_inclusions";
             this.groupBox_inclusions.Size = new System.Drawing.Size(280, 131);
             this.groupBox_inclusions.TabIndex = 14;
             this.groupBox_inclusions.TabStop = false;
             this.groupBox_inclusions.Text = "Inclusions";
+            // 
+            // numericUpDown2
+            // 
+            this.numericUpDown2.Location = new System.Drawing.Point(144, 40);
+            this.numericUpDown2.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.numericUpDown2.Name = "numericUpDown2";
+            this.numericUpDown2.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDown2.TabIndex = 20;
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(144, 65);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDown1.TabIndex = 19;
             // 
             // label_inclusions_no
             // 
@@ -304,14 +317,14 @@
             // importDataToolStripMenuItem
             // 
             this.importDataToolStripMenuItem.Name = "importDataToolStripMenuItem";
-            this.importDataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.importDataToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.importDataToolStripMenuItem.Text = "Import data";
             this.importDataToolStripMenuItem.Click += new System.EventHandler(this.importDataToolStripMenuItem_Click);
             // 
             // exportDataToolStripMenuItem
             // 
             this.exportDataToolStripMenuItem.Name = "exportDataToolStripMenuItem";
-            this.exportDataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportDataToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.exportDataToolStripMenuItem.Text = "Export data";
             this.exportDataToolStripMenuItem.Click += new System.EventHandler(this.exportDataToolStripMenuItem_Click);
             // 
@@ -331,6 +344,8 @@
             this.groupBox_neighborhood.PerformLayout();
             this.groupBox_inclusions.ResumeLayout(false);
             this.groupBox_inclusions.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.groupBox_config.ResumeLayout(false);
             this.groupBox_config.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_number_of_grains)).EndInit();
@@ -350,8 +365,6 @@
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label_inclusions_size;
         private System.Windows.Forms.Label label_inclusions_type;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.GroupBox groupBox_neighborhood;
         private System.Windows.Forms.RadioButton radioButton_Von_Neumann;
         private System.Windows.Forms.RadioButton radioButton_Moore;
@@ -367,6 +380,8 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportDataToolStripMenuItem;
+        private System.Windows.Forms.NumericUpDown numericUpDown2;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
     }
 }
 
