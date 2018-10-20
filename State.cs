@@ -83,7 +83,7 @@ namespace MultiscaleModelling
 
 
 
-        public Grain[,] updateGrainsStructure2(State state)
+        public Grain[,] updateGrainsStructure(State state)
         {
 
             Grain[,] current_grains_structure = new Grain[state.dimension, state.dimension];//state.grains_structure;
@@ -158,10 +158,36 @@ namespace MultiscaleModelling
                 }
             }
         }
+
+        private void updateGrainsBMP()
+        {
+            if (this != null)
+            {
+                this.grains_bmp = new Bitmap(this.dimension, this.dimension);
+
+                if (this.grains_structure != null)
+                {
+                    for (int i = 0; i < this.dimension; i++)
+                    {
+                        for (int j = 0; j < this.dimension; j++)
+                        {
+                            this.grains_bmp.SetPixel(i, j, this.grains_structure[i, j].color);
+
+                            if (this.grains_structure[i, j].ID == -1)
+                            {
+                                var t = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
         public void updateState(State state)
         {
             //updateGrainsStructure(state);
-            updateGrainsBMP(state);
+            updateGrainsBMP();
         }
 
         public void initState(int number_of_grains)
@@ -207,9 +233,8 @@ namespace MultiscaleModelling
 
         public void addInclusion(Tuple<int,int> inclusion_center, char inclusion_type = 'c')
         {
-            var x = inclusion_center.Item1; 
-            var y = inclusion_center.Item2;
-            this.grains_structure[x,y] =  new Grain(-1, 0, Color.Black);
+            Tuple<int, int> validated_center =  StateHelper.validateAndAdjustPointCoordinates(inclusion_center,this.dimension);
+            this.grains_structure[validated_center.Item1, validated_center.Item2] =  new Grain(-1, 0, Color.Black);
         }
 
 

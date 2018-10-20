@@ -58,6 +58,7 @@
     <Compile Include="Grain.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="State.cs" />
+    <Compile Include="StateHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

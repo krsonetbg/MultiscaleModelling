@@ -59,7 +59,7 @@ namespace MultiscaleModelling
         private void button_proceed_single_iteration(object sender, EventArgs e)
         {
                 Console.WriteLine("[MainForm.cs] button_proceed_single_iteration()");
-                current_state.grains_structure = current_state.updateGrainsStructure2(previous_state);
+                current_state.grains_structure = current_state.updateGrainsStructure(previous_state);
                 current_state.updateState(current_state);
                 space_display.Image = resizeImage(current_state.grains_bmp, 300, 300);
                 previous_state = current_state;
@@ -96,7 +96,7 @@ namespace MultiscaleModelling
             do
             {
                 Console.WriteLine("[MainForm.cs] button_proceed_single_iteration()");
-                current_state.grains_structure = current_state.updateGrainsStructure2(previous_state);
+                current_state.grains_structure = current_state.updateGrainsStructure(previous_state);
                 current_state.updateState(current_state);
                 space_display.Image = resizeImage(current_state.grains_bmp, 300, 300);
                 //space_display.Image = current_state.grains_bmp;
@@ -116,20 +116,36 @@ namespace MultiscaleModelling
             ofd.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
             if (ofd.ShowDialog() == DialogResult.OK)
             {
-
+                string input_file_name = ofd.FileName;
+                previous_state = FileReader.ReadTxtFile(input_file_name);
+                previous_state.updateState(previous_state);
+                current_state = previous_state;
+                space_display.Image = resizeImage(current_state.grains_bmp, 300, 300);
+                space_display.Refresh();
             }
         }
 
         private void exportDataToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Console.WriteLine("[MainForm.cs] export_data...");
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Title = "Save data";
-            sfd.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            if (sfd.ShowDialog() == DialogResult.OK)
-            { 
-                FileWriter.SaveGrainStructureTxt(current_state);
+            //SaveFileDialog sfd = new SaveFileDialog();
+            //sfd.Title = "Save data";
+            //sfd.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            //if (sfd.ShowDialog() == DialogResult.OK)
+            //{ 
+            //    FileWriter.SaveGrainStructureTxt(current_state);
+            //}
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            if (fbd.ShowDialog() == DialogResult.OK)
+            {
+                Console.WriteLine("Folder browser dialog OK clicked...");
+                Console.WriteLine(fbd.SelectedPath);
+                string path = fbd.SelectedPath;
+                FileWriter.SaveGrainStructureBMP(current_state, path);
+                FileWriter.SaveGrainStructureTxt(current_state, path);
+
             }
+
         }
 
         private void space_display_Click(object sender, EventArgs e)
@@ -142,6 +158,8 @@ namespace MultiscaleModelling
             Tuple<int, int>  center = new Tuple<int, int>(x,y);
             previous_state.addInclusion(center, 'c');
             previous_state.updateState(previous_state);
+            space_display.Image = resizeImage(previous_state.grains_bmp, 300, 300);
+            space_display.Refresh();
         }
 
         private neighborhood_type getNeighborhoodType()
