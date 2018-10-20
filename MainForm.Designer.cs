@@ -40,8 +40,8 @@
             this.radioButton_Moore = new System.Windows.Forms.RadioButton();
             this.comboBox_inclusions = new System.Windows.Forms.ComboBox();
             this.groupBox_inclusions = new System.Windows.Forms.GroupBox();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_number_of_inclusions = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown_inclusion_size = new System.Windows.Forms.NumericUpDown();
             this.label_inclusions_no = new System.Windows.Forms.Label();
             this.groupBox_config = new System.Windows.Forms.GroupBox();
             this.numericUpDown_number_of_grains = new System.Windows.Forms.NumericUpDown();
@@ -55,8 +55,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.space_display)).BeginInit();
             this.groupBox_neighborhood.SuspendLayout();
             this.groupBox_inclusions.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_number_of_inclusions)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_inclusion_size)).BeginInit();
             this.groupBox_config.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_number_of_grains)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_dimension)).BeginInit();
@@ -178,8 +178,8 @@
             // 
             // groupBox_inclusions
             // 
-            this.groupBox_inclusions.Controls.Add(this.numericUpDown2);
-            this.groupBox_inclusions.Controls.Add(this.numericUpDown1);
+            this.groupBox_inclusions.Controls.Add(this.numericUpDown_number_of_inclusions);
+            this.groupBox_inclusions.Controls.Add(this.numericUpDown_inclusion_size);
             this.groupBox_inclusions.Controls.Add(this.label_inclusions_no);
             this.groupBox_inclusions.Controls.Add(this.comboBox_inclusions);
             this.groupBox_inclusions.Controls.Add(this.label_inclusions_size);
@@ -191,29 +191,29 @@
             this.groupBox_inclusions.TabStop = false;
             this.groupBox_inclusions.Text = "Inclusions";
             // 
-            // numericUpDown2
+            // numericUpDown_number_of_inclusions
             // 
-            this.numericUpDown2.Location = new System.Drawing.Point(144, 40);
-            this.numericUpDown2.Maximum = new decimal(new int[] {
+            this.numericUpDown_number_of_inclusions.Location = new System.Drawing.Point(144, 40);
+            this.numericUpDown_number_of_inclusions.Maximum = new decimal(new int[] {
             500,
             0,
             0,
             0});
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown2.TabIndex = 20;
+            this.numericUpDown_number_of_inclusions.Name = "numericUpDown_number_of_inclusions";
+            this.numericUpDown_number_of_inclusions.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDown_number_of_inclusions.TabIndex = 20;
             // 
-            // numericUpDown1
+            // numericUpDown_inclusion_size
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(144, 65);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.numericUpDown_inclusion_size.Location = new System.Drawing.Point(144, 65);
+            this.numericUpDown_inclusion_size.Maximum = new decimal(new int[] {
             500,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(120, 20);
-            this.numericUpDown1.TabIndex = 19;
+            this.numericUpDown_inclusion_size.Name = "numericUpDown_inclusion_size";
+            this.numericUpDown_inclusion_size.Size = new System.Drawing.Size(120, 20);
+            this.numericUpDown_inclusion_size.TabIndex = 19;
             // 
             // label_inclusions_no
             // 
@@ -317,14 +317,14 @@
             // importDataToolStripMenuItem
             // 
             this.importDataToolStripMenuItem.Name = "importDataToolStripMenuItem";
-            this.importDataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.importDataToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.importDataToolStripMenuItem.Text = "Import data";
             this.importDataToolStripMenuItem.Click += new System.EventHandler(this.importDataToolStripMenuItem_Click);
             // 
             // exportDataToolStripMenuItem
             // 
             this.exportDataToolStripMenuItem.Name = "exportDataToolStripMenuItem";
-            this.exportDataToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportDataToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
             this.exportDataToolStripMenuItem.Text = "Export data";
             this.exportDataToolStripMenuItem.Click += new System.EventHandler(this.exportDataToolStripMenuItem_Click);
             // 
@@ -344,8 +344,8 @@
             this.groupBox_neighborhood.PerformLayout();
             this.groupBox_inclusions.ResumeLayout(false);
             this.groupBox_inclusions.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_number_of_inclusions)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_inclusion_size)).EndInit();
             this.groupBox_config.ResumeLayout(false);
             this.groupBox_config.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_number_of_grains)).EndInit();
@@ -380,8 +380,8 @@
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportDataToolStripMenuItem;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown numericUpDown_number_of_inclusions;
+        private System.Windows.Forms.NumericUpDown numericUpDown_inclusion_size;
     }
 }
 

@@ -21,5 +21,52 @@ namespace MultiscaleModelling
             Tuple<int, int> validated_point = new Tuple<int, int>(validated_x,validated_y);
             return validated_point;
         }
+        public static List<Tuple<int,int>> getIndicesWithinRadius(int radius, Tuple<int, int> center, int dimension)
+        {
+            List<Tuple<int, int>> indices_coordinates = new List<Tuple<int, int>>();
+            for (int i = 0; i< dimension; ++i)
+            {
+                for (int j = 0; j< dimension; ++j)
+                {
+                    int dx = center.Item1 - i;
+                    int dy = center.Item2 - j;
+                    dx *= dx;
+                    dy *= dy;
+                    double distance = Math.Sqrt(dx+dy);
+                    if (distance <= Convert.ToDouble(radius))
+                    {
+                        Tuple<int, int> point = new Tuple<int, int>(i, j);
+                        indices_coordinates.Add(point);
+                    }
+                }
+            }
+            return indices_coordinates;
+        }
+        public static List<Tuple<int, int>> getIndicesInsideSquare(int side, Tuple<int, int> center, int dimension)
+        {
+            List<Tuple<int, int>> indices_coordinates = new List<Tuple<int, int>>();
+            for (int i = 0; i < dimension; ++i)
+            {
+                for (int j = 0; j < dimension; ++j)
+                {
+                    var top = center.Item2 - side /2.0;
+                    var bottom = center.Item2 + side /2.0;
+                    var left = center.Item1 - side / 2.0;
+                    var right = center.Item1 + side / 2.0;
+
+                    if (left < 0) left = 0;
+                    if (right >= dimension) right = dimension - 1;
+                    if (top < 0) top = 0;
+                    if (bottom >= dimension) bottom = dimension - 1;
+
+                    if(i>left && i<right && j>top && j<bottom)
+                    {
+                        Tuple<int, int> point = new Tuple<int, int>(i, j);
+                        indices_coordinates.Add(point);
+                    }
+                }
+            }
+            return indices_coordinates;
+        }
     }
 }

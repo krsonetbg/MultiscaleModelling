@@ -156,10 +156,17 @@ namespace MultiscaleModelling
             var x = Convert.ToInt32(this.image_scaling_factor * mouseEventArgs.X);
             var y = Convert.ToInt32(this.image_scaling_factor * mouseEventArgs.Y);
             Tuple<int, int>  center = new Tuple<int, int>(x,y);
-            previous_state.addInclusion(center, 'c');
-            previous_state.updateState(previous_state);
-            space_display.Image = resizeImage(previous_state.grains_bmp, 300, 300);
-            space_display.Refresh();
+            int inclusion_size = Convert.ToInt32(numericUpDown_inclusion_size.Value);
+            if (comboBox_inclusions.SelectedItem != null)
+            {
+                char inclusion_type = Convert.ToChar(comboBox_inclusions.SelectedItem.ToString()[0]);
+                inclusion_type = char.ToLower(inclusion_type);
+                previous_state.addInclusion(center, inclusion_size, inclusion_type);
+                previous_state.updateState(previous_state);
+                space_display.Image = resizeImage(previous_state.grains_bmp, 300, 300);
+                space_display.Refresh();
+            }
+               
         }
 
         private neighborhood_type getNeighborhoodType()

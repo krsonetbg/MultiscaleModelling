@@ -231,10 +231,29 @@ namespace MultiscaleModelling
             }
         }
 
-        public void addInclusion(Tuple<int,int> inclusion_center, char inclusion_type = 'c')
+        public void addInclusion(Tuple<int,int> inclusion_center, int inclusion_size, char inclusion_type = 'c')
         {
-            Tuple<int, int> validated_center =  StateHelper.validateAndAdjustPointCoordinates(inclusion_center,this.dimension);
-            this.grains_structure[validated_center.Item1, validated_center.Item2] =  new Grain(-1, 0, Color.Black);
+            if (inclusion_type == 'c')
+            {
+                int radius = inclusion_size;
+                var circle = StateHelper.getIndicesWithinRadius(radius, inclusion_center, this.dimension);
+                for(int i =0; i<circle.Count; ++i)
+                {
+                    circle[i] = StateHelper.validateAndAdjustPointCoordinates(circle[i], this.dimension);
+                    this.grains_structure[circle[i].Item1, circle[i].Item2] = new Grain(-1, 0, Color.Black);
+                }
+            }
+            else
+            {
+                int side = inclusion_size;
+                var square = StateHelper.getIndicesInsideSquare(side, inclusion_center, this.dimension);
+                for (int i = 0; i < square.Count; ++i)
+                {
+                    square[i] = StateHelper.validateAndAdjustPointCoordinates(square[i], this.dimension);
+                    this.grains_structure[square[i].Item1, square[i].Item2] = new Grain(-1, 0, Color.Black);
+                }
+            }
+
         }
 
 
