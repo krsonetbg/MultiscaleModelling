@@ -17,13 +17,6 @@ namespace MultiscaleModelling
 
         public static State ReadTxtFile(string fileName)
         {
-            string path = "..\\..\\InputOutputData\\TxtFiles";
-            if (!Directory.Exists(path))
-            {
-                return null;
-            }
-            //string pathString = Path.Combine(path, string.Concat(fileName, ".txt"));
-
             String input;
             try
             {
@@ -57,23 +50,7 @@ namespace MultiscaleModelling
 
                         imported_state.grains_structure[x, y] = new Grain(id, phase, color);
                     }
-                    //imported_state.grains_structure[i, j] = new Grain(id,phase,color);
                 }
-
-                //for (int i = 0; i < dimension; i++)
-                //{
-                //    string[] grains = lines[i + 2].Split(' ');
-                //    for (int j = 0; j < dimension; j++)
-                //    {
-                //        string[] details = grains[j].Split('=');
-                //        imported_state.grains_structure[i, j] = new Grain()
-                //        {
-                //            ID = Convert.ToInt32(details[0]),
-                //            phase = Convert.ToInt32(details[1]),
-                //            color = System.Drawing.Color.FromArgb(Convert.ToInt32(details[2]), Convert.ToInt32(details[3]), Convert.ToInt32(details[4]))
-                //        };
-                //    }
-                //}
 
                 imported_state.updateState(imported_state);
                 return imported_state;

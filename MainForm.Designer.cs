@@ -32,7 +32,6 @@
             this.button_space_generation = new System.Windows.Forms.Button();
             this.button_single_iteration = new System.Windows.Forms.Button();
             this.button_growth = new System.Windows.Forms.Button();
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.label_inclusions_size = new System.Windows.Forms.Label();
             this.label_inclusions_type = new System.Windows.Forms.Label();
             this.groupBox_neighborhood = new System.Windows.Forms.GroupBox();
@@ -65,7 +64,7 @@
             // 
             // space_display
             // 
-            this.space_display.Location = new System.Drawing.Point(706, 12);
+            this.space_display.Location = new System.Drawing.Point(392, 56);
             this.space_display.Name = "space_display";
             this.space_display.Size = new System.Drawing.Size(439, 383);
             this.space_display.TabIndex = 1;
@@ -74,7 +73,7 @@
             // 
             // button_space_generation
             // 
-            this.button_space_generation.Location = new System.Drawing.Point(6, 338);
+            this.button_space_generation.Location = new System.Drawing.Point(6, 308);
             this.button_space_generation.Name = "button_space_generation";
             this.button_space_generation.Size = new System.Drawing.Size(133, 23);
             this.button_space_generation.TabIndex = 2;
@@ -84,7 +83,7 @@
             // 
             // button_single_iteration
             // 
-            this.button_single_iteration.Location = new System.Drawing.Point(6, 367);
+            this.button_single_iteration.Location = new System.Drawing.Point(6, 337);
             this.button_single_iteration.Name = "button_single_iteration";
             this.button_single_iteration.Size = new System.Drawing.Size(133, 25);
             this.button_single_iteration.TabIndex = 3;
@@ -94,23 +93,13 @@
             // 
             // button_growth
             // 
-            this.button_growth.Location = new System.Drawing.Point(6, 398);
+            this.button_growth.Location = new System.Drawing.Point(6, 368);
             this.button_growth.Name = "button_growth";
             this.button_growth.Size = new System.Drawing.Size(133, 23);
             this.button_growth.TabIndex = 4;
             this.button_growth.Text = "Proceed growth";
             this.button_growth.UseVisualStyleBackColor = true;
             this.button_growth.Click += new System.EventHandler(this.button_growth_Click);
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(191, 446);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(80, 17);
-            this.checkBox1.TabIndex = 5;
-            this.checkBox1.Text = "checkBox1";
-            this.checkBox1.UseVisualStyleBackColor = true;
             // 
             // label_inclusions_size
             // 
@@ -232,20 +221,18 @@
             this.groupBox_config.Controls.Add(this.numericUpDown_dimension);
             this.groupBox_config.Controls.Add(this.groupBox_inclusions);
             this.groupBox_config.Controls.Add(this.groupBox_neighborhood);
-            this.groupBox_config.Controls.Add(this.checkBox1);
             this.groupBox_config.Controls.Add(this.button_growth);
             this.groupBox_config.Controls.Add(this.button_single_iteration);
             this.groupBox_config.Controls.Add(this.button_space_generation);
-            this.groupBox_config.Location = new System.Drawing.Point(12, 56);
+            this.groupBox_config.Location = new System.Drawing.Point(12, 27);
             this.groupBox_config.Name = "groupBox_config";
-            this.groupBox_config.Size = new System.Drawing.Size(611, 481);
+            this.groupBox_config.Size = new System.Drawing.Size(337, 412);
             this.groupBox_config.TabIndex = 0;
             this.groupBox_config.TabStop = false;
-            this.groupBox_config.Text = "Configuration";
             // 
             // numericUpDown_number_of_grains
             // 
-            this.numericUpDown_number_of_grains.Location = new System.Drawing.Point(103, 291);
+            this.numericUpDown_number_of_grains.Location = new System.Drawing.Point(103, 272);
             this.numericUpDown_number_of_grains.Maximum = new decimal(new int[] {
             500,
             0,
@@ -263,7 +250,7 @@
             // label_grain_number
             // 
             this.label_grain_number.AutoSize = true;
-            this.label_grain_number.Location = new System.Drawing.Point(9, 293);
+            this.label_grain_number.Location = new System.Drawing.Point(9, 274);
             this.label_grain_number.Name = "label_grain_number";
             this.label_grain_number.Size = new System.Drawing.Size(87, 13);
             this.label_grain_number.TabIndex = 17;
@@ -272,7 +259,7 @@
             // label_dimension
             // 
             this.label_dimension.AutoSize = true;
-            this.label_dimension.Location = new System.Drawing.Point(9, 261);
+            this.label_dimension.Location = new System.Drawing.Point(9, 242);
             this.label_dimension.Name = "label_dimension";
             this.label_dimension.Size = new System.Drawing.Size(88, 13);
             this.label_dimension.TabIndex = 16;
@@ -280,7 +267,7 @@
             // 
             // numericUpDown_dimension
             // 
-            this.numericUpDown_dimension.Location = new System.Drawing.Point(103, 259);
+            this.numericUpDown_dimension.Location = new System.Drawing.Point(103, 240);
             this.numericUpDown_dimension.Maximum = new decimal(new int[] {
             500,
             0,
@@ -301,7 +288,7 @@
             this.fileToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1157, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(864, 24);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -332,7 +319,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1157, 588);
+            this.ClientSize = new System.Drawing.Size(864, 459);
             this.Controls.Add(this.space_display);
             this.Controls.Add(this.groupBox_config);
             this.Controls.Add(this.menuStrip1);
@@ -362,7 +349,6 @@
         private System.Windows.Forms.Button button_space_generation;
         private System.Windows.Forms.Button button_single_iteration;
         private System.Windows.Forms.Button button_growth;
-        private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Label label_inclusions_size;
         private System.Windows.Forms.Label label_inclusions_type;
         private System.Windows.Forms.GroupBox groupBox_neighborhood;

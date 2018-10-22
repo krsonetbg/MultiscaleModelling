@@ -68,5 +68,24 @@ namespace MultiscaleModelling
             }
             return indices_coordinates;
         }
+
+        public static bool isPointOnGrainBorder(Tuple<int, int> point, Grain[,] grain_structure)
+        {
+            HashSet<int> neighbors_IDs = new HashSet<int>();
+            
+            for (int i = point.Item1 - 1; i <= point.Item1 + 1; ++i)
+            {
+                if (i < 0 || i > grain_structure.GetLength(0) - 1) continue;
+                for (int j = point.Item2 - 1; j <= point.Item2 + 1; ++j)
+                {
+                    if (j<0 || j > grain_structure.GetLength(0) - 1) continue;
+                    neighbors_IDs.Add(grain_structure[i,j].ID);
+                }
+            }
+            if (neighbors_IDs.Count > 1) return true;
+
+
+            return false;
+        }
     }
 }

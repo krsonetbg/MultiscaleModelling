@@ -22,6 +22,7 @@ namespace MultiscaleModelling
         private State previous_state, current_state;
         private int space_dim;
         private CellularAutomata CA;
+        private bool growth_complete = false;
 
 
         public enum neighborhood_type {VonNeumann=0, Moore=1};
@@ -50,6 +51,7 @@ namespace MultiscaleModelling
             previous_state.initState(grains_number);
             previous_state.updateState(previous_state);
             int scaled_dim = 300;
+            //State.setNeighborhoodType(getNeighborhoodType());
             space_display.Image = resizeImage(previous_state.grains_bmp, scaled_dim, scaled_dim);
             image_scaling_factor = dim /(double)scaled_dim;
             //space_display.Image = previous_state.grains_bmp;
@@ -106,6 +108,8 @@ namespace MultiscaleModelling
                 Console.WriteLine("Waiting...\n");
                 space_display.Refresh();
             } while (!current_state.isStructureFull());
+            growth_complete = true;
+
         }
 
         private void importDataToolStripMenuItem_Click(object sender, EventArgs e)
@@ -159,12 +163,27 @@ namespace MultiscaleModelling
             int inclusion_size = Convert.ToInt32(numericUpDown_inclusion_size.Value);
             if (comboBox_inclusions.SelectedItem != null)
             {
-                char inclusion_type = Convert.ToChar(comboBox_inclusions.SelectedItem.ToString()[0]);
-                inclusion_type = char.ToLower(inclusion_type);
-                previous_state.addInclusion(center, inclusion_size, inclusion_type);
-                previous_state.updateState(previous_state);
-                space_display.Image = resizeImage(previous_state.grains_bmp, 300, 300);
-                space_display.Refresh();
+                if (growth_complete == false)
+                {
+                    char inclusion_type = Convert.ToChar(comboBox_inclusions.SelectedItem.ToString()[0]);
+                    inclusion_type = char.ToLower(inclusion_type);
+                    previous_state.addInclusion(center, inclusion_size, inclusion_type);
+                    previous_state.updateState(previous_state);
+                    space_display.Image = resizeImage(previous_state.grains_bmp, 300, 300);
+                    space_display.Refresh();
+                }
+                else
+                {
+                    if (StateHelper.isPointOnGrainBorder(center, previous_state.grains_structure))
+                    {
+                        char inclusion_type = Convert.ToChar(comboBox_inclusions.SelectedItem.ToString()[0]);
+                        inclusion_type = char.ToLower(inclusion_type);
+                        previous_state.addInclusion(center, inclusion_size, inclusion_type);
+                        previous_state.updateState(previous_state);
+                        space_display.Image = resizeImage(previous_state.grains_bmp, 300, 300);
+                        space_display.Refresh();
+                    }
+                }
             }
                
         }

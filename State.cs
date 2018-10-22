@@ -25,7 +25,9 @@ namespace MultiscaleModelling
         public Bitmap grains_bmp;
         public static Random rand = new Random();
         static Dictionary<int, Color> grain_ID_Color_dict = new Dictionary<int, Color>();
-        //public List<>
+        static int neighborhood_type;
+
+
 
         public State() { }
         public State(int dim)
@@ -100,7 +102,7 @@ namespace MultiscaleModelling
                         foreach (var item in grain_ID_Color_dict)
                         {
                             if (item.Key != 0 && item.Key != -1) // Count only non-zero neighbors, do not count inclusions
-                                state_for_xy_coordinates.Add(getNumberOfNeighbors(x, y, state.grains_structure.GetLength(0), item.Key, state.grains_structure, false));
+                                state_for_xy_coordinates.Add(getNumberOfNeighbors(x, y, state.grains_structure.GetLength(0), item.Key, state.grains_structure, true));
                         }
 
                         if (state_for_xy_coordinates.Max() == 0 && state.grains_structure[x, y].ID == 0)
@@ -111,11 +113,6 @@ namespace MultiscaleModelling
                         else
                         {
                             int grain_id = state_for_xy_coordinates.IndexOf(state_for_xy_coordinates.Max()) + 1; // +1, because first ID to be considered is 1, but first element added to list has index 0 
-
-                            // What if there is more, than one max value? TODO
-                            // var max_indices =
-                            // state_for_xy_coordinates.Select((n, i) => new { n, i }).GroupBy(p => p.n, p => p.i).OrderByDescending(p => p.Key).Take(1).SelectMany(p => p).ToArray();
-                            // int grain_id = state_for_xy_coordinates[rand.Next(0, max_indices.Length)]+1;
 
                             Color c = grain_ID_Color_dict[grain_id];
                             //current_grains_structure[x, y] = new Grain(state_for_xy_coordinates.Max(), 0, c);
@@ -183,7 +180,6 @@ namespace MultiscaleModelling
             }
         }
 
-
         public void updateState(State state)
         {
             //updateGrainsStructure(state);
@@ -205,7 +201,7 @@ namespace MultiscaleModelling
 
             for (int i = 1; i <= number_of_grains; ++i)
             {
-                Color c = Color.FromArgb(rand.Next(10, 256), rand.Next(10, 256), 0);
+                Color c = Color.FromArgb(255, rand.Next(10, 256), rand.Next(10, 256), rand.Next(10, 256));
                 this.grains_structure[rand.Next(0, this.dimension - 1), rand.Next(0, this.dimension - 1)] = new Grain(i, 0, c);
                 grain_ID_Color_dict.Add(i, c);
             }
@@ -269,6 +265,11 @@ namespace MultiscaleModelling
             }
 
             return true;
+        }
+
+        public static void setNeighborhoodType(int neighborhood_type)
+        {
+            State.neighborhood_type = neighborhood_type;
         }
     }
 }
