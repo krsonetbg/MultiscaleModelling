@@ -9,6 +9,7 @@ using System.Drawing.Drawing2D;
 using System.Text.RegularExpressions;
 
 
+
 namespace MultiscaleModelling
 {
     public class FileReader
@@ -62,30 +63,31 @@ namespace MultiscaleModelling
 
         }
 
-        //public static State ReadBitmapFile(string fileName)
-        //{
+        public static State ReadBitmapFile(string fileName)
+        {
 
-        //    string pathString = Path.Combine(path, string.Concat(fileName, ".bmp"));
-
-        //    var nameParts = fileName.Split('-');
-
-        //    int width = Converters.StringToInt(nameParts[nameParts.Length - 1]);
-        //    int height = Converters.StringToInt(nameParts[nameParts.Length - 2]);
-        //    var scope = new Scope(width, height);
-
-        //    try
-        //    {
-        //        scope.StructureBitmap = new Bitmap(pathString);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return null;
-        //    }
-
-        //    scope.IsFull = true;
-        //    StructureHelpers.UpdateArrayStructure(scope);
-        //    return scope;
-        //}
+            System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(fileName);
+            var imported_state = new State(bmp.Width);
+            imported_state.grains_bmp = bmp;
+            int imported_ID = 0;
+            HashSet<System.Drawing.Color> colors = new HashSet<System.Drawing.Color>();
+            for (int x = 0; x < imported_state.dimension ; ++x)
+            {
+                for (int y = 0; y < imported_state.dimension; ++y)
+                {
+                    System.Drawing.Color pixel_color = bmp.GetPixel(x, y);
+                    var c1 = colors.Count;
+                    colors.Add(pixel_color);
+                    var c2 = colors.Count;
+                    if (c2 > c1)
+                    {
+                        ++imported_ID;
+                        imported_state.grains_structure[x, y] = new Grain(imported_ID, 0, pixel_color);
+                    }
+                }
+            }
+            return imported_state;
+        }
     }
 
 }

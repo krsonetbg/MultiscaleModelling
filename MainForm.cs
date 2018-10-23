@@ -13,6 +13,16 @@ using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 
+//TODO
+// Implement stucture loading from .bmp file.
+// Add possibility to configure file name for data to be saved.
+// Implement extended algorithm rules.
+// 
+
+//TOPRESENT 
+// Fixed generation of initial grain structure, it is ensured now, that correct number of grains is generated, they are generated in a while loop.
+// Furthermore one cannot create more grains then dimension*dimension.
+// Added automatic grain generation based on GUI and new button.
 
 
 namespace MultiscaleModelling
@@ -150,7 +160,9 @@ namespace MultiscaleModelling
                 }
                 else if (extension.Equals(".bmp"))
                 {
-
+                    previous_state = FileReader.ReadBitmapFile(input_file_name);
+                    //previous_state.updateState(previous_state);
+                    current_state = previous_state;
                 }
                 else
                 {
@@ -227,19 +239,20 @@ namespace MultiscaleModelling
             int number_of_inclusions = Convert.ToInt32(numericUpDown_number_of_inclusions.Value);
             for (var i = 0; i < number_of_inclusions; ++i)
             {
-                var x = rand.Next(0, space_dim - 1);
-                var y = rand.Next(0, space_dim - 1);
-                while (previous_state.grains_structure[x, y].ID == 0 && previous_state.grains_structure[x, y].ID == -1)
-                {
-                    x = rand.Next(0, space_dim - 1);
-                    y = rand.Next(0, space_dim - 1);
-                };
-                Tuple<int, int> center = new Tuple<int, int>(x, y);
-
+                
                 if (comboBox_inclusions.SelectedItem != null)
                 {
                     if (growth_complete == false)
                     {
+                        var x = rand.Next(0, space_dim - 1);
+                        var y = rand.Next(0, space_dim - 1);
+                        while (previous_state.grains_structure[x, y].ID == 0 && previous_state.grains_structure[x, y].ID == -1)
+                        {
+                            x = rand.Next(0, space_dim - 1);
+                            y = rand.Next(0, space_dim - 1);
+                        };
+                        Tuple<int, int> center = new Tuple<int, int>(x, y);
+
                         char inclusion_type = Convert.ToChar(comboBox_inclusions.SelectedItem.ToString()[0]);
                         inclusion_type = char.ToLower(inclusion_type);
                         previous_state.addInclusion(center, inclusion_size, inclusion_type);
@@ -249,19 +262,26 @@ namespace MultiscaleModelling
                     }
                     else
                     {
-                        while(StateHelper.isPointOnGrainBorder(center, previous_state.grains_structure)==false)
+                        Tuple<int, int> center;
+                        do
                         {
-                            //x = rand.Next(0, space_dim - 1);
-                            //y = rand.Next(0, space_dim - 1);
-                            //Tuple<int, int> center = new Tuple<int, int>(x, y);
-
+                            var x = rand.Next(0, space_dim - 1);
+                            var y = rand.Next(0, space_dim - 1);
+                            while (previous_state.grains_structure[x, y].ID == 0 && previous_state.grains_structure[x, y].ID == -1)
+                            {
+                                x = rand.Next(0, space_dim - 1);
+                                y = rand.Next(0, space_dim - 1);
+                            };
+                            center = new Tuple<int, int>(x, y);
+                        } while (StateHelper.isPointOnGrainBorder(center, previous_state.grains_structure) == false);
+                        
                             char inclusion_type = Convert.ToChar(comboBox_inclusions.SelectedItem.ToString()[0]);
                             inclusion_type = char.ToLower(inclusion_type);
                             previous_state.addInclusion(center, inclusion_size, inclusion_type);
                             previous_state.updateState(previous_state);
                             space_display.Image = resizeImage(previous_state.grains_bmp, 300, 300);
                             space_display.Refresh();
-                        }
+                        
                     }
                 }
             }
