@@ -25,7 +25,7 @@ namespace MultiscaleModelling
         public Bitmap grains_bmp;
         public static Random rand = new Random();
         static Dictionary<int, Color> grain_ID_Color_dict = new Dictionary<int, Color>();
-        static int neighborhood_type;
+        public static bool neighborhood_type = false;
 
 
 
@@ -102,7 +102,7 @@ namespace MultiscaleModelling
                         foreach (var item in grain_ID_Color_dict)
                         {
                             if (item.Key != 0 && item.Key != -1) // Count only non-zero neighbors, do not count inclusions
-                                state_for_xy_coordinates.Add(getNumberOfNeighbors(x, y, state.grains_structure.GetLength(0), item.Key, state.grains_structure, true));
+                                state_for_xy_coordinates.Add(getNumberOfNeighbors(x, y, state.grains_structure.GetLength(0), item.Key, state.grains_structure, State.neighborhood_type));
                         }
 
                         if (state_for_xy_coordinates.Max() == 0 && state.grains_structure[x, y].ID == 0)
@@ -202,7 +202,15 @@ namespace MultiscaleModelling
             for (int i = 1; i <= number_of_grains; ++i)
             {
                 Color c = Color.FromArgb(255, rand.Next(10, 256), rand.Next(10, 256), rand.Next(10, 256));
-                this.grains_structure[rand.Next(0, this.dimension - 1), rand.Next(0, this.dimension - 1)] = new Grain(i, 0, c);
+                var x = rand.Next(0, this.dimension - 1);
+                var y = rand.Next(0, this.dimension - 1);
+                while (this.grains_structure[x, y].ID != 0)
+                {
+                    x = rand.Next(0, this.dimension - 1);
+                    y = rand.Next(0, this.dimension - 1);
+                } ;
+                
+                this.grains_structure[x,y] = new Grain(i, 0, c);
                 grain_ID_Color_dict.Add(i, c);
             }
 
@@ -267,9 +275,24 @@ namespace MultiscaleModelling
             return true;
         }
 
-        public static void setNeighborhoodType(int neighborhood_type)
+        //public static void setNeighborhoodType(int neighborhood_type)
+        //{
+        //    State.neighborhood_type = neighborhood_type;
+        //}
+
+
+        public void extendedCARule1()
+        { }
+        public void extendedCARule2()
+        { }
+        public void extendedCARule3()
+        { }
+        public void extendedCARule4()
+        { }
+
+        public Grain[,] updateGrainsStructureExtendedCA(State state)
         {
-            State.neighborhood_type = neighborhood_type;
+            return null;
         }
     }
 }

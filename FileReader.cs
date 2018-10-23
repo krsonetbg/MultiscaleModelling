@@ -62,35 +62,31 @@ namespace MultiscaleModelling
 
         }
 
-        //    public static State ReadBitmapFile(string fileName)
+        //public static State ReadBitmapFile(string fileName)
+        //{
+
+        //    string pathString = Path.Combine(path, string.Concat(fileName, ".bmp"));
+
+        //    var nameParts = fileName.Split('-');
+
+        //    int width = Converters.StringToInt(nameParts[nameParts.Length - 1]);
+        //    int height = Converters.StringToInt(nameParts[nameParts.Length - 2]);
+        //    var scope = new Scope(width, height);
+
+        //    try
         //    {
-        //        string path = "..\\..\\InputOutputData\\Bitmaps";
-        //        if (!Directory.Exists(path))
-        //        {
-        //            return null;
-        //        }
-        //        string pathString = Path.Combine(path, string.Concat(fileName, ".bmp"));
-
-        //        var nameParts = fileName.Split('-');
-
-        //        int width = Converters.StringToInt(nameParts[nameParts.Length - 1]);
-        //        int height = Converters.StringToInt(nameParts[nameParts.Length - 2]);
-        //        var scope = new Scope(width, height);
-
-        //        try
-        //        {
-        //            scope.StructureBitmap = new Bitmap(pathString);
-        //        }
-        //        catch (Exception)
-        //        {
-        //            return null;
-        //        }
-
-        //        scope.IsFull = true;
-        //        StructureHelpers.UpdateArrayStructure(scope);
-        //        return scope;
+        //        scope.StructureBitmap = new Bitmap(pathString);
         //    }
-        //}
+        //    catch (Exception)
+        //    {
+        //        return null;
+        //    }
 
+        //    scope.IsFull = true;
+        //    StructureHelpers.UpdateArrayStructure(scope);
+        //    return scope;
+        //}
     }
+
 }
+

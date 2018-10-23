@@ -23,10 +23,10 @@ namespace MultiscaleModelling
         private int space_dim;
         private CellularAutomata CA;
         private bool growth_complete = false;
-
+        private bool extended_CA_algorithm = false;
 
         public enum neighborhood_type {VonNeumann=0, Moore=1};
-        private Random rand;
+        private Random rand = new Random();
         private double image_scaling_factor;
 
         public MainWindowForm()
@@ -48,6 +48,7 @@ namespace MultiscaleModelling
             previous_state = new State(dim);
             current_state = new State(dim);
             int grains_number = Convert.ToInt32(numericUpDown_number_of_grains.Value);
+            if (grains_number >= dim * dim) return;
             previous_state.initState(grains_number);
             previous_state.updateState(previous_state);
             int scaled_dim = 300;
@@ -95,19 +96,37 @@ namespace MultiscaleModelling
 
         private void button_growth_Click(object sender, EventArgs e)
         {
-            do
+            if (extended_CA_algorithm)
             {
-                Console.WriteLine("[MainForm.cs] button_proceed_single_iteration()");
-                current_state.grains_structure = current_state.updateGrainsStructure(previous_state);
-                current_state.updateState(current_state);
-                space_display.Image = resizeImage(current_state.grains_bmp, 300, 300);
-                //space_display.Image = current_state.grains_bmp;
+                do
+                {
+                    Console.WriteLine("[MainForm.cs] button_proceed_single_iteration()");
+                    current_state.grains_structure = current_state.updateGrainsStructureExtendedCA(previous_state);
+                    current_state.updateState(current_state);
+                    space_display.Image = resizeImage(current_state.grains_bmp, 300, 300);
+                    //space_display.Image = current_state.grains_bmp;
 
-                previous_state = current_state;
-                System.Threading.Thread.Sleep(10);
-                Console.WriteLine("Waiting...\n");
-                space_display.Refresh();
-            } while (!current_state.isStructureFull());
+                    previous_state = current_state;
+                    System.Threading.Thread.Sleep(1);
+                    space_display.Refresh();
+                } while (!current_state.isStructureFull());
+            }
+            else
+            {
+                do
+                {
+                    Console.WriteLine("[MainForm.cs] button_proceed_single_iteration()");
+                    current_state.grains_structure = current_state.updateGrainsStructure(previous_state);
+                    current_state.updateState(current_state);
+                    space_display.Image = resizeImage(current_state.grains_bmp, 300, 300);
+                    //space_display.Image = current_state.grains_bmp;
+
+                    previous_state = current_state;
+                    System.Threading.Thread.Sleep(1);
+                    space_display.Refresh();
+                } while (!current_state.isStructureFull());
+            }
+
             growth_complete = true;
 
         }
@@ -121,9 +140,22 @@ namespace MultiscaleModelling
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 string input_file_name = ofd.FileName;
-                previous_state = FileReader.ReadTxtFile(input_file_name);
-                previous_state.updateState(previous_state);
-                current_state = previous_state;
+                string extension = Path.GetExtension(input_file_name);
+
+                if (extension.Equals(".txt"))
+                {
+                    previous_state = FileReader.ReadTxtFile(input_file_name);
+                    previous_state.updateState(previous_state);
+                    current_state = previous_state;
+                }
+                else if (extension.Equals(".bmp"))
+                {
+
+                }
+                else
+                {
+                    return;
+                }
                 space_display.Image = resizeImage(current_state.grains_bmp, 300, 300);
                 space_display.Refresh();
             }
@@ -186,6 +218,55 @@ namespace MultiscaleModelling
                 }
             }
                
+        }
+
+        private void button_generate_inclusions_Click(object sender, EventArgs e)
+        {
+
+            int inclusion_size = Convert.ToInt32(numericUpDown_inclusion_size.Value);
+            int number_of_inclusions = Convert.ToInt32(numericUpDown_number_of_inclusions.Value);
+            for (var i = 0; i < number_of_inclusions; ++i)
+            {
+                var x = rand.Next(0, space_dim - 1);
+                var y = rand.Next(0, space_dim - 1);
+                while (previous_state.grains_structure[x, y].ID == 0 && previous_state.grains_structure[x, y].ID == -1)
+                {
+                    x = rand.Next(0, space_dim - 1);
+                    y = rand.Next(0, space_dim - 1);
+                };
+                Tuple<int, int> center = new Tuple<int, int>(x, y);
+
+                if (comboBox_inclusions.SelectedItem != null)
+                {
+                    if (growth_complete == false)
+                    {
+                        char inclusion_type = Convert.ToChar(comboBox_inclusions.SelectedItem.ToString()[0]);
+                        inclusion_type = char.ToLower(inclusion_type);
+                        previous_state.addInclusion(center, inclusion_size, inclusion_type);
+                        previous_state.updateState(previous_state);
+                        space_display.Image = resizeImage(previous_state.grains_bmp, 300, 300);
+                        space_display.Refresh();
+                    }
+                    else
+                    {
+                        while(StateHelper.isPointOnGrainBorder(center, previous_state.grains_structure)==false)
+                        {
+                            //x = rand.Next(0, space_dim - 1);
+                            //y = rand.Next(0, space_dim - 1);
+                            //Tuple<int, int> center = new Tuple<int, int>(x, y);
+
+                            char inclusion_type = Convert.ToChar(comboBox_inclusions.SelectedItem.ToString()[0]);
+                            inclusion_type = char.ToLower(inclusion_type);
+                            previous_state.addInclusion(center, inclusion_size, inclusion_type);
+                            previous_state.updateState(previous_state);
+                            space_display.Image = resizeImage(previous_state.grains_bmp, 300, 300);
+                            space_display.Refresh();
+                        }
+                    }
+                }
+            }
+
+            
         }
 
         private neighborhood_type getNeighborhoodType()
