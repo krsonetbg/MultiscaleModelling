@@ -11,8 +11,6 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 
@@ -145,11 +143,6 @@ namespace MultiscaleModelling
                         for (int j = 0; j < state.dimension; j++)
                         {
                             state.grains_bmp.SetPixel(i, j, state.grains_structure[i, j].color);
-
-                            if (state.grains_structure[i, j].ID == -1)
-                            {
-                                var t = true;
-                            }
                         }
                     }
                 }
@@ -438,6 +431,8 @@ namespace MultiscaleModelling
 
         public Grain[,] updateGrainsStructureExtendedCA(State state)
         {
+            // TODO
+            // Adjust extended moore neighborhood and others in order to ensure correct results of growth
             Grain[,] current_grains_structure = new Grain[state.dimension, state.dimension];
 
             for (var x=0; x<dimension; ++x)
@@ -448,11 +443,11 @@ namespace MultiscaleModelling
                     if (extendedCARule1(coordinates)) continue;
                     if (extendedCARule2(coordinates)) continue;
                     if (extendedCARule3(coordinates)) continue;
-                    if (extendedCARule4(coordinates, 80)) continue;
+                    if (extendedCARule4(coordinates, 10)) continue;
                 }
             }
 
-
+            current_grains_structure = state.grains_structure;
             return current_grains_structure;
         }
     }

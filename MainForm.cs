@@ -30,7 +30,6 @@ namespace MultiscaleModelling
     {
         private State previous_state, current_state;
         private int space_dim;
-        private CellularAutomata CA;
         private bool growth_complete = false;
         private bool extended_CA_algorithm = false;
 
@@ -105,12 +104,13 @@ namespace MultiscaleModelling
 
         private void button_growth_Click(object sender, EventArgs e)
         {
+            extended_CA_algorithm = radioButton_extended_CA.Checked;
             if (extended_CA_algorithm)
             {
                 do
                 {
                     Console.WriteLine("[MainForm.cs] button_proceed_single_iteration()");
-                    current_state.grains_structure = current_state.updateGrainsStructureExtendedCA(previous_state);
+                    current_state.grains_structure = previous_state.updateGrainsStructureExtendedCA(previous_state);
                     current_state.updateState(current_state);
                     space_display.Image = resizeImage(current_state.grains_bmp, 300, 300);
                     //space_display.Image = current_state.grains_bmp;
