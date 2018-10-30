@@ -16,8 +16,7 @@ using System.Diagnostics;
 //TODO
 // Implement stucture loading from .bmp file.
 // Add possibility to configure file name for data to be saved.
-// Implement extended algorithm rules.
-// 
+// Implement extended algorithm rules. 
 
 //TOPRESENT 
 // Fixed generation of initial grain structure, it is ensured now, that correct number of grains is generated, they are generated in a while loop.
@@ -42,7 +41,7 @@ namespace MultiscaleModelling
         public MainWindowForm()
         {
             InitializeComponent();
-            this.CA = new CellularAutomata();
+            //this.CA = new CellularAutomata();
 
             space_dim = System.Convert.ToInt32(numericUpDown_dimension.Value);
             Console.WriteLine(Convert.ToString(getNeighborhoodType()));
@@ -138,6 +137,7 @@ namespace MultiscaleModelling
             }
 
             growth_complete = true;
+            updateGUI();
 
         }
 
@@ -163,6 +163,8 @@ namespace MultiscaleModelling
                     previous_state = FileReader.ReadBitmapFile(input_file_name);
                     //previous_state.updateState(previous_state);
                     current_state = previous_state;
+                    growth_complete = true;
+                    updateGUI();
                 }
                 else
                 {
@@ -287,6 +289,33 @@ namespace MultiscaleModelling
             }
 
             
+        }
+
+        private void updateGUI()
+        {
+            if (growth_complete)
+            {
+                button_generate_structure.Enabled = true;
+            }
+        }
+
+        private void button_generate_structure_Click(object sender, EventArgs e)
+        {
+            if (comboBox_structure_type.SelectedItem != null)
+            {
+                var number_of_grains_in_structure = Convert.ToInt32(numericUpDown_structure_grain_number.Value);
+                char structure_type = Convert.ToChar(comboBox_structure_type.SelectedItem.ToString()[0]);
+                structure_type = char.ToLower(structure_type);
+
+                previous_state.generateStructure(number_of_grains_in_structure ,structure_type);
+                
+
+
+                //previous_state.initState(0);
+                //previous_state.updateState(previous_state);
+                //space_display.Image = resizeImage(previous_state.grains_bmp, 300, 300);
+                //space_display.Refresh();
+            }
         }
 
         private neighborhood_type getNeighborhoodType()

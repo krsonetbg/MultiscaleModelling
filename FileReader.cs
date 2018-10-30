@@ -82,8 +82,8 @@ namespace MultiscaleModelling
                     if (c2 > c1)
                     {
                         ++imported_ID;
-                        imported_state.grains_structure[x, y] = new Grain(imported_ID, 0, pixel_color);
                     }
+                    imported_state.grains_structure[x, y] = new Grain(imported_ID, 0, pixel_color);
                 }
             }
             return imported_state;

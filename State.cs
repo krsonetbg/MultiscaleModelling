@@ -199,6 +199,7 @@ namespace MultiscaleModelling
             grain_ID_Color_dict.Add(0, Color.Wheat);
             grain_ID_Color_dict.Add(-1, Color.Black);
 
+
             for (int i = 1; i <= number_of_grains; ++i)
             {
                 Color c = Color.FromArgb(255, rand.Next(10, 256), rand.Next(10, 256), rand.Next(10, 256));
@@ -275,24 +276,184 @@ namespace MultiscaleModelling
             return true;
         }
 
+        public void generateStructure(int number_of_grains, char structure_type)
+        {
+            //while ()
+            //{
+
+            //}
+
+            var p = getGrainByID(1);
+            var r = getGrainByID(2);
+            var s = p.Count + r.Count;
+            initState(0);
+
+            if (structure_type == 's')
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+
+        public List<Tuple<int,int,Grain>> getGrainByID(int ID)
+        {
+            List<Tuple<int, int, Grain>> grain = new List<Tuple<int, int, Grain>>();
+            for (var x = 0; x < dimension; ++x)
+            {
+                for (var y = 0; y < dimension; ++y)
+                {
+                    if (grains_structure[x, y].ID == ID)
+                    {
+                        Tuple<int, int, Grain> g = new Tuple<int, int, Grain>(x, y, grains_structure[x, y]);
+                        grain.Add(g);
+                    }
+                }
+            }
+            return grain;
+        }
+
+
+        public int getNumberOfIDs()
+        {
+            HashSet<int> IDs = new HashSet<int>();
+            for (var x = 0; x < dimension; ++x)
+            {
+                for (var y = 0; y < dimension; ++y)
+                {
+                    IDs.Add(grains_structure[x, y].ID);
+                }
+            }
+            return 0;
+        }
         //public static void setNeighborhoodType(int neighborhood_type)
         //{
         //    State.neighborhood_type = neighborhood_type;
         //}
 
 
-        public void extendedCARule1()
-        { }
-        public void extendedCARule2()
-        { }
-        public void extendedCARule3()
-        { }
-        public void extendedCARule4()
-        { }
+        public bool extendedCARule1(Tuple<int,int> cell_coordinates)
+        {
+            var x = cell_coordinates.Item1;
+            var y = cell_coordinates.Item2;
+
+            if (grains_structure[x, y].ID == 0) // Cell is empty, no viable grain is there
+            {
+
+                List<int> neighbors_numerical_amount = new List<int>();
+                foreach (var item in grain_ID_Color_dict)
+                {
+                    if (item.Key != 0 && item.Key != -1) // Count only non-zero neighbors, do not count inclusions
+                        neighbors_numerical_amount.Add(getNumberOfNeighbors(x, y, grains_structure.GetLength(0), item.Key, grains_structure, State.neighborhood_type));
+                }
+
+                if (neighbors_numerical_amount.Max() >= 5)
+                {
+                    int grain_id = neighbors_numerical_amount.IndexOf(neighbors_numerical_amount.Max()) + 1;
+                    grains_structure[x, y] = new Grain(grain_id, 0, grain_ID_Color_dict[grain_id]);
+                    return true;
+                }
+            }
+            return false; // Check extendedCARule2
+        }
+        public bool extendedCARule2(Tuple<int, int> cell_coordinates)
+        {
+            var x = cell_coordinates.Item1;
+            var y = cell_coordinates.Item2;
+
+            if (grains_structure[x, y].ID == 0) // Cell is empty, no viable grain is there
+            {
+
+                List<int> neighbors_numerical_amount = new List<int>();
+                foreach (var item in grain_ID_Color_dict)
+                {
+                    if (item.Key != 0 && item.Key != -1) // Count only non-zero neighbors, do not count inclusions
+                        neighbors_numerical_amount.Add(getNumberOfNeighbors(x, y, grains_structure.GetLength(0), item.Key, grains_structure, State.neighborhood_type));
+                }
+
+                if (neighbors_numerical_amount.Max() == 3)
+                {
+                    int grain_id = neighbors_numerical_amount.IndexOf(neighbors_numerical_amount.Max()) + 1;
+                    grains_structure[x, y] = new Grain(grain_id, 0, grain_ID_Color_dict[grain_id]);
+                    return true;
+                }
+            }
+
+                return false; // Check extendedCARule3
+
+        }
+        public bool extendedCARule3(Tuple<int, int> cell_coordinates)
+        {
+            var x = cell_coordinates.Item1;
+            var y = cell_coordinates.Item2;
+
+            if (grains_structure[x, y].ID == 0) // Cell is empty, no viable grain is there
+            {
+
+                List<int> neighbors_numerical_amount = new List<int>();
+                foreach (var item in grain_ID_Color_dict)
+                {
+                    if (item.Key != 0 && item.Key != -1) // Count only non-zero neighbors, do not count inclusions
+                        neighbors_numerical_amount.Add(getNumberOfNeighbors(x, y, grains_structure.GetLength(0), item.Key, grains_structure, State.neighborhood_type));
+                }
+
+                if (neighbors_numerical_amount.Max() == 3)
+                {
+                    int grain_id = neighbors_numerical_amount.IndexOf(neighbors_numerical_amount.Max()) + 1;
+                    grains_structure[x, y] = new Grain(grain_id, 0, grain_ID_Color_dict[grain_id]);
+                    return true;
+                }
+            }
+
+            return false; // Check extendedCARule4
+
+        }
+        public bool extendedCARule4(Tuple<int, int> cell_coordinates, int probaility)
+        {
+            var x = cell_coordinates.Item1;
+            var y = cell_coordinates.Item2;
+
+            if (grains_structure[x, y].ID == 0) // Cell is empty, no viable grain is there
+            {
+                List<int> neighbors_numerical_amount = new List<int>();
+                foreach (var item in grain_ID_Color_dict)
+                {
+                    if (item.Key != 0 && item.Key != -1) // Count only non-zero neighbors, do not count inclusions
+                        neighbors_numerical_amount.Add(getNumberOfNeighbors(x, y, grains_structure.GetLength(0), item.Key, grains_structure, State.neighborhood_type));
+                }
+                var random_number = rand.Next(1, 101);
+
+                if (random_number < probaility && neighbors_numerical_amount.Max()>0)
+                {
+                    int grain_id = neighbors_numerical_amount.IndexOf(neighbors_numerical_amount.Max()) + 1;
+                    grains_structure[x, y] = new Grain(grain_id, 0, grain_ID_Color_dict[grain_id]);
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         public Grain[,] updateGrainsStructureExtendedCA(State state)
         {
-            return null;
+            Grain[,] current_grains_structure = new Grain[state.dimension, state.dimension];
+
+            for (var x=0; x<dimension; ++x)
+            {
+                for (var y=0; y<dimension; ++y)
+                {
+                    var coordinates = new Tuple<int, int>(x, y);
+                    if (extendedCARule1(coordinates)) continue;
+                    if (extendedCARule2(coordinates)) continue;
+                    if (extendedCARule3(coordinates)) continue;
+                    if (extendedCARule4(coordinates, 80)) continue;
+                }
+            }
+
+
+            return current_grains_structure;
         }
     }
 }
