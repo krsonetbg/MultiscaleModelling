@@ -33,7 +33,6 @@ namespace MultiscaleModelling
         private bool growth_complete = false;
         private bool extended_CA_algorithm = false;
 
-        public enum neighborhood_type {VonNeumann=0, Moore=1};
         private Random rand = new Random();
         private double image_scaling_factor;
 
@@ -43,7 +42,6 @@ namespace MultiscaleModelling
             //this.CA = new CellularAutomata();
 
             space_dim = System.Convert.ToInt32(numericUpDown_dimension.Value);
-            Console.WriteLine(Convert.ToString(getNeighborhoodType()));
         }
 
 
@@ -51,6 +49,8 @@ namespace MultiscaleModelling
 
         private void button_generate_initial_space(object sender, EventArgs e)
         {
+            button_growth.Enabled = true;
+            button_single_iteration.Enabled = true;
             Console.WriteLine("[MainForm.cs] button_generate_initial_space()");
             int dim = Convert.ToInt32(numericUpDown_dimension.Value);
             previous_state = new State(dim);
@@ -70,7 +70,8 @@ namespace MultiscaleModelling
         private void button_proceed_single_iteration(object sender, EventArgs e)
         {
                 Console.WriteLine("[MainForm.cs] button_proceed_single_iteration()");
-                current_state.grains_structure = current_state.updateGrainsStructure(previous_state);
+                string neighborhood_type = radioButton_Moore.Checked ? "MooreClassic" : "VonNeumann";
+                current_state.grains_structure = current_state.updateGrainsStructure(previous_state, neighborhood_type);
                 current_state.updateState(current_state);
                 space_display.Image = resizeImage(current_state.grains_bmp, 300, 300);
                 previous_state = current_state;
@@ -109,8 +110,9 @@ namespace MultiscaleModelling
             {
                 do
                 {
-                    Console.WriteLine("[MainForm.cs] button_proceed_single_iteration()");
-                    current_state.grains_structure = previous_state.updateGrainsStructureExtendedCA(previous_state);
+                    Console.WriteLine("[MainForm.cs] button_growth_Click()");
+                    int prob = Convert.ToInt32(numericUpDown_probability.Value);
+                    current_state.grains_structure = previous_state.updateGrainsStructureExtendedCA(previous_state, prob);
                     current_state.updateState(current_state);
                     space_display.Image = resizeImage(current_state.grains_bmp, 300, 300);
                     //space_display.Image = current_state.grains_bmp;
@@ -124,8 +126,9 @@ namespace MultiscaleModelling
             {
                 do
                 {
-                    Console.WriteLine("[MainForm.cs] button_proceed_single_iteration()");
-                    current_state.grains_structure = current_state.updateGrainsStructure(previous_state);
+                    Console.WriteLine("[MainForm.cs] button_growth_Click()");
+                    string neighborhood_type = radioButton_Moore.Checked ? "MooreClassic" : "VonNeumann";
+                    current_state.grains_structure = current_state.updateGrainsStructure(previous_state, neighborhood_type);
                     current_state.updateState(current_state);
                     space_display.Image = resizeImage(current_state.grains_bmp, 300, 300);
                     //space_display.Image = current_state.grains_bmp;
@@ -318,17 +321,27 @@ namespace MultiscaleModelling
             }
         }
 
-        private neighborhood_type getNeighborhoodType()
-    {
-        if (radioButton_Moore.Checked == true)
+        private void radioButton_extended_CA_CheckedChanged(object sender, EventArgs e)
         {
-            return neighborhood_type.Moore;
+            if (radioButton_extended_CA.Checked)
+            {
+                numericUpDown_probability.Enabled = true;
+                radioButton_Moore.Enabled = false;
+                radioButton_Von_Neumann.Enabled = false;
+            }
         }
-        else
+
+        private void radioButton_classic_CA_CheckedChanged(object sender, EventArgs e)
         {
-            return neighborhood_type.VonNeumann;
+            if (radioButton_classic_CA.Checked)
+            {
+                numericUpDown_probability.Enabled = false;
+                radioButton_Moore.Enabled = true;
+                radioButton_Von_Neumann.Enabled = true;
+            }
         }
-    }
+
+        
 
     }
 }

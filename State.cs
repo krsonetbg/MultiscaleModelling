@@ -35,7 +35,7 @@ namespace MultiscaleModelling
             dimension = dim;
         }
 
-        public Grain[,] updateGrainsStructure(State state)
+        public Grain[,] updateGrainsStructure(State state, string neighborhood_type = "VonNeumann")
         {
 
             Grain[,] current_grains_structure = new Grain[state.dimension, state.dimension];//state.grains_structure;
@@ -53,7 +53,7 @@ namespace MultiscaleModelling
                         {
                             if (item.Key != 0 && item.Key != -1) // Count only non-zero neighbors, do not count inclusions
                             {
-                                var n = getNumberOfNeighbors(x, y, state.grains_structure.GetLength(0), item.Key, state.grains_structure, "VonNeumann");
+                                var n = getNumberOfNeighbors(x, y, state.grains_structure.GetLength(0), item.Key, state.grains_structure, neighborhood_type);
                                 state_for_xy_coordinates.Add(n);
                             }
 
@@ -400,7 +400,7 @@ namespace MultiscaleModelling
             return false;
         }
 
-        public Grain[,] updateGrainsStructureExtendedCA(State state)
+        public Grain[,] updateGrainsStructureExtendedCA(State state, int probability = 10)
         {
             // TODO
             // Adjust extended moore neighborhood and others in order to ensure correct results of growth
@@ -414,7 +414,7 @@ namespace MultiscaleModelling
                     if (extendedCARule1(coordinates)) continue;
                     if (extendedCARule2(coordinates)) continue;
                     if (extendedCARule3(coordinates)) continue;
-                    if (extendedCARule4(coordinates, 10)) continue;
+                    if (extendedCARule4(coordinates, probability)) continue;
                 }
             }
 
