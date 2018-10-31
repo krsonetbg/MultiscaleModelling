@@ -35,54 +35,6 @@ namespace MultiscaleModelling
             dimension = dim;
         }
 
-        private int getNumberOfNeighbors(int x, int y, int dim, int id, Grain[,] space, bool neighborhood_type = false)
-        {
-            // Returns the number of neighbors with particular id for a specific coordinate
-            // VonNeumann neighborhood
-            int neighbors = 0;
-            if (x + 1 < dim && space[x + 1, y].ID == id)
-            {
-                neighbors++;
-            }
-            if (x - 1 >= 0 && space[x - 1, y].ID == id)
-            {
-                neighbors++;
-            }
-            if (y + 1 < dim && space[x, y + 1].ID == id)
-            {
-                neighbors++;
-            }
-            if (y - 1 >= 0 && space[x, y - 1].ID == id)
-            {
-                neighbors++;
-            }
-            if (neighborhood_type)
-            {
-                // Moore neighborhood
-                // diaganals
-                if (x + 1 < dim && y + 1 < dim && space[x + 1, y + 1].ID == id)
-                {
-                    neighbors++;
-                }
-                if (x + 1 < dim && y - 1 >= 0 && space[x + 1, y - 1].ID == id)
-                {
-                    neighbors++;
-                }
-                if (x - 1 >= 0 && y + 1 < dim && space[x - 1, y + 1].ID == id)
-                {
-                    neighbors++;
-                }
-                if (x - 1 >= 0 && y - 1 >= 0 && space[x - 1, y - 1].ID == id)
-                {
-                    neighbors++;
-                }
-            }
-
-            return neighbors;
-        }
-
-
-
         public Grain[,] updateGrainsStructure(State state)
         {
 
@@ -100,7 +52,11 @@ namespace MultiscaleModelling
                         foreach (var item in grain_ID_Color_dict)
                         {
                             if (item.Key != 0 && item.Key != -1) // Count only non-zero neighbors, do not count inclusions
-                                state_for_xy_coordinates.Add(getNumberOfNeighbors(x, y, state.grains_structure.GetLength(0), item.Key, state.grains_structure, State.neighborhood_type));
+                            {
+                                var n = getNumberOfNeighbors(x, y, state.grains_structure.GetLength(0), item.Key, state.grains_structure, "VonNeumann");
+                                state_for_xy_coordinates.Add(n);
+                            }
+
                         }
 
                         if (state_for_xy_coordinates.Max() == 0 && state.grains_structure[x, y].ID == 0)
@@ -202,9 +158,9 @@ namespace MultiscaleModelling
                 {
                     x = rand.Next(0, this.dimension - 1);
                     y = rand.Next(0, this.dimension - 1);
-                } ;
-                
-                this.grains_structure[x,y] = new Grain(i, 0, c);
+                };
+
+                this.grains_structure[x, y] = new Grain(i, 0, c);
                 grain_ID_Color_dict.Add(i, c);
             }
 
@@ -229,13 +185,13 @@ namespace MultiscaleModelling
             }
         }
 
-        public void addInclusion(Tuple<int,int> inclusion_center, int inclusion_size, char inclusion_type = 'c')
+        public void addInclusion(Tuple<int, int> inclusion_center, int inclusion_size, char inclusion_type = 'c')
         {
             if (inclusion_type == 'c')
             {
                 int radius = inclusion_size;
                 var circle = StateHelper.getIndicesWithinRadius(radius, inclusion_center, this.dimension);
-                for(int i =0; i<circle.Count; ++i)
+                for (int i = 0; i < circle.Count; ++i)
                 {
                     circle[i] = StateHelper.validateAndAdjustPointCoordinates(circle[i], this.dimension);
                     this.grains_structure[circle[i].Item1, circle[i].Item2] = new Grain(-1, 0, Color.Black);
@@ -260,9 +216,9 @@ namespace MultiscaleModelling
 
             for (int x = 0; x < this.dimension; ++x)
             {
-                for (int y = 0; y < dimension;  ++y)
+                for (int y = 0; y < dimension; ++y)
                 {
-                    if (grains_structure[x, y].ID == 0) return false;               
+                    if (grains_structure[x, y].ID == 0) return false;
                 }
             }
 
@@ -271,19 +227,31 @@ namespace MultiscaleModelling
 
         public void generateStructure(int number_of_grains, char structure_type)
         {
-            //while ()
-            //{
+            // TODO
+            // Fix bug in getNumberOfIDs, it's counting wrong, zeros in every element
 
-            //}
 
-            var p = getGrainByID(1);
-            var r = getGrainByID(2);
-            var s = p.Count + r.Count;
             initState(0);
-
             if (structure_type == 's')
             {
+                List<List<Tuple<int, int, Grain>>> grains_to_preserve = new List<List<Tuple<int, int, Grain>>>();
+                for (var i = 0; i < number_of_grains; ++i)
+                {
+                    var preserved_ID = rand.Next(1, getNumberOfIDs() + 1);
+                    grains_to_preserve.Add(getGrainByID(preserved_ID));
+                }
+                for (var j = 0; j < grains_to_preserve.Count(); ++j)
+                {
 
+                    for (var k = 0; k < grains_to_preserve.ElementAt(j).Count(); ++k)
+                    {
+                        int x = grains_to_preserve.ElementAt(j).ElementAt(k).Item1;
+                        int y = grains_to_preserve.ElementAt(j).ElementAt(k).Item2;
+                        Grain grain = grains_to_preserve.ElementAt(j).ElementAt(k).Item3;
+                        //grains_structure[x, y] = new Grain(,,);
+
+                    }
+                }
             }
             else
             {
@@ -291,7 +259,7 @@ namespace MultiscaleModelling
             }
         }
 
-        public List<Tuple<int,int,Grain>> getGrainByID(int ID)
+        public List<Tuple<int, int, Grain>> getGrainByID(int ID)
         {
             List<Tuple<int, int, Grain>> grain = new List<Tuple<int, int, Grain>>();
             for (var x = 0; x < dimension; ++x)
@@ -319,7 +287,7 @@ namespace MultiscaleModelling
                     IDs.Add(grains_structure[x, y].ID);
                 }
             }
-            return 0;
+            return IDs.Count;
         }
         //public static void setNeighborhoodType(int neighborhood_type)
         //{
@@ -327,7 +295,7 @@ namespace MultiscaleModelling
         //}
 
 
-        public bool extendedCARule1(Tuple<int,int> cell_coordinates)
+        public bool extendedCARule1(Tuple<int, int> cell_coordinates)
         {
             var x = cell_coordinates.Item1;
             var y = cell_coordinates.Item2;
@@ -339,7 +307,8 @@ namespace MultiscaleModelling
                 foreach (var item in grain_ID_Color_dict)
                 {
                     if (item.Key != 0 && item.Key != -1) // Count only non-zero neighbors, do not count inclusions
-                        neighbors_numerical_amount.Add(getNumberOfNeighbors(x, y, grains_structure.GetLength(0), item.Key, grains_structure, State.neighborhood_type));
+                        neighbors_numerical_amount.Add(getNumberOfNeighbors(x, y, grains_structure.GetLength(0), item.Key, grains_structure, "MooreClassic"));
+
                 }
 
                 if (neighbors_numerical_amount.Max() >= 5)
@@ -363,7 +332,8 @@ namespace MultiscaleModelling
                 foreach (var item in grain_ID_Color_dict)
                 {
                     if (item.Key != 0 && item.Key != -1) // Count only non-zero neighbors, do not count inclusions
-                        neighbors_numerical_amount.Add(getNumberOfNeighbors(x, y, grains_structure.GetLength(0), item.Key, grains_structure, State.neighborhood_type));
+                        neighbors_numerical_amount.Add(getNumberOfNeighbors(x, y, grains_structure.GetLength(0), item.Key, grains_structure, "VonNeumann"));
+
                 }
 
                 if (neighbors_numerical_amount.Max() == 3)
@@ -374,7 +344,7 @@ namespace MultiscaleModelling
                 }
             }
 
-                return false; // Check extendedCARule3
+            return false; // Check extendedCARule3
 
         }
         public bool extendedCARule3(Tuple<int, int> cell_coordinates)
@@ -389,7 +359,8 @@ namespace MultiscaleModelling
                 foreach (var item in grain_ID_Color_dict)
                 {
                     if (item.Key != 0 && item.Key != -1) // Count only non-zero neighbors, do not count inclusions
-                        neighbors_numerical_amount.Add(getNumberOfNeighbors(x, y, grains_structure.GetLength(0), item.Key, grains_structure, State.neighborhood_type));
+                        neighbors_numerical_amount.Add(getNumberOfNeighbors(x, y, grains_structure.GetLength(0), item.Key, grains_structure, "MooreFurther"));
+
                 }
 
                 if (neighbors_numerical_amount.Max() == 3)
@@ -414,11 +385,11 @@ namespace MultiscaleModelling
                 foreach (var item in grain_ID_Color_dict)
                 {
                     if (item.Key != 0 && item.Key != -1) // Count only non-zero neighbors, do not count inclusions
-                        neighbors_numerical_amount.Add(getNumberOfNeighbors(x, y, grains_structure.GetLength(0), item.Key, grains_structure, State.neighborhood_type));
+                        neighbors_numerical_amount.Add(getNumberOfNeighbors(x, y, grains_structure.GetLength(0), item.Key, grains_structure, "MooreClassic"));
                 }
                 var random_number = rand.Next(1, 101);
 
-                if (random_number < probaility && neighbors_numerical_amount.Max()>0)
+                if (random_number < probaility && neighbors_numerical_amount.Max() > 0)
                 {
                     int grain_id = neighbors_numerical_amount.IndexOf(neighbors_numerical_amount.Max()) + 1;
                     grains_structure[x, y] = new Grain(grain_id, 0, grain_ID_Color_dict[grain_id]);
@@ -435,9 +406,9 @@ namespace MultiscaleModelling
             // Adjust extended moore neighborhood and others in order to ensure correct results of growth
             Grain[,] current_grains_structure = new Grain[state.dimension, state.dimension];
 
-            for (var x=0; x<dimension; ++x)
+            for (var x = 0; x < dimension; ++x)
             {
-                for (var y=0; y<dimension; ++y)
+                for (var y = 0; y < dimension; ++y)
                 {
                     var coordinates = new Tuple<int, int>(x, y);
                     if (extendedCARule1(coordinates)) continue;
@@ -450,5 +421,75 @@ namespace MultiscaleModelling
             current_grains_structure = state.grains_structure;
             return current_grains_structure;
         }
+
+
+
+
+        private int getNumberOfNeighborsMooreFurther(int x, int y, int id, int dim, Grain[,] space)
+        {
+            int neighbors = 0;
+                // Count neighbors on diaganals
+                if (x + 1 < dim && y + 1 < dim && space[x + 1, y + 1].ID == id)
+                {
+                    neighbors++;
+                }
+                if (x + 1 < dim && y - 1 >= 0 && space[x + 1, y - 1].ID == id)
+                {
+                    neighbors++;
+                }
+                if (x - 1 >= 0 && y + 1 < dim && space[x - 1, y + 1].ID == id)
+                {
+                    neighbors++;
+                }
+                if (x - 1 >= 0 && y - 1 >= 0 && space[x - 1, y - 1].ID == id)
+                {
+                    neighbors++;
+                }
+            return neighbors;
+        }
+
+        private int getNumberOfNeighborsVonNeumann(int x, int y, int id, int dim, Grain[,] space)
+        {
+            int neighbors = 0;
+            if (x + 1 < dim && space[x + 1, y].ID == id)
+            {
+                neighbors++;
+            }
+            if (x - 1 >= 0 && space[x - 1, y].ID == id)
+            {
+                neighbors++;
+            }
+            if (y + 1 < dim && space[x, y + 1].ID == id)
+            {
+                neighbors++;
+            }
+            if (y - 1 >= 0 && space[x, y - 1].ID == id)
+            {
+                neighbors++;
+            }
+
+            return neighbors;
+        }
+
+        private int getNumberOfNeighborsMooreClassic(int x, int y, int id, int dim, Grain[,] space)
+        {
+            var neighbors =  getNumberOfNeighborsVonNeumann(x, y, id, dim, space) + getNumberOfNeighborsMooreFurther(x, y, id, dim, space);
+            return neighbors;
+        }
+
+        private int getNumberOfNeighbors(int x, int y, int dim, int id, Grain[,] space, string neighborhood_type)
+        {
+            int number_of_neighbors = 0;
+            switch (neighborhood_type)
+            {
+                case "MooreClassic": number_of_neighbors += getNumberOfNeighborsMooreClassic(x, y, id, dim, space); break;
+                case "VonNeumann": number_of_neighbors += getNumberOfNeighborsVonNeumann(x, y, id, dim, space); break;
+                case "MooreFurther": number_of_neighbors += getNumberOfNeighborsMooreFurther(x, y, id, dim, space); break;
+                default: return -1;
+            }
+
+            return number_of_neighbors;
+        }
+
     }
 }
