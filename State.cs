@@ -118,11 +118,6 @@ namespace MultiscaleModelling
                         for (int j = 0; j < this.dimension; j++)
                         {
                             this.grains_bmp.SetPixel(i, j, this.grains_structure[i, j].color);
-
-                            if (this.grains_structure[i, j].ID == -1)
-                            {
-                                var t = true;
-                            }
                         }
                     }
                 }
@@ -227,35 +222,58 @@ namespace MultiscaleModelling
 
         public void generateStructure(int number_of_grains, char structure_type)
         {
-            // TODO
-            // Fix bug in getNumberOfIDs, it's counting wrong, zeros in every element
 
+            HashSet<int> grain_IDs_to_preserve = new HashSet<int>();
+            while (grain_IDs_to_preserve.Count < number_of_grains)
+            {
+                grain_IDs_to_preserve.Add(rand.Next(1, getNumberOfIDs() + 1)); // Draw  random IDs of grains to preserve, ensure that they are not repeated
+            }
 
-            initState(0);
+            List<List<Tuple<int, int, Grain>>> grains_to_preserve = new List<List<Tuple<int, int, Grain>>>();
+
+            foreach (var id in grain_IDs_to_preserve)
+            {
+                grains_to_preserve.Add(getGrainByID(id));
+            }
+            initState(0); // Clear grain structure
             if (structure_type == 's')
             {
-                List<List<Tuple<int, int, Grain>>> grains_to_preserve = new List<List<Tuple<int, int, Grain>>>();
-                for (var i = 0; i < number_of_grains; ++i)
-                {
-                    var preserved_ID = rand.Next(1, getNumberOfIDs() + 1);
-                    grains_to_preserve.Add(getGrainByID(preserved_ID));
-                }
-                for (var j = 0; j < grains_to_preserve.Count(); ++j)
-                {
-
-                    for (var k = 0; k < grains_to_preserve.ElementAt(j).Count(); ++k)
-                    {
-                        int x = grains_to_preserve.ElementAt(j).ElementAt(k).Item1;
-                        int y = grains_to_preserve.ElementAt(j).ElementAt(k).Item2;
-                        Grain grain = grains_to_preserve.ElementAt(j).ElementAt(k).Item3;
-                        //grains_structure[x, y] = new Grain(,,);
-
-                    }
-                }
+                addPreservedGrainsAndPrepareSpace(grains_to_preserve);               
             }
             else
             {
+                bool dual_phase = true;
+                addPreservedGrainsAndPrepareSpace(grains_to_preserve, dual_phase);
+            }
+        }
 
+        public void addPreservedGrainsAndPrepareSpace(List<List<Tuple<int, int, Grain>>> preserved_grains, bool is_dual_phase = false)
+        {
+            for (var j = 0; j < preserved_grains.Count(); ++j)
+            {
+
+                for (var k = 0; k < preserved_grains.ElementAt(j).Count(); ++k)
+                {
+                    int x = preserved_grains.ElementAt(j).ElementAt(k).Item1;
+                    int y = preserved_grains.ElementAt(j).ElementAt(k).Item2;
+                    Grain grain = preserved_grains.ElementAt(j).ElementAt(k).Item3;
+                    if (is_dual_phase)
+                    {
+                        grain.phase += 1;
+                        grain.ID = 1;
+                        grain.color = Color.Crimson;
+                    }
+                    else
+                    {
+                        grain.color = Color.DeepSkyBlue;
+                    }
+                    Color c = grain.color;
+                    if (!grain_ID_Color_dict.TryGetValue(grain.ID,out c))
+                    {
+                        grain_ID_Color_dict.Add(grain.ID, grain.color);
+                    }
+                    grains_structure[x, y] = grain;
+                }
             }
         }
 
@@ -276,7 +294,6 @@ namespace MultiscaleModelling
             return grain;
         }
 
-
         public int getNumberOfIDs()
         {
             HashSet<int> IDs = new HashSet<int>();
@@ -289,11 +306,6 @@ namespace MultiscaleModelling
             }
             return IDs.Count;
         }
-        //public static void setNeighborhoodType(int neighborhood_type)
-        //{
-        //    State.neighborhood_type = neighborhood_type;
-        //}
-
 
         public bool extendedCARule1(Tuple<int, int> cell_coordinates)
         {

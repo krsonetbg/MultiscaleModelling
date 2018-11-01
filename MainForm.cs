@@ -310,14 +310,13 @@ namespace MultiscaleModelling
                 char structure_type = Convert.ToChar(comboBox_structure_type.SelectedItem.ToString()[0]);
                 structure_type = char.ToLower(structure_type);
 
-                previous_state.generateStructure(number_of_grains_in_structure ,structure_type);
-                
+                current_state.generateStructure(number_of_grains_in_structure ,structure_type);
 
 
-                //previous_state.initState(0);
-                //previous_state.updateState(previous_state);
-                //space_display.Image = resizeImage(previous_state.grains_bmp, 300, 300);
-                //space_display.Refresh();
+                current_state.updateState(current_state);
+                space_display.Image = resizeImage(current_state.grains_bmp, 300, 300);
+                space_display.Refresh();
+                growth_complete = false;
             }
         }
 
