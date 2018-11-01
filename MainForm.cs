@@ -330,6 +330,19 @@ namespace MultiscaleModelling
             }
         }
 
+        private void button_generate_new_grains_Click(object sender, EventArgs e)
+        {
+            if (numericUpDown_new_grains.Value > 0)
+            {
+                current_state.addGrainsToExistingStructure(Convert.ToInt32(numericUpDown_new_grains.Value));
+            }
+
+            current_state.updateState(current_state);
+            previous_state.grains_structure = current_state.grains_structure;
+            space_display.Image = resizeImage(current_state.grains_bmp, 300, 300);
+            space_display.Refresh();
+        }
+
         private void radioButton_classic_CA_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton_classic_CA.Checked)

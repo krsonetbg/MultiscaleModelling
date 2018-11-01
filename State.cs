@@ -205,6 +205,27 @@ namespace MultiscaleModelling
 
         }
 
+        public void addGrainsToExistingStructure(int number_of_grains_to_add)
+        {
+
+            for (int i = 1; i <= number_of_grains_to_add; ++i)
+            {
+                Color c = Color.FromArgb(255, rand.Next(10, 256), rand.Next(10, 256), rand.Next(10, 256));
+                var x = rand.Next(0, this.dimension - 1);
+                var y = rand.Next(0, this.dimension - 1);
+                while (this.grains_structure[x, y].ID != 0)
+                {
+                    x = rand.Next(0, this.dimension - 1);
+                    y = rand.Next(0, this.dimension - 1);
+                };
+
+                var max_grain_id = getGrainIDs().Max();
+                int new_grain_id = ++max_grain_id;
+                this.grains_structure[x, y] = new Grain(new_grain_id, 0, c);
+                grain_ID_Color_dict.Add(new_grain_id, c);
+            }
+
+        }
 
         public bool isStructureFull()
         {
@@ -305,6 +326,19 @@ namespace MultiscaleModelling
                 }
             }
             return IDs.Count;
+        }
+
+        public HashSet<int> getGrainIDs()
+        {
+            HashSet<int> IDs = new HashSet<int>();
+            for (var x = 0; x < dimension; ++x)
+            {
+                for (var y = 0; y < dimension; ++y)
+                {
+                    IDs.Add(grains_structure[x, y].ID);
+                }
+            }
+            return IDs;
         }
 
         public bool extendedCARule1(Tuple<int, int> cell_coordinates)
@@ -414,8 +448,6 @@ namespace MultiscaleModelling
 
         public Grain[,] updateGrainsStructureExtendedCA(State state, int probability = 10)
         {
-            // TODO
-            // Adjust extended moore neighborhood and others in order to ensure correct results of growth
             Grain[,] current_grains_structure = new Grain[state.dimension, state.dimension];
 
             for (var x = 0; x < dimension; ++x)
@@ -433,9 +465,6 @@ namespace MultiscaleModelling
             current_grains_structure = state.grains_structure;
             return current_grains_structure;
         }
-
-
-
 
         private int getNumberOfNeighborsMooreFurther(int x, int y, int id, int dim, Grain[,] space)
         {
