@@ -51,6 +51,9 @@
             this.numericUpDown_number_of_grains = new System.Windows.Forms.NumericUpDown();
             this.label_dimension = new System.Windows.Forms.Label();
             this.groupBox_structure = new System.Windows.Forms.GroupBox();
+            this.numericUpDown_new_grains = new System.Windows.Forms.NumericUpDown();
+            this.label_number_of_new_grains = new System.Windows.Forms.Label();
+            this.button_generate_new_grains = new System.Windows.Forms.Button();
             this.numericUpDown_structure_grain_number = new System.Windows.Forms.NumericUpDown();
             this.label_structure_grain_number = new System.Windows.Forms.Label();
             this.label_structure_type = new System.Windows.Forms.Label();
@@ -65,9 +68,6 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.button_generate_new_grains = new System.Windows.Forms.Button();
-            this.numericUpDown_new_grains = new System.Windows.Forms.NumericUpDown();
-            this.label_number_of_new_grains = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.space_display)).BeginInit();
             this.groupBox_neighborhood.SuspendLayout();
             this.groupBox_inclusions.SuspendLayout();
@@ -79,11 +79,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_dimension)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_number_of_grains)).BeginInit();
             this.groupBox_structure.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_new_grains)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_structure_grain_number)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_probability)).BeginInit();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_new_grains)).BeginInit();
             this.SuspendLayout();
             // 
             // space_display
@@ -388,6 +388,47 @@
             this.groupBox_structure.TabStop = false;
             this.groupBox_structure.Text = "Structure";
             // 
+            // numericUpDown_new_grains
+            // 
+            this.numericUpDown_new_grains.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.numericUpDown_new_grains.Location = new System.Drawing.Point(171, 125);
+            this.numericUpDown_new_grains.Margin = new System.Windows.Forms.Padding(4);
+            this.numericUpDown_new_grains.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.numericUpDown_new_grains.Name = "numericUpDown_new_grains";
+            this.numericUpDown_new_grains.Size = new System.Drawing.Size(160, 22);
+            this.numericUpDown_new_grains.TabIndex = 27;
+            this.numericUpDown_new_grains.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // label_number_of_new_grains
+            // 
+            this.label_number_of_new_grains.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label_number_of_new_grains.AutoSize = true;
+            this.label_number_of_new_grains.Location = new System.Drawing.Point(8, 130);
+            this.label_number_of_new_grains.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label_number_of_new_grains.Name = "label_number_of_new_grains";
+            this.label_number_of_new_grains.Size = new System.Drawing.Size(146, 17);
+            this.label_number_of_new_grains.TabIndex = 26;
+            this.label_number_of_new_grains.Text = "Number of new grains";
+            // 
+            // button_generate_new_grains
+            // 
+            this.button_generate_new_grains.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.button_generate_new_grains.Location = new System.Drawing.Point(3, 204);
+            this.button_generate_new_grains.Name = "button_generate_new_grains";
+            this.button_generate_new_grains.Size = new System.Drawing.Size(336, 30);
+            this.button_generate_new_grains.TabIndex = 25;
+            this.button_generate_new_grains.Text = "Generate new grains";
+            this.button_generate_new_grains.UseVisualStyleBackColor = true;
+            this.button_generate_new_grains.Click += new System.EventHandler(this.button_generate_new_grains_Click);
+            // 
             // numericUpDown_structure_grain_number
             // 
             this.numericUpDown_structure_grain_number.Location = new System.Drawing.Point(171, 53);
@@ -555,47 +596,6 @@
             this.exportDataToolStripMenuItem.Text = "Export data";
             this.exportDataToolStripMenuItem.Click += new System.EventHandler(this.exportDataToolStripMenuItem_Click);
             // 
-            // button_generate_new_grains
-            // 
-            this.button_generate_new_grains.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.button_generate_new_grains.Location = new System.Drawing.Point(3, 211);
-            this.button_generate_new_grains.Name = "button_generate_new_grains";
-            this.button_generate_new_grains.Size = new System.Drawing.Size(336, 23);
-            this.button_generate_new_grains.TabIndex = 25;
-            this.button_generate_new_grains.Text = "Generate new grains";
-            this.button_generate_new_grains.UseVisualStyleBackColor = true;
-            this.button_generate_new_grains.Click += new System.EventHandler(this.button_generate_new_grains_Click);
-            // 
-            // numericUpDown_new_grains
-            // 
-            this.numericUpDown_new_grains.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.numericUpDown_new_grains.Location = new System.Drawing.Point(171, 125);
-            this.numericUpDown_new_grains.Margin = new System.Windows.Forms.Padding(4);
-            this.numericUpDown_new_grains.Maximum = new decimal(new int[] {
-            500,
-            0,
-            0,
-            0});
-            this.numericUpDown_new_grains.Name = "numericUpDown_new_grains";
-            this.numericUpDown_new_grains.Size = new System.Drawing.Size(160, 22);
-            this.numericUpDown_new_grains.TabIndex = 27;
-            this.numericUpDown_new_grains.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            // 
-            // label_number_of_new_grains
-            // 
-            this.label_number_of_new_grains.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label_number_of_new_grains.AutoSize = true;
-            this.label_number_of_new_grains.Location = new System.Drawing.Point(8, 130);
-            this.label_number_of_new_grains.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label_number_of_new_grains.Name = "label_number_of_new_grains";
-            this.label_number_of_new_grains.Size = new System.Drawing.Size(146, 17);
-            this.label_number_of_new_grains.TabIndex = 26;
-            this.label_number_of_new_grains.Text = "Number of new grains";
-            // 
             // MainWindowForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -622,13 +622,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_number_of_grains)).EndInit();
             this.groupBox_structure.ResumeLayout(false);
             this.groupBox_structure.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_new_grains)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_structure_grain_number)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_probability)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_new_grains)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

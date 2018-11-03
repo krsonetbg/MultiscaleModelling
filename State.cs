@@ -23,8 +23,6 @@ namespace MultiscaleModelling
         public Bitmap grains_bmp;
         public static Random rand = new Random();
         static Dictionary<int, Color> grain_ID_Color_dict = new Dictionary<int, Color>();
-        public static bool neighborhood_type = false;
-
 
 
         public State() { }
@@ -281,7 +279,6 @@ namespace MultiscaleModelling
                     if (is_dual_phase)
                     {
                         grain.phase += 1;
-                        grain.ID = 1;
                         grain.color = Color.Crimson;
                     }
                     else
@@ -289,9 +286,12 @@ namespace MultiscaleModelling
                         grain.color = Color.DeepSkyBlue;
                     }
                     Color c = grain.color;
-                    if (!grain_ID_Color_dict.TryGetValue(grain.ID,out c))
+
+                    int new_grain_id = grain.ID * (-2);
+                    if (!grain_ID_Color_dict.TryGetValue(new_grain_id, out c))
                     {
-                        grain_ID_Color_dict.Add(grain.ID, grain.color);
+                        //int new_grain_id = grain.ID * (-2);
+                        grain_ID_Color_dict.Add(new_grain_id, grain.color);
                     }
                     grains_structure[x, y] = grain;
                 }
@@ -348,18 +348,20 @@ namespace MultiscaleModelling
 
             if (grains_structure[x, y].ID == 0) // Cell is empty, no viable grain is there
             {
+                Dictionary<int,int> neighbors_numerical_amount = new Dictionary<int, int>();
 
-                List<int> neighbors_numerical_amount = new List<int>();
                 foreach (var item in grain_ID_Color_dict)
                 {
-                    if (item.Key != 0 && item.Key != -1) // Count only non-zero neighbors, do not count inclusions
-                        neighbors_numerical_amount.Add(getNumberOfNeighbors(x, y, grains_structure.GetLength(0), item.Key, grains_structure, "MooreClassic"));
+                    //if (item.Key != 0 && item.Key != -1) // Count only non-zero neighbors, do not count inclusions
+                    if (isIDValidForCheckingNeighborhood(item.Key))
+                        neighbors_numerical_amount.Add(item.Key,getNumberOfNeighbors(x, y, grains_structure.GetLength(0), item.Key, grains_structure, "MooreClassic"));
 
                 }
 
-                if (neighbors_numerical_amount.Max() >= 5)
+                int max_neighbors_number = neighbors_numerical_amount.Values.Max();
+                if (max_neighbors_number >= 5)
                 {
-                    int grain_id = neighbors_numerical_amount.IndexOf(neighbors_numerical_amount.Max()) + 1;
+                    int grain_id = neighbors_numerical_amount.Aggregate((p, r) => p.Value > r.Value ? p : r).Key;
                     grains_structure[x, y] = new Grain(grain_id, 0, grain_ID_Color_dict[grain_id]);
                     return true;
                 }
@@ -373,18 +375,20 @@ namespace MultiscaleModelling
 
             if (grains_structure[x, y].ID == 0) // Cell is empty, no viable grain is there
             {
+                Dictionary<int, int> neighbors_numerical_amount = new Dictionary<int, int>();
 
-                List<int> neighbors_numerical_amount = new List<int>();
                 foreach (var item in grain_ID_Color_dict)
                 {
-                    if (item.Key != 0 && item.Key != -1) // Count only non-zero neighbors, do not count inclusions
-                        neighbors_numerical_amount.Add(getNumberOfNeighbors(x, y, grains_structure.GetLength(0), item.Key, grains_structure, "VonNeumann"));
+                    //if (item.Key != 0 && item.Key != -1) // Count only non-zero neighbors, do not count inclusions
+                    if (isIDValidForCheckingNeighborhood(item.Key))
+                        neighbors_numerical_amount.Add(item.Key,getNumberOfNeighbors(x, y, grains_structure.GetLength(0), item.Key, grains_structure, "VonNeumann"));
 
                 }
 
-                if (neighbors_numerical_amount.Max() == 3)
+                int max_neighbors_number = neighbors_numerical_amount.Values.Max();
+                if (max_neighbors_number == 3)
                 {
-                    int grain_id = neighbors_numerical_amount.IndexOf(neighbors_numerical_amount.Max()) + 1;
+                    int grain_id = neighbors_numerical_amount.Aggregate((p, r) => p.Value > r.Value ? p : r).Key;
                     grains_structure[x, y] = new Grain(grain_id, 0, grain_ID_Color_dict[grain_id]);
                     return true;
                 }
@@ -400,18 +404,21 @@ namespace MultiscaleModelling
 
             if (grains_structure[x, y].ID == 0) // Cell is empty, no viable grain is there
             {
+                Dictionary<int, int> neighbors_numerical_amount = new Dictionary<int, int>();
 
-                List<int> neighbors_numerical_amount = new List<int>();
                 foreach (var item in grain_ID_Color_dict)
                 {
-                    if (item.Key != 0 && item.Key != -1) // Count only non-zero neighbors, do not count inclusions
-                        neighbors_numerical_amount.Add(getNumberOfNeighbors(x, y, grains_structure.GetLength(0), item.Key, grains_structure, "MooreFurther"));
+                    //if (item.Key != 0 && item.Key != -1) // Count only non-zero neighbors, do not count inclusions
+                    if (isIDValidForCheckingNeighborhood(item.Key))
+                        neighbors_numerical_amount.Add(item.Key, getNumberOfNeighbors(x, y, grains_structure.GetLength(0), item.Key, grains_structure, "MooreFurther"));
 
                 }
 
-                if (neighbors_numerical_amount.Max() == 3)
+                int max_neighbors_number = neighbors_numerical_amount.Values.Max();
+
+                if (max_neighbors_number == 3)
                 {
-                    int grain_id = neighbors_numerical_amount.IndexOf(neighbors_numerical_amount.Max()) + 1;
+                    int grain_id = neighbors_numerical_amount.Aggregate((p, r) => p.Value > r.Value ? p : r).Key;
                     grains_structure[x, y] = new Grain(grain_id, 0, grain_ID_Color_dict[grain_id]);
                     return true;
                 }
@@ -427,17 +434,21 @@ namespace MultiscaleModelling
 
             if (grains_structure[x, y].ID == 0) // Cell is empty, no viable grain is there
             {
-                List<int> neighbors_numerical_amount = new List<int>();
+                Dictionary<int, int> neighbors_numerical_amount = new Dictionary<int, int>();
+
                 foreach (var item in grain_ID_Color_dict)
                 {
-                    if (item.Key != 0 && item.Key != -1) // Count only non-zero neighbors, do not count inclusions
-                        neighbors_numerical_amount.Add(getNumberOfNeighbors(x, y, grains_structure.GetLength(0), item.Key, grains_structure, "MooreClassic"));
+                    //if (item.Key != 0 && item.Key != -1) // Count only non-zero neighbors, do not count inclusions
+                    if (isIDValidForCheckingNeighborhood(item.Key))
+                        neighbors_numerical_amount.Add(item.Key, getNumberOfNeighbors(x, y, grains_structure.GetLength(0), item.Key, grains_structure, "MooreClassic"));
                 }
                 var random_number = rand.Next(1, 101);
 
-                if (random_number < probaility && neighbors_numerical_amount.Max() > 0)
+                int max_neighbors_number = neighbors_numerical_amount.Values.Max();
+
+                if (random_number < probaility && max_neighbors_number > 0)
                 {
-                    int grain_id = neighbors_numerical_amount.IndexOf(neighbors_numerical_amount.Max()) + 1;
+                    int grain_id = neighbors_numerical_amount.Aggregate((p, r) => p.Value > r.Value ? p : r).Key;
                     grains_structure[x, y] = new Grain(grain_id, 0, grain_ID_Color_dict[grain_id]);
                     return true;
                 }
@@ -532,5 +543,9 @@ namespace MultiscaleModelling
             return number_of_neighbors;
         }
 
+        private bool isIDValidForCheckingNeighborhood(int ID)
+        {
+            return ID > 0; // Because: 0 - is empty space, does not count, -1 - is inclusion, does not count, negative numbers - are either substructures or another phase 
+        }
     }
 }

@@ -338,7 +338,8 @@ namespace MultiscaleModelling
             }
 
             current_state.updateState(current_state);
-            previous_state.grains_structure = current_state.grains_structure;
+            //previous_state.grains_structure = current_state.grains_structure;
+            previous_state = current_state;
             space_display.Image = resizeImage(current_state.grains_bmp, 300, 300);
             space_display.Refresh();
         }
