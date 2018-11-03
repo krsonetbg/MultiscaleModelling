@@ -4,6 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Windows.Forms;
+using System.IO;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
+using System.Text.RegularExpressions;
+using System.Diagnostics;
+
 namespace MultiscaleModelling
 {
     class StateHelper
@@ -84,8 +95,40 @@ namespace MultiscaleModelling
             }
             if (neighbors_IDs.Count > 1) return true;
 
-
             return false;
+        }
+
+        public static List<Tuple<int, int>> findGrainBoundaries(Grain[,] grain_structure)
+        {
+            List<Tuple<int,int>> border = new List<Tuple<int, int>>();
+            for (var x=0; x < grain_structure.GetLength(0); ++x)
+            {
+                for (var y = 0; y < grain_structure.GetLength(0); ++y)
+                {
+                    Tuple<int, int> point = new Tuple<int, int>(x, y);
+                    if (isPointOnGrainBorder(point, grain_structure))
+                        border.Add(point);
+                }
+            }
+            return border;
+        }
+
+        public static Bitmap getGrainBoundariesImage(List<Tuple<int, int>> grain_boundaries, int width, int height)
+        {
+            Bitmap grain_boundaries_image = new Bitmap(width, height);
+
+            using (Graphics graph = Graphics.FromImage(grain_boundaries_image))
+            {
+                Rectangle ImageSize = new Rectangle(0, 0, width, height);
+                graph.FillRectangle(Brushes.White, ImageSize);
+            }
+
+            foreach (var bound_element in grain_boundaries)
+            {
+                grain_boundaries_image.SetPixel(bound_element.Item1, bound_element.Item2, Color.Crimson);
+            }
+
+            return grain_boundaries_image;
         }
     }
 }

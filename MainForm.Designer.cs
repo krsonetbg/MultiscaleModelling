@@ -68,6 +68,7 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button_generate_border = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.space_display)).BeginInit();
             this.groupBox_neighborhood.SuspendLayout();
             this.groupBox_inclusions.SuspendLayout();
@@ -275,6 +276,7 @@
             // 
             // groupBox_main
             // 
+            this.groupBox_main.Controls.Add(this.button_generate_border);
             this.groupBox_main.Controls.Add(this.groupBox_run_algorithm);
             this.groupBox_main.Controls.Add(this.groupBox_space_init);
             this.groupBox_main.Controls.Add(this.space_display);
@@ -383,7 +385,7 @@
             this.groupBox_structure.Controls.Add(this.comboBox_structure_type);
             this.groupBox_structure.Location = new System.Drawing.Point(326, 181);
             this.groupBox_structure.Name = "groupBox_structure";
-            this.groupBox_structure.Size = new System.Drawing.Size(342, 237);
+            this.groupBox_structure.Size = new System.Drawing.Size(342, 232);
             this.groupBox_structure.TabIndex = 15;
             this.groupBox_structure.TabStop = false;
             this.groupBox_structure.Text = "Structure";
@@ -391,7 +393,7 @@
             // numericUpDown_new_grains
             // 
             this.numericUpDown_new_grains.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.numericUpDown_new_grains.Location = new System.Drawing.Point(171, 125);
+            this.numericUpDown_new_grains.Location = new System.Drawing.Point(171, 120);
             this.numericUpDown_new_grains.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDown_new_grains.Maximum = new decimal(new int[] {
             500,
@@ -411,7 +413,7 @@
             // 
             this.label_number_of_new_grains.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label_number_of_new_grains.AutoSize = true;
-            this.label_number_of_new_grains.Location = new System.Drawing.Point(8, 130);
+            this.label_number_of_new_grains.Location = new System.Drawing.Point(8, 125);
             this.label_number_of_new_grains.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_number_of_new_grains.Name = "label_number_of_new_grains";
             this.label_number_of_new_grains.Size = new System.Drawing.Size(146, 17);
@@ -421,7 +423,7 @@
             // button_generate_new_grains
             // 
             this.button_generate_new_grains.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.button_generate_new_grains.Location = new System.Drawing.Point(3, 204);
+            this.button_generate_new_grains.Location = new System.Drawing.Point(3, 199);
             this.button_generate_new_grains.Name = "button_generate_new_grains";
             this.button_generate_new_grains.Size = new System.Drawing.Size(336, 30);
             this.button_generate_new_grains.TabIndex = 25;
@@ -456,7 +458,7 @@
             // 
             this.label_structure_type.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label_structure_type.AutoSize = true;
-            this.label_structure_type.Location = new System.Drawing.Point(8, 29);
+            this.label_structure_type.Location = new System.Drawing.Point(8, 24);
             this.label_structure_type.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_structure_type.Name = "label_structure_type";
             this.label_structure_type.Size = new System.Drawing.Size(40, 17);
@@ -482,7 +484,7 @@
             this.comboBox_structure_type.Items.AddRange(new object[] {
             "Substructure",
             "Dual phase"});
-            this.comboBox_structure_type.Location = new System.Drawing.Point(171, 22);
+            this.comboBox_structure_type.Location = new System.Drawing.Point(171, 17);
             this.comboBox_structure_type.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox_structure_type.Name = "comboBox_structure_type";
             this.comboBox_structure_type.Size = new System.Drawing.Size(160, 24);
@@ -596,6 +598,16 @@
             this.exportDataToolStripMenuItem.Text = "Export data";
             this.exportDataToolStripMenuItem.Click += new System.EventHandler(this.exportDataToolStripMenuItem_Click);
             // 
+            // button_generate_border
+            // 
+            this.button_generate_border.Location = new System.Drawing.Point(329, 431);
+            this.button_generate_border.Name = "button_generate_border";
+            this.button_generate_border.Size = new System.Drawing.Size(328, 54);
+            this.button_generate_border.TabIndex = 18;
+            this.button_generate_border.Text = "Show grain boundaries";
+            this.button_generate_border.UseVisualStyleBackColor = true;
+            this.button_generate_border.Click += new System.EventHandler(this.button_generate_border_Click);
+            // 
             // MainWindowForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -675,6 +687,7 @@
         private System.Windows.Forms.Button button_generate_new_grains;
         private System.Windows.Forms.NumericUpDown numericUpDown_new_grains;
         private System.Windows.Forms.Label label_number_of_new_grains;
+        private System.Windows.Forms.Button button_generate_border;
     }
 }
 

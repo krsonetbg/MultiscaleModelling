@@ -344,6 +344,16 @@ namespace MultiscaleModelling
             space_display.Refresh();
         }
 
+        private void button_generate_border_Click(object sender, EventArgs e)
+        {            
+            var grain_boundaries = StateHelper.findGrainBoundaries(current_state.grains_structure);
+            int width = current_state.grains_structure.GetLength(0);
+            int height = width;
+            space_display.Image = resizeImage(StateHelper.getGrainBoundariesImage(grain_boundaries, width, height), 300, 300);
+            System.Threading.Thread.Sleep(1);
+            space_display.Refresh();
+        }
+
         private void radioButton_classic_CA_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton_classic_CA.Checked)
