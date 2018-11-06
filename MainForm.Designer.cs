@@ -44,6 +44,7 @@
             this.numericUpDown_inclusion_size = new System.Windows.Forms.NumericUpDown();
             this.label_inclusions_no = new System.Windows.Forms.Label();
             this.groupBox_main = new System.Windows.Forms.GroupBox();
+            this.button_generate_border = new System.Windows.Forms.Button();
             this.groupBox_run_algorithm = new System.Windows.Forms.GroupBox();
             this.groupBox_space_init = new System.Windows.Forms.GroupBox();
             this.label_grain_number = new System.Windows.Forms.Label();
@@ -68,7 +69,7 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.button_generate_border = new System.Windows.Forms.Button();
+            this.toggle_grain_selection = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.space_display)).BeginInit();
             this.groupBox_neighborhood.SuspendLayout();
             this.groupBox_inclusions.SuspendLayout();
@@ -292,6 +293,16 @@
             this.groupBox_main.TabIndex = 0;
             this.groupBox_main.TabStop = false;
             // 
+            // button_generate_border
+            // 
+            this.button_generate_border.Location = new System.Drawing.Point(329, 431);
+            this.button_generate_border.Name = "button_generate_border";
+            this.button_generate_border.Size = new System.Drawing.Size(328, 54);
+            this.button_generate_border.TabIndex = 18;
+            this.button_generate_border.Text = "Show grain boundaries";
+            this.button_generate_border.UseVisualStyleBackColor = true;
+            this.button_generate_border.Click += new System.EventHandler(this.button_generate_border_Click);
+            // 
             // groupBox_run_algorithm
             // 
             this.groupBox_run_algorithm.Controls.Add(this.button_single_iteration);
@@ -375,6 +386,7 @@
             // 
             // groupBox_structure
             // 
+            this.groupBox_structure.Controls.Add(this.toggle_grain_selection);
             this.groupBox_structure.Controls.Add(this.numericUpDown_new_grains);
             this.groupBox_structure.Controls.Add(this.label_number_of_new_grains);
             this.groupBox_structure.Controls.Add(this.button_generate_new_grains);
@@ -598,15 +610,17 @@
             this.exportDataToolStripMenuItem.Text = "Export data";
             this.exportDataToolStripMenuItem.Click += new System.EventHandler(this.exportDataToolStripMenuItem_Click);
             // 
-            // button_generate_border
+            // toggle_grain_selection
             // 
-            this.button_generate_border.Location = new System.Drawing.Point(329, 431);
-            this.button_generate_border.Name = "button_generate_border";
-            this.button_generate_border.Size = new System.Drawing.Size(328, 54);
-            this.button_generate_border.TabIndex = 18;
-            this.button_generate_border.Text = "Show grain boundaries";
-            this.button_generate_border.UseVisualStyleBackColor = true;
-            this.button_generate_border.Click += new System.EventHandler(this.button_generate_border_Click);
+            this.toggle_grain_selection.Appearance = System.Windows.Forms.Appearance.Button;
+            this.toggle_grain_selection.AutoSize = true;
+            this.toggle_grain_selection.Location = new System.Drawing.Point(65, 162);
+            this.toggle_grain_selection.Name = "toggle_grain_selection";
+            this.toggle_grain_selection.Size = new System.Drawing.Size(86, 27);
+            this.toggle_grain_selection.TabIndex = 28;
+            this.toggle_grain_selection.Text = "checkBox1";
+            this.toggle_grain_selection.UseVisualStyleBackColor = true;
+            this.toggle_grain_selection.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // MainWindowForm
             // 
@@ -688,6 +702,7 @@
         private System.Windows.Forms.NumericUpDown numericUpDown_new_grains;
         private System.Windows.Forms.Label label_number_of_new_grains;
         private System.Windows.Forms.Button button_generate_border;
+        private System.Windows.Forms.CheckBox toggle_grain_selection;
     }
 }
 

@@ -210,9 +210,10 @@ namespace MultiscaleModelling
             var y = Convert.ToInt32(this.image_scaling_factor * mouseEventArgs.Y);
             Tuple<int, int>  center = new Tuple<int, int>(x,y);
             int inclusion_size = Convert.ToInt32(numericUpDown_inclusion_size.Value);
-            if (comboBox_inclusions.SelectedItem != null)
-            {
-                if (growth_complete == false)
+            //if (comboBox_inclusions.SelectedItem != null)
+            if (comboBox_inclusions.SelectedItem != null && toggle_grain_selection.Checked==false)
+                {
+                    if (growth_complete == false)
                 {
                     char inclusion_type = Convert.ToChar(comboBox_inclusions.SelectedItem.ToString()[0]);
                     inclusion_type = char.ToLower(inclusion_type);
@@ -242,6 +243,8 @@ namespace MultiscaleModelling
 
             int inclusion_size = Convert.ToInt32(numericUpDown_inclusion_size.Value);
             int number_of_inclusions = Convert.ToInt32(numericUpDown_number_of_inclusions.Value);
+            space_dim = System.Convert.ToInt32(numericUpDown_dimension.Value);
+
             for (var i = 0; i < number_of_inclusions; ++i)
             {
                 
@@ -249,6 +252,7 @@ namespace MultiscaleModelling
                 {
                     if (growth_complete == false)
                     {
+                        var t = previous_state.grains_structure.GetLength(0);
                         var x = rand.Next(0, space_dim - 1);
                         var y = rand.Next(0, space_dim - 1);
                         while (previous_state.grains_structure[x, y].ID == 0 && previous_state.grains_structure[x, y].ID == -1)
@@ -270,6 +274,7 @@ namespace MultiscaleModelling
                         Tuple<int, int> center;
                         do
                         {
+                            var t = previous_state.grains_structure.GetLength(0);
                             var x = rand.Next(0, space_dim - 1);
                             var y = rand.Next(0, space_dim - 1);
                             while (previous_state.grains_structure[x, y].ID == 0 && previous_state.grains_structure[x, y].ID == -1)
@@ -352,6 +357,11 @@ namespace MultiscaleModelling
             space_display.Image = resizeImage(StateHelper.getGrainBoundariesImage(grain_boundaries, width, height), 300, 300);
             System.Threading.Thread.Sleep(1);
             space_display.Refresh();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
 
         private void radioButton_classic_CA_CheckedChanged(object sender, EventArgs e)

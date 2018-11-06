@@ -283,7 +283,8 @@ namespace MultiscaleModelling
                     }
                     else
                     {
-                        grain.color = Color.DeepSkyBlue;
+                        //grain.color = Color.DeepSkyBlue;
+                        grain.color = preserved_grains.ElementAt(j).ElementAt(k).Item3.color;
                     }
                     Color c = grain.color;
 
