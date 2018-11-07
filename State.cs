@@ -356,7 +356,6 @@ namespace MultiscaleModelling
                     //if (item.Key != 0 && item.Key != -1) // Count only non-zero neighbors, do not count inclusions
                     if (isIDValidForCheckingNeighborhood(item.Key))
                         neighbors_numerical_amount.Add(item.Key,getNumberOfNeighbors(x, y, grains_structure.GetLength(0), item.Key, grains_structure, "MooreClassic"));
-
                 }
 
                 int max_neighbors_number = neighbors_numerical_amount.Values.Max();
