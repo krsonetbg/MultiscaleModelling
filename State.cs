@@ -547,5 +547,102 @@ namespace MultiscaleModelling
         {
             return ID > 0; // Because: 0 - is empty space, does not count, -1 - is inclusion, does not count, negative numbers - are either substructures or another phase 
         }
+
+        // MONTE CARLO METHOD
+        private HashSet<int> mc_getNeighborsIDs(int x, int y, int dim, Grain[,] space)
+        {
+            // TODO
+            // check if coordinates in all conditions are valid...
+            HashSet<int> neigbors_IDs = new HashSet<int>();
+            int self_ID = space[x, y].ID;
+            // Moore furthest
+            if (x + 1 < dim && y + 1 < dim)
+            {
+                int checked_ID = space[x + 1, y + 1].ID;   
+                if (!neigbors_IDs.Contains(checked_ID) && checked_ID != self_ID)
+                {
+                    neigbors_IDs.Add(checked_ID);
+                }
+            }
+            if (x + 1 < dim && y - 1 >= 0 )
+            {
+                int checked_ID = space[x + 1, y - 1].ID;
+                if (!neigbors_IDs.Contains(checked_ID) && checked_ID != self_ID)
+                {
+                    neigbors_IDs.Add(checked_ID);
+                }
+            }
+            if (x - 1 >= 0 && y + 1 < dim )
+            {
+                int checked_ID = space[x - 1, y + 1].ID;
+                if (!neigbors_IDs.Contains(checked_ID) && checked_ID != self_ID)
+                {
+                    neigbors_IDs.Add(checked_ID);
+                }
+            }
+            if (x - 1 >= 0 && y - 1 >= 0 )
+            {
+                int checked_ID = space[x - 1, y - 1].ID;
+                if (!neigbors_IDs.Contains(checked_ID) && checked_ID != self_ID)
+                {
+                    neigbors_IDs.Add(checked_ID);
+                }
+            }
+            // Von Neumann
+            if (x + 1 < dim )
+            {
+                int checked_ID = space[x + 1, y ].ID;
+                if (!neigbors_IDs.Contains(checked_ID) && checked_ID != self_ID)
+                {
+                    neigbors_IDs.Add(checked_ID);
+                }
+            }
+            if (x - 1 >= 0 )
+            {
+                int checked_ID = space[x - 1, y ].ID;
+                if (!neigbors_IDs.Contains(checked_ID) && checked_ID != self_ID)
+                {
+                    neigbors_IDs.Add(checked_ID);
+                }
+            }
+            if (y + 1 < dim )
+            {
+                int checked_ID = space[x , y + 1].ID;
+                if (!neigbors_IDs.Contains(checked_ID) && checked_ID != self_ID)
+                {
+                    neigbors_IDs.Add(checked_ID);
+                }
+            }
+            if (y - 1 >= 0 )
+            {
+                int checked_ID = space[x , y - 1].ID;
+
+                if (!neigbors_IDs.Contains(checked_ID) && checked_ID != self_ID)
+                {
+                    neigbors_IDs.Add(checked_ID);
+                }
+            }
+            return neigbors_IDs;
+        }
+
+        private double mc_getCellEnergy(int x, int y, Grain[,] space, double Jgb = 1.0)
+        {
+            int dim = space.GetLength(0);
+            int number_of_neighbors_with_different_ID = mc_getNeighborsIDs(x, y, dim, space).Count;
+            double energy = Jgb * number_of_neighbors_with_different_ID;
+            return energy;
+        }
+
+        private void mc_changeID(int x, int y, int dim, Grain[,] space)
+        {
+            HashSet<int> possible_IDs = mc_getNeighborsIDs(x, y, dim, space);
+            int new_ID = possible_IDs.ElementAt(rand.Next(possible_IDs.Count));
+            space[x, y].ID = new_ID;
+        }
+
+        private double calculateEnergyDifference()
+        {
+            return 0.0;
+        }
     }
 }
