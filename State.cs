@@ -342,7 +342,7 @@ namespace MultiscaleModelling
             return IDs;
         }
 
-        public bool extendedCARule1(Tuple<int, int> cell_coordinates)
+        private bool extendedCARule1(Tuple<int, int> cell_coordinates)
         {
             var x = cell_coordinates.Item1;
             var y = cell_coordinates.Item2;
@@ -368,7 +368,7 @@ namespace MultiscaleModelling
             }
             return false; // Check extendedCARule2
         }
-        public bool extendedCARule2(Tuple<int, int> cell_coordinates)
+        private bool extendedCARule2(Tuple<int, int> cell_coordinates)
         {
             var x = cell_coordinates.Item1;
             var y = cell_coordinates.Item2;
@@ -397,7 +397,7 @@ namespace MultiscaleModelling
             return false; // Check extendedCARule3
 
         }
-        public bool extendedCARule3(Tuple<int, int> cell_coordinates)
+        private bool extendedCARule3(Tuple<int, int> cell_coordinates)
         {
             var x = cell_coordinates.Item1;
             var y = cell_coordinates.Item2;
@@ -427,7 +427,7 @@ namespace MultiscaleModelling
             return false; // Check extendedCARule4
 
         }
-        public bool extendedCARule4(Tuple<int, int> cell_coordinates, int probaility)
+        private bool extendedCARule4(Tuple<int, int> cell_coordinates, int probaility)
         {
             var x = cell_coordinates.Item1;
             var y = cell_coordinates.Item2;
@@ -640,9 +640,57 @@ namespace MultiscaleModelling
             space[x, y].ID = new_ID;
         }
 
-        private double calculateEnergyDifference()
+        private void mc_proceedSingleCellMonteCarlo(Tuple<int,int> cell, Grain[,] space)
         {
-            return 0.0;
+            int x = cell.Item1;
+            int y = cell.Item2;
+            int dim = space.GetLength(0);
+            double initial_energy = mc_getCellEnergy(x, y, space);
+            mc_changeID(x, y, dim, space);
+            double post_change_energy = mc_getCellEnergy(x, y, space);
+            double energy_difference = post_change_energy - initial_energy;
+            if (energy_difference < 0)
+            {
+                // Keep new state
+            }
+            else
+            {
+                // Revert change
+            }
         }
+
+        private List<Tuple<int,int>> mc_prepareGrainListFromStructure(Grain[,] space)
+        {
+            int dim = grains_structure.GetLength(0);
+            int number_of_cells_in_structure = dim * dim;
+            List<Tuple<int, int>> cells = new List<Tuple<int, int>>(number_of_cells_in_structure);
+            for (var i = 0; i < dim; ++i)
+            {
+                for (var j = 0; j < dim; ++j)
+                {
+                    Tuple<int, int> cell = new Tuple<int, int>(i, j);
+                    cells.Add(cell);
+                }
+            }
+            return cells;
+        }
+
+        public Grain[,] updateGrainsStructureMC(State state)
+        {
+            bool iteration_complete = false;
+
+            var cells = mc_prepareGrainListFromStructure(state.grains_structure);            
+            do
+            {
+                var drawn_grain_index = rand.Next(0, cells.Count+1);
+                var cell = cells[drawn_grain_index];
+                mc_proceedSingleCellMonteCarlo(cell, state.grains_structure);
+                cells.RemoveAt(drawn_grain_index);
+                if (cells.Count == 0) iteration_complete = true;
+            } while (!iteration_complete);
+
+            return state.grains_structure;
+        }
+
     }
 }
