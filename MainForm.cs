@@ -364,6 +364,18 @@ namespace MultiscaleModelling
 
         }
 
+        private void button_mc_method_Click(object sender, EventArgs e)
+        {
+            current_state.grains_structure = previous_state.updateGrainsStructureMC(previous_state);
+            current_state.updateState(current_state);
+            space_display.Image = resizeImage(current_state.grains_bmp, 300, 300);
+            //space_display.Image = current_state.grains_bmp;
+
+            previous_state = current_state;
+            System.Threading.Thread.Sleep(1);
+            space_display.Refresh();
+        }
+
         private void radioButton_classic_CA_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton_classic_CA.Checked)

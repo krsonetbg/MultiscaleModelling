@@ -553,76 +553,81 @@ namespace MultiscaleModelling
         {
             // TODO
             // check if coordinates in all conditions are valid...
-            HashSet<int> neigbors_IDs = new HashSet<int>();
+            HashSet<int> neighbors_IDs = new HashSet<int>();
             int self_ID = space[x, y].ID;
             // Moore furthest
             if (x + 1 < dim && y + 1 < dim)
             {
                 int checked_ID = space[x + 1, y + 1].ID;   
-                if (!neigbors_IDs.Contains(checked_ID) && checked_ID != self_ID)
+                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID!=0)
                 {
-                    neigbors_IDs.Add(checked_ID);
+                    neighbors_IDs.Add(checked_ID);
                 }
             }
             if (x + 1 < dim && y - 1 >= 0 )
             {
                 int checked_ID = space[x + 1, y - 1].ID;
-                if (!neigbors_IDs.Contains(checked_ID) && checked_ID != self_ID)
+                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0)
                 {
-                    neigbors_IDs.Add(checked_ID);
+                    neighbors_IDs.Add(checked_ID);
                 }
             }
             if (x - 1 >= 0 && y + 1 < dim )
             {
                 int checked_ID = space[x - 1, y + 1].ID;
-                if (!neigbors_IDs.Contains(checked_ID) && checked_ID != self_ID)
+                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0)
                 {
-                    neigbors_IDs.Add(checked_ID);
+                    neighbors_IDs.Add(checked_ID);
                 }
             }
             if (x - 1 >= 0 && y - 1 >= 0 )
             {
                 int checked_ID = space[x - 1, y - 1].ID;
-                if (!neigbors_IDs.Contains(checked_ID) && checked_ID != self_ID)
+                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0)
                 {
-                    neigbors_IDs.Add(checked_ID);
+                    neighbors_IDs.Add(checked_ID);
                 }
             }
             // Von Neumann
             if (x + 1 < dim )
             {
                 int checked_ID = space[x + 1, y ].ID;
-                if (!neigbors_IDs.Contains(checked_ID) && checked_ID != self_ID)
+                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0)
                 {
-                    neigbors_IDs.Add(checked_ID);
+                    neighbors_IDs.Add(checked_ID);
                 }
             }
             if (x - 1 >= 0 )
             {
                 int checked_ID = space[x - 1, y ].ID;
-                if (!neigbors_IDs.Contains(checked_ID) && checked_ID != self_ID)
+                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0)
                 {
-                    neigbors_IDs.Add(checked_ID);
+                    neighbors_IDs.Add(checked_ID);
                 }
             }
             if (y + 1 < dim )
             {
                 int checked_ID = space[x , y + 1].ID;
-                if (!neigbors_IDs.Contains(checked_ID) && checked_ID != self_ID)
+                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0)
                 {
-                    neigbors_IDs.Add(checked_ID);
+                    neighbors_IDs.Add(checked_ID);
                 }
             }
             if (y - 1 >= 0 )
             {
                 int checked_ID = space[x , y - 1].ID;
-
-                if (!neigbors_IDs.Contains(checked_ID) && checked_ID != self_ID)
+                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0)
                 {
-                    neigbors_IDs.Add(checked_ID);
+                    neighbors_IDs.Add(checked_ID);
                 }
             }
-            return neigbors_IDs;
+
+
+            if (neighbors_IDs.Count != 0)
+            {
+                var t = true;
+            }
+            return neighbors_IDs;
         }
 
         private double mc_getCellEnergy(int x, int y, Grain[,] space, double Jgb = 1.0)
@@ -636,8 +641,11 @@ namespace MultiscaleModelling
         private void mc_changeID(int x, int y, int dim, Grain[,] space)
         {
             HashSet<int> possible_IDs = mc_getNeighborsIDs(x, y, dim, space);
-            int new_ID = possible_IDs.ElementAt(rand.Next(possible_IDs.Count));
-            space[x, y].ID = new_ID;
+            if (possible_IDs.Count > 0)
+            {
+                int new_ID = possible_IDs.ElementAt(rand.Next(possible_IDs.Count));
+                space[x, y].ID = new_ID;
+            }
         }
 
         private void mc_proceedSingleCellMonteCarlo(Tuple<int,int> cell, Grain[,] space)
@@ -646,16 +654,20 @@ namespace MultiscaleModelling
             int y = cell.Item2;
             int dim = space.GetLength(0);
             double initial_energy = mc_getCellEnergy(x, y, space);
+            var previous_ID = space[x, y].ID;
             mc_changeID(x, y, dim, space);
             double post_change_energy = mc_getCellEnergy(x, y, space);
             double energy_difference = post_change_energy - initial_energy;
+            Console.WriteLine("Energy difference = {0}", energy_difference);
             if (energy_difference < 0)
             {
-                // Keep new state
+                // Keep new state, update color
+                space[x, y].color = grain_ID_Color_dict[space[x, y].ID];
             }
             else
             {
                 // Revert change
+                space[x, y].ID = previous_ID;
             }
         }
 
@@ -677,16 +689,21 @@ namespace MultiscaleModelling
 
         public Grain[,] updateGrainsStructureMC(State state)
         {
+            var prev_structure = state.grains_structure;
             bool iteration_complete = false;
 
-            var cells = mc_prepareGrainListFromStructure(state.grains_structure);            
+            var cells = mc_prepareGrainListFromStructure(state.grains_structure);
+
+            int cnt = 0;    
             do
             {
-                var drawn_grain_index = rand.Next(0, cells.Count+1);
+                var drawn_grain_index = rand.Next(0, cells.Count);
                 var cell = cells[drawn_grain_index];
                 mc_proceedSingleCellMonteCarlo(cell, state.grains_structure);
                 cells.RemoveAt(drawn_grain_index);
                 if (cells.Count == 0) iteration_complete = true;
+                ++cnt;
+                Console.WriteLine("Monte Carlo iteration: {0}", cnt);
             } while (!iteration_complete);
 
             return state.grains_structure;
