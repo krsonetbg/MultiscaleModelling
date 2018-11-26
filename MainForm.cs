@@ -376,6 +376,20 @@ namespace MultiscaleModelling
             space_display.Refresh();
         }
 
+        private void button_init_space_mc_Click(object sender, EventArgs e)
+        {
+            int dim = Convert.ToInt32(numericUpDown_dimension.Value);
+            previous_state = new State(dim);
+            current_state = new State(dim);
+            int grains_number = Convert.ToInt32(numericUpDown_number_of_grains.Value);
+            previous_state.initStateMonteCarlo(grains_number);
+            previous_state.updateState(previous_state);
+            int scaled_dim = 300;
+            space_display.Image = resizeImage(previous_state.grains_bmp, scaled_dim, scaled_dim);
+            //image_scaling_factor = dim / (double)scaled_dim;
+            //space_display.Image = previous_state.grains_bmp;
+        }
+
         private void radioButton_classic_CA_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton_classic_CA.Checked)

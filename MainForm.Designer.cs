@@ -44,6 +44,7 @@
             this.numericUpDown_inclusion_size = new System.Windows.Forms.NumericUpDown();
             this.label_inclusions_no = new System.Windows.Forms.Label();
             this.groupBox_main = new System.Windows.Forms.GroupBox();
+            this.button_mc_method = new System.Windows.Forms.Button();
             this.button_generate_border = new System.Windows.Forms.Button();
             this.groupBox_run_algorithm = new System.Windows.Forms.GroupBox();
             this.groupBox_space_init = new System.Windows.Forms.GroupBox();
@@ -70,7 +71,7 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.button_mc_method = new System.Windows.Forms.Button();
+            this.button_init_space_mc = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.space_display)).BeginInit();
             this.groupBox_neighborhood.SuspendLayout();
             this.groupBox_inclusions.SuspendLayout();
@@ -261,6 +262,7 @@
             // 
             // groupBox_main
             // 
+            this.groupBox_main.Controls.Add(this.button_init_space_mc);
             this.groupBox_main.Controls.Add(this.button_mc_method);
             this.groupBox_main.Controls.Add(this.button_generate_border);
             this.groupBox_main.Controls.Add(this.groupBox_run_algorithm);
@@ -272,14 +274,24 @@
             this.groupBox_main.Controls.Add(this.groupBox_neighborhood);
             this.groupBox_main.Location = new System.Drawing.Point(10, 26);
             this.groupBox_main.Name = "groupBox_main";
-            this.groupBox_main.Size = new System.Drawing.Size(1058, 493);
+            this.groupBox_main.Size = new System.Drawing.Size(1058, 523);
             this.groupBox_main.TabIndex = 0;
             this.groupBox_main.TabStop = false;
+            // 
+            // button_mc_method
+            // 
+            this.button_mc_method.Location = new System.Drawing.Point(2, 494);
+            this.button_mc_method.Name = "button_mc_method";
+            this.button_mc_method.Size = new System.Drawing.Size(415, 23);
+            this.button_mc_method.TabIndex = 19;
+            this.button_mc_method.Text = "monte carlo ";
+            this.button_mc_method.UseVisualStyleBackColor = true;
+            this.button_mc_method.Click += new System.EventHandler(this.button_mc_method_Click);
             // 
             // button_generate_border
             // 
             this.button_generate_border.Location = new System.Drawing.Point(247, 350);
-            this.button_generate_border.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button_generate_border.Margin = new System.Windows.Forms.Padding(2);
             this.button_generate_border.Name = "button_generate_border";
             this.button_generate_border.Size = new System.Drawing.Size(246, 44);
             this.button_generate_border.TabIndex = 18;
@@ -292,9 +304,9 @@
             this.groupBox_run_algorithm.Controls.Add(this.button_single_iteration);
             this.groupBox_run_algorithm.Controls.Add(this.button_growth);
             this.groupBox_run_algorithm.Location = new System.Drawing.Point(5, 332);
-            this.groupBox_run_algorithm.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox_run_algorithm.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox_run_algorithm.Name = "groupBox_run_algorithm";
-            this.groupBox_run_algorithm.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox_run_algorithm.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox_run_algorithm.Size = new System.Drawing.Size(225, 69);
             this.groupBox_run_algorithm.TabIndex = 17;
             this.groupBox_run_algorithm.TabStop = false;
@@ -308,9 +320,9 @@
             this.groupBox_space_init.Controls.Add(this.numericUpDown_number_of_grains);
             this.groupBox_space_init.Controls.Add(this.label_dimension);
             this.groupBox_space_init.Location = new System.Drawing.Point(5, 18);
-            this.groupBox_space_init.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox_space_init.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox_space_init.Name = "groupBox_space_init";
-            this.groupBox_space_init.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox_space_init.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox_space_init.Size = new System.Drawing.Size(227, 106);
             this.groupBox_space_init.TabIndex = 16;
             this.groupBox_space_init.TabStop = false;
@@ -380,9 +392,9 @@
             this.groupBox_structure.Controls.Add(this.button_generate_structure);
             this.groupBox_structure.Controls.Add(this.comboBox_structure_type);
             this.groupBox_structure.Location = new System.Drawing.Point(244, 147);
-            this.groupBox_structure.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox_structure.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox_structure.Name = "groupBox_structure";
-            this.groupBox_structure.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox_structure.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox_structure.Size = new System.Drawing.Size(256, 188);
             this.groupBox_structure.TabIndex = 15;
             this.groupBox_structure.TabStop = false;
@@ -393,7 +405,7 @@
             this.toggle_grain_selection.Appearance = System.Windows.Forms.Appearance.Button;
             this.toggle_grain_selection.AutoSize = true;
             this.toggle_grain_selection.Location = new System.Drawing.Point(49, 132);
-            this.toggle_grain_selection.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.toggle_grain_selection.Margin = new System.Windows.Forms.Padding(2);
             this.toggle_grain_selection.Name = "toggle_grain_selection";
             this.toggle_grain_selection.Size = new System.Drawing.Size(71, 23);
             this.toggle_grain_selection.TabIndex = 28;
@@ -433,7 +445,7 @@
             // 
             this.button_generate_new_grains.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.button_generate_new_grains.Location = new System.Drawing.Point(2, 162);
-            this.button_generate_new_grains.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button_generate_new_grains.Margin = new System.Windows.Forms.Padding(2);
             this.button_generate_new_grains.Name = "button_generate_new_grains";
             this.button_generate_new_grains.Size = new System.Drawing.Size(252, 24);
             this.button_generate_new_grains.TabIndex = 25;
@@ -596,15 +608,15 @@
             this.exportDataToolStripMenuItem.Text = "Export data";
             this.exportDataToolStripMenuItem.Click += new System.EventHandler(this.exportDataToolStripMenuItem_Click);
             // 
-            // button_mc_method
+            // button_init_space_mc
             // 
-            this.button_mc_method.Location = new System.Drawing.Point(50, 443);
-            this.button_mc_method.Name = "button_mc_method";
-            this.button_mc_method.Size = new System.Drawing.Size(415, 23);
-            this.button_mc_method.TabIndex = 19;
-            this.button_mc_method.Text = "monte carlo ";
-            this.button_mc_method.UseVisualStyleBackColor = true;
-            this.button_mc_method.Click += new System.EventHandler(this.button_mc_method_Click);
+            this.button_init_space_mc.Location = new System.Drawing.Point(0, 465);
+            this.button_init_space_mc.Name = "button_init_space_mc";
+            this.button_init_space_mc.Size = new System.Drawing.Size(415, 23);
+            this.button_init_space_mc.TabIndex = 20;
+            this.button_init_space_mc.Text = "Generate initial space for Monte Carlo";
+            this.button_init_space_mc.UseVisualStyleBackColor = true;
+            this.button_init_space_mc.Click += new System.EventHandler(this.button_init_space_mc_Click);
             // 
             // MainWindowForm
             // 
@@ -687,6 +699,7 @@
         private System.Windows.Forms.Button button_generate_border;
         private System.Windows.Forms.CheckBox toggle_grain_selection;
         private System.Windows.Forms.Button button_mc_method;
+        private System.Windows.Forms.Button button_init_space_mc;
     }
 }
 

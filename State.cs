@@ -549,6 +549,28 @@ namespace MultiscaleModelling
         }
 
         // MONTE CARLO METHOD
+        public void initStateMonteCarlo(int number_of_grains)
+        {
+            clearState();
+            for (int i = 1; i <= number_of_grains; ++i)
+            {
+                Color c = Color.FromArgb(255, rand.Next(10, 256), rand.Next(10, 256), rand.Next(10, 256));
+                grain_ID_Color_dict.Add(i, c);
+            }
+
+            for (int y = 0; y < this.dimension; y++)
+            {
+                for (int x = 0; x < this.dimension; x++)
+                {
+                    int id = rand.Next(1, number_of_grains + 1);
+                    this.grains_structure[y, x] = new Grain(id, 0, grain_ID_Color_dict[id]);
+                }
+            }
+
+        }
+
+
+
         private HashSet<int> mc_getNeighborsIDs(int x, int y, int dim, Grain[,] space)
         {
             // TODO
