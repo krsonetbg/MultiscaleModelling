@@ -569,8 +569,33 @@ namespace MultiscaleModelling
 
         }
 
+        //public void initStateMonetCarloDEBUG()
+        //{
+        //    clearState();
+
+        //    Color crimson = Color.Crimson;
+        //    Color forest = Color.ForestGreen;
+        //    Color alice_blue = Color.AliceBlue;
+
+        //    grain_ID_Color_dict.Add(1, crimson);
+        //    grain_ID_Color_dict.Add(2, forest);
+        //    grain_ID_Color_dict.Add(3, alice_blue);
 
 
+        //    this.grains_structure[0, 0] = new Grain(1, 0, grain_ID_Color_dict[1]);
+        //    this.grains_structure[y, x] = new Grain(1, 0, grain_ID_Color_dict[1]);
+        //    this.grains_structure[y, x] = new Grain(1, 0, grain_ID_Color_dict[1]);
+
+
+        //    this.grains_structure[y, x] = new Grain(2, 0, grain_ID_Color_dict[2]);
+        //    this.grains_structure[y, x] = new Grain(2, 0, grain_ID_Color_dict[2]);
+        //    this.grains_structure[y, x] = new Grain(2, 0, grain_ID_Color_dict[2]);
+
+        //    this.grains_structure[y, x] = new Grain(3, 0, grain_ID_Color_dict[3]);
+        //    this.grains_structure[y, x] = new Grain(3, 0, grain_ID_Color_dict[3]);
+        //    this.grains_structure[y, x] = new Grain(3, 0, grain_ID_Color_dict[3]);
+
+        //}
         private HashSet<int> mc_getNeighborsIDs(int x, int y, int dim, Grain[,] space)
         {
             // TODO
@@ -644,18 +669,90 @@ namespace MultiscaleModelling
                 }
             }
 
-
-            if (neighbors_IDs.Count != 0)
-            {
-                var t = true;
-            }
             return neighbors_IDs;
         }
+
+
+        private int mc_getNumberOfNeighborsWithDifferentID(int x, int y, int dim, Grain[,] space)
+        {
+            // TODO FIX A BUG HERE, COUNTING IS NOT CORRECT
+            int self_ID = space[x, y].ID;
+            int no_neighbors_with_different_id = 0;
+            // Moore furthest
+            if (x + 1 < dim && y + 1 < dim)
+            {
+                int checked_ID = space[x + 1, y + 1].ID;
+                if (checked_ID != self_ID)
+                {
+                    ++no_neighbors_with_different_id;
+                }
+            }
+            if (x + 1 < dim && y - 1 >= 0)
+            {
+                int checked_ID = space[x + 1, y - 1].ID;
+                if (checked_ID != self_ID)
+                {
+                    ++no_neighbors_with_different_id;
+                }
+            }
+            if (x - 1 >= 0 && y + 1 < dim)
+            {
+                int checked_ID = space[x - 1, y + 1].ID;
+                if (checked_ID != self_ID)
+                {
+                    ++no_neighbors_with_different_id;
+                }
+            }
+            if (x - 1 >= 0 && y - 1 >= 0)
+            {
+                int checked_ID = space[x - 1, y - 1].ID;
+                if (checked_ID != self_ID)
+                {
+                    ++no_neighbors_with_different_id;
+                }
+            }
+            // Von Neumann
+            if (x + 1 < dim)
+            {
+                int checked_ID = space[x + 1, y].ID;
+                if (checked_ID != self_ID)
+                {
+                    ++no_neighbors_with_different_id;
+                }
+            }
+            if (x - 1 >= 0)
+            {
+                int checked_ID = space[x - 1, y].ID;
+                if (checked_ID != self_ID)
+                {
+                    ++no_neighbors_with_different_id;
+                }
+            }
+            if (y + 1 < dim)
+            {
+                int checked_ID = space[x, y + 1].ID;
+                if (checked_ID != self_ID)
+                {
+                    ++no_neighbors_with_different_id;
+                }
+            }
+            if (y - 1 >= 0)
+            {
+                int checked_ID = space[x, y - 1].ID;
+                if (checked_ID != self_ID)
+                {
+                    ++no_neighbors_with_different_id;
+                }
+            }
+
+            return no_neighbors_with_different_id;
+        }
+
 
         private double mc_getCellEnergy(int x, int y, Grain[,] space, double Jgb = 1.0)
         {
             int dim = space.GetLength(0);
-            int number_of_neighbors_with_different_ID = mc_getNeighborsIDs(x, y, dim, space).Count;
+            int number_of_neighbors_with_different_ID = mc_getNumberOfNeighborsWithDifferentID(x, y, dim, space);
             double energy = Jgb * number_of_neighbors_with_different_ID;
             return energy;
         }

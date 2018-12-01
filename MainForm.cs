@@ -366,14 +366,24 @@ namespace MultiscaleModelling
 
         private void button_mc_method_Click(object sender, EventArgs e)
         {
-            current_state.grains_structure = previous_state.updateGrainsStructureMC(previous_state);
-            current_state.updateState(current_state);
-            space_display.Image = resizeImage(current_state.grains_bmp, 300, 300);
-            //space_display.Image = current_state.grains_bmp;
+            int number_of_iterations = Convert.ToInt32(numericUpDown_MC_iterations.Value);
+            var counter = 0;
+            do
+            {
+                current_state.grains_structure = previous_state.updateGrainsStructureMC(previous_state);
+                current_state.updateState(current_state);
+                space_display.Image = resizeImage(current_state.grains_bmp, 300, 300);
+                //space_display.Image = current_state.grains_bmp;
 
-            previous_state = current_state;
-            System.Threading.Thread.Sleep(1);
-            space_display.Refresh();
+                previous_state = current_state;
+                System.Threading.Thread.Sleep(1);
+                space_display.Refresh();
+                ++counter;
+            } while (counter < number_of_iterations);
+            
+
+            growth_complete = true;
+            updateGUI();
         }
 
         private void button_init_space_mc_Click(object sender, EventArgs e)
