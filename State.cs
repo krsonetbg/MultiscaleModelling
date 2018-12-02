@@ -65,10 +65,17 @@ namespace MultiscaleModelling
                         else
                         {
                             int grain_id = state_for_xy_coordinates.IndexOf(state_for_xy_coordinates.Max()) + 1; // +1, because first ID to be considered is 1, but first element added to list has index 0 
-
-                            Color c = grain_ID_Color_dict[grain_id];
+                            //try
+                            //{
+                                Color c = grain_ID_Color_dict[grain_id];
+                                current_grains_structure[x, y] = new Grain(grain_id, 0, c);
+                            //}
+                            //catch (KeyNotFoundException e)
+                            //{
+                            //    continue;
+                            //}
                             //current_grains_structure[x, y] = new Grain(state_for_xy_coordinates.Max(), 0, c);
-                            current_grains_structure[x, y] = new Grain(grain_id, 0, c);
+                            
 
                         }
                     }
@@ -569,33 +576,34 @@ namespace MultiscaleModelling
 
         }
 
-        //public void initStateMonetCarloDEBUG()
-        //{
-        //    clearState();
+        public void initStateMonetCarloDEBUG()
+        {
+            clearState();
 
-        //    Color crimson = Color.Crimson;
-        //    Color forest = Color.ForestGreen;
-        //    Color alice_blue = Color.AliceBlue;
+            Color crimson = Color.Crimson;
+            Color forest = Color.ForestGreen;
+            Color alice_blue = Color.CornflowerBlue;
 
-        //    grain_ID_Color_dict.Add(1, crimson);
-        //    grain_ID_Color_dict.Add(2, forest);
-        //    grain_ID_Color_dict.Add(3, alice_blue);
-
-
-        //    this.grains_structure[0, 0] = new Grain(1, 0, grain_ID_Color_dict[1]);
-        //    this.grains_structure[y, x] = new Grain(1, 0, grain_ID_Color_dict[1]);
-        //    this.grains_structure[y, x] = new Grain(1, 0, grain_ID_Color_dict[1]);
+            grain_ID_Color_dict.Add(1, crimson);
+            grain_ID_Color_dict.Add(2, forest);
+            grain_ID_Color_dict.Add(3, alice_blue);
 
 
-        //    this.grains_structure[y, x] = new Grain(2, 0, grain_ID_Color_dict[2]);
-        //    this.grains_structure[y, x] = new Grain(2, 0, grain_ID_Color_dict[2]);
-        //    this.grains_structure[y, x] = new Grain(2, 0, grain_ID_Color_dict[2]);
+            this.grains_structure[0, 0] = new Grain(1, 0, grain_ID_Color_dict[1]);
+            this.grains_structure[0, 1] = new Grain(3, 0, grain_ID_Color_dict[3]);
+            this.grains_structure[0, 2] = new Grain(1, 0, grain_ID_Color_dict[1]);
 
-        //    this.grains_structure[y, x] = new Grain(3, 0, grain_ID_Color_dict[3]);
-        //    this.grains_structure[y, x] = new Grain(3, 0, grain_ID_Color_dict[3]);
-        //    this.grains_structure[y, x] = new Grain(3, 0, grain_ID_Color_dict[3]);
 
-        //}
+            this.grains_structure[1, 0] = new Grain(2, 0, grain_ID_Color_dict[2]);
+            this.grains_structure[1, 1] = new Grain(2, 0, grain_ID_Color_dict[2]);
+            this.grains_structure[1, 2] = new Grain(2, 0, grain_ID_Color_dict[2]);
+
+            this.grains_structure[2, 0] = new Grain(2, 0, grain_ID_Color_dict[2]);
+            this.grains_structure[2, 1] = new Grain(3, 0, grain_ID_Color_dict[3]);
+            this.grains_structure[2, 2] = new Grain(3, 0, grain_ID_Color_dict[3]);
+
+        }
+
         private HashSet<int> mc_getNeighborsIDs(int x, int y, int dim, Grain[,] space)
         {
             // TODO
@@ -605,8 +613,9 @@ namespace MultiscaleModelling
             // Moore furthest
             if (x + 1 < dim && y + 1 < dim)
             {
-                int checked_ID = space[x + 1, y + 1].ID;   
-                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID!=0)
+                int checked_ID = space[x + 1, y + 1].ID;
+                bool is_not_DP = space[x + 1, y + 1].phase == 0 ? true : false;
+                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID!=0 && is_not_DP)
                 {
                     neighbors_IDs.Add(checked_ID);
                 }
@@ -614,7 +623,8 @@ namespace MultiscaleModelling
             if (x + 1 < dim && y - 1 >= 0 )
             {
                 int checked_ID = space[x + 1, y - 1].ID;
-                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0)
+                bool is_not_DP = space[x + 1, y - 1].phase == 0 ? true : false;
+                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0 && is_not_DP)
                 {
                     neighbors_IDs.Add(checked_ID);
                 }
@@ -622,7 +632,8 @@ namespace MultiscaleModelling
             if (x - 1 >= 0 && y + 1 < dim )
             {
                 int checked_ID = space[x - 1, y + 1].ID;
-                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0)
+                bool is_not_DP = space[x - 1, y + 1].phase == 0 ? true : false;
+                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0 && is_not_DP)
                 {
                     neighbors_IDs.Add(checked_ID);
                 }
@@ -630,7 +641,8 @@ namespace MultiscaleModelling
             if (x - 1 >= 0 && y - 1 >= 0 )
             {
                 int checked_ID = space[x - 1, y - 1].ID;
-                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0)
+                bool is_not_DP = space[x - 1, y - 1].phase == 0 ? true : false;
+                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0 && is_not_DP)
                 {
                     neighbors_IDs.Add(checked_ID);
                 }
@@ -639,7 +651,8 @@ namespace MultiscaleModelling
             if (x + 1 < dim )
             {
                 int checked_ID = space[x + 1, y ].ID;
-                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0)
+                bool is_not_DP = space[x + 1, y].phase == 0 ? true : false;
+                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0 && is_not_DP)
                 {
                     neighbors_IDs.Add(checked_ID);
                 }
@@ -647,7 +660,8 @@ namespace MultiscaleModelling
             if (x - 1 >= 0 )
             {
                 int checked_ID = space[x - 1, y ].ID;
-                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0)
+                bool is_not_DP = space[x - 1, y].phase == 0 ? true : false;
+                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0 && is_not_DP)
                 {
                     neighbors_IDs.Add(checked_ID);
                 }
@@ -655,7 +669,8 @@ namespace MultiscaleModelling
             if (y + 1 < dim )
             {
                 int checked_ID = space[x , y + 1].ID;
-                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0)
+                bool is_not_DP = space[x, y + 1].phase == 0 ? true : false;
+                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0 && is_not_DP)
                 {
                     neighbors_IDs.Add(checked_ID);
                 }
@@ -663,7 +678,8 @@ namespace MultiscaleModelling
             if (y - 1 >= 0 )
             {
                 int checked_ID = space[x , y - 1].ID;
-                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0)
+                bool is_not_DP = space[x, y - 1].phase == 0 ? true : false;
+                if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0 && is_not_DP)
                 {
                     neighbors_IDs.Add(checked_ID);
                 }
@@ -777,7 +793,7 @@ namespace MultiscaleModelling
             mc_changeID(x, y, dim, space);
             double post_change_energy = mc_getCellEnergy(x, y, space);
             double energy_difference = post_change_energy - initial_energy;
-            Console.WriteLine("Energy difference = {0}", energy_difference);
+            //Console.WriteLine("Energy difference = {0}", energy_difference);
             if (energy_difference < 0)
             {
                 // Keep new state, update color
@@ -799,8 +815,11 @@ namespace MultiscaleModelling
             {
                 for (var j = 0; j < dim; ++j)
                 {
-                    Tuple<int, int> cell = new Tuple<int, int>(i, j);
-                    cells.Add(cell);
+                    if (space[i, j].ID > 0)
+                    {
+                        Tuple<int, int> cell = new Tuple<int, int>(i, j);
+                        cells.Add(cell);
+                    }
                 }
             }
             return cells;
@@ -822,10 +841,35 @@ namespace MultiscaleModelling
                 cells.RemoveAt(drawn_grain_index);
                 if (cells.Count == 0) iteration_complete = true;
                 ++cnt;
-                Console.WriteLine("Monte Carlo iteration: {0}", cnt);
+                //Console.WriteLine("Monte Carlo iteration: {0}", cnt);
             } while (!iteration_complete);
 
             return state.grains_structure;
+        }
+
+        public void addGrainsToExistingStructureMC(int number_of_grains_to_add)
+        {
+            List<int> temporary_IDs = new List<int>();
+            for (int i = 1; i <= number_of_grains_to_add; ++i)
+            {
+                Color c = Color.FromArgb(255, rand.Next(10, 256), rand.Next(10, 256), rand.Next(10, 256));
+                var max_grain_id = grain_ID_Color_dict.Keys.Max();
+                int new_grain_id = ++max_grain_id;
+                temporary_IDs.Add(new_grain_id);
+                grain_ID_Color_dict.Add(new_grain_id, c);
+            }
+
+            for (int x = 0; x < this.dimension; ++x)
+            {
+                for (int y = 0; y < this.dimension; ++y)
+                {
+                    if (this.grains_structure[x, y].ID == 0)
+                    {
+                        int new_grain_id = temporary_IDs.ElementAt(rand.Next(0, temporary_IDs.Count));
+                        this.grains_structure[x, y] = new Grain(new_grain_id, 0, grain_ID_Color_dict[new_grain_id]);
+                    }
+                }
+            }
         }
 
     }

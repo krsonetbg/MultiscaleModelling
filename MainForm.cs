@@ -13,17 +13,6 @@ using System.Drawing.Imaging;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 
-//TODO
-// Implement stucture loading from .bmp file.
-// Add possibility to configure file name for data to be saved.
-// Implement extended algorithm rules. 
-
-//TOPRESENT 
-// Fixed generation of initial grain structure, it is ensured now, that correct number of grains is generated, they are generated in a while loop.
-// Furthermore one cannot create more grains then dimension*dimension.
-// Added automatic grain generation based on GUI and new button.
-
-
 namespace MultiscaleModelling
 {
     public partial class MainWindowForm : Form
@@ -210,8 +199,7 @@ namespace MultiscaleModelling
             var y = Convert.ToInt32(this.image_scaling_factor * mouseEventArgs.Y);
             Tuple<int, int>  center = new Tuple<int, int>(x,y);
             int inclusion_size = Convert.ToInt32(numericUpDown_inclusion_size.Value);
-            //if (comboBox_inclusions.SelectedItem != null)
-            if (comboBox_inclusions.SelectedItem != null && toggle_grain_selection.Checked==false)
+            if (comboBox_inclusions.SelectedItem != null)
                 {
                     if (growth_complete == false)
                 {
@@ -359,11 +347,6 @@ namespace MultiscaleModelling
             space_display.Refresh();
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void button_mc_method_Click(object sender, EventArgs e)
         {
             int number_of_iterations = Convert.ToInt32(numericUpDown_MC_iterations.Value);
@@ -378,7 +361,8 @@ namespace MultiscaleModelling
                 previous_state = current_state;
                 System.Threading.Thread.Sleep(1);
                 space_display.Refresh();
-                ++counter;
+                Console.WriteLine("Monte Carlo iteration: {0}", counter);
+                ++counter;               
             } while (counter < number_of_iterations);
             
 
@@ -388,16 +372,38 @@ namespace MultiscaleModelling
 
         private void button_init_space_mc_Click(object sender, EventArgs e)
         {
+            button_growth.Enabled = true;
+            button_single_iteration.Enabled = true;
+
             int dim = Convert.ToInt32(numericUpDown_dimension.Value);
             previous_state = new State(dim);
             current_state = new State(dim);
             int grains_number = Convert.ToInt32(numericUpDown_number_of_grains.Value);
             previous_state.initStateMonteCarlo(grains_number);
+
+            //int dim = 3;
+            //previous_state = new State(dim);
+            //current_state = new State(dim);
+            //previous_state.initStateMonetCarloDEBUG();
+
             previous_state.updateState(previous_state);
             int scaled_dim = 300;
             space_display.Image = resizeImage(previous_state.grains_bmp, scaled_dim, scaled_dim);
             //image_scaling_factor = dim / (double)scaled_dim;
             //space_display.Image = previous_state.grains_bmp;
+        }
+
+        private void button_generate_new_grains_for_MC_Click(object sender, EventArgs e)
+        {
+            if (numericUpDown_new_grains.Value > 0)
+            {
+                current_state.addGrainsToExistingStructureMC(Convert.ToInt32(numericUpDown_new_grains.Value));
+            }
+            current_state.updateState(current_state);
+            //previous_state.grains_structure = current_state.grains_structure;
+            previous_state = current_state;
+            space_display.Image = resizeImage(current_state.grains_bmp, 300, 300);
+            space_display.Refresh();
         }
 
         private void radioButton_classic_CA_CheckedChanged(object sender, EventArgs e)
