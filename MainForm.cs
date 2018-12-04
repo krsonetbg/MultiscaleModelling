@@ -406,6 +406,32 @@ namespace MultiscaleModelling
             space_display.Refresh();
         }
 
+        private void button_energy_distribution_display_Click(object sender, EventArgs e)
+        {
+            Form form = new Form();
+            form.Show();
+            bool heterogeneous = checkBox_heterogeneous.Checked;
+            int width = current_state.grains_structure.GetLength(0);
+            int height = width;
+            int internal_energy = Convert.ToInt32(numericUpDown_internal_energy.Value);
+            int grain_boundaries_energy = Convert.ToInt32(numericUpDown_grain_boundaries_energy.Value);
+            var energy_distribution_image = current_state.getEnergyDistributionPicture(current_state.grains_structure, width, height, internal_energy, grain_boundaries_energy, heterogeneous);
+            PictureBox pb = new PictureBox();
+            pb.Image = energy_distribution_image;
+            pb.Size = form.Size;
+            pb.SizeMode = PictureBoxSizeMode.Zoom;
+
+            form.Controls.Add(pb);
+        }
+
+        private void checkBox_heterogeneous_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox_heterogeneous.Checked)
+                numericUpDown_grain_boundaries_energy.Enabled = true;
+            else
+                numericUpDown_grain_boundaries_energy.Enabled = false;
+        }
+
         private void radioButton_classic_CA_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton_classic_CA.Checked)

@@ -871,6 +871,37 @@ namespace MultiscaleModelling
                 }
             }
         }
+        public Bitmap getEnergyDistributionPicture(Grain[,] state, int width, int height, int internal_energy_level, int grain_boundaries_energy_level, bool heterogeneous = false)
+        {
+            // Assign energy (homogeneous)
+            for (int i = 0; i < width; ++i)
+            {
+                for(int j = 0; j < height; ++j)
+                {
+                    state[i, j].H = internal_energy_level;
+                }
+            }
+
+
+            Bitmap energy_distribution = new Bitmap(width, height);
+            using (Graphics graph = Graphics.FromImage(energy_distribution))
+            {
+                Rectangle ImageSize = new Rectangle(0, 0, width, height);
+                graph.FillRectangle(Brushes.MidnightBlue, ImageSize);
+            }
+            if (heterogeneous)
+            {
+                var grain_boundaries = StateHelper.findGrainBoundaries(state);
+                foreach (var bound_element in grain_boundaries)
+                {
+                    energy_distribution.SetPixel(bound_element.Item1, bound_element.Item2, Color.Crimson);
+                    // Assign energy heterogeneous
+                    state[bound_element.Item1, bound_element.Item2].H = grain_boundaries_energy_level;
+                }
+            }
+            
+            return energy_distribution;
+        }
 
     }
 }
