@@ -44,6 +44,11 @@
             this.numericUpDown_inclusion_size = new System.Windows.Forms.NumericUpDown();
             this.label_inclusions_no = new System.Windows.Forms.Label();
             this.groupBox_main = new System.Windows.Forms.GroupBox();
+            this.numericUpDown_grain_boundaries_energy = new System.Windows.Forms.NumericUpDown();
+            this.label3 = new System.Windows.Forms.Label();
+            this.numericUpDown_internal_energy = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
+            this.checkBox_heterogeneous = new System.Windows.Forms.CheckBox();
             this.button_energy_distribution_display = new System.Windows.Forms.Button();
             this.numericUpDown_MC_iterations = new System.Windows.Forms.NumericUpDown();
             this.button_init_space_mc = new System.Windows.Forms.Button();
@@ -75,17 +80,20 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkBox_heterogeneous = new System.Windows.Forms.CheckBox();
-            this.numericUpDown_internal_energy = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
-            this.numericUpDown_grain_boundaries_energy = new System.Windows.Forms.NumericUpDown();
-            this.label3 = new System.Windows.Forms.Label();
+            this.button_energy_distribution_create = new System.Windows.Forms.Button();
+            this.numericUpDown_nucleons_number = new System.Windows.Forms.NumericUpDown();
+            this.label_nucleons = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button_grow_recrystalized = new System.Windows.Forms.Button();
+            this.button_generate_nucleons = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.space_display)).BeginInit();
             this.groupBox_neighborhood.SuspendLayout();
             this.groupBox_inclusions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_number_of_inclusions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_inclusion_size)).BeginInit();
             this.groupBox_main.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_grain_boundaries_energy)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_internal_energy)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_MC_iterations)).BeginInit();
             this.groupBox_run_algorithm.SuspendLayout();
             this.groupBox_space_init.SuspendLayout();
@@ -97,8 +105,8 @@
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_probability)).BeginInit();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_internal_energy)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_grain_boundaries_energy)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_nucleons_number)).BeginInit();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // space_display
@@ -290,12 +298,7 @@
             // 
             // groupBox_main
             // 
-            this.groupBox_main.Controls.Add(this.numericUpDown_grain_boundaries_energy);
-            this.groupBox_main.Controls.Add(this.label3);
-            this.groupBox_main.Controls.Add(this.numericUpDown_internal_energy);
-            this.groupBox_main.Controls.Add(this.label2);
-            this.groupBox_main.Controls.Add(this.checkBox_heterogeneous);
-            this.groupBox_main.Controls.Add(this.button_energy_distribution_display);
+            this.groupBox_main.Controls.Add(this.groupBox2);
             this.groupBox_main.Controls.Add(this.numericUpDown_MC_iterations);
             this.groupBox_main.Controls.Add(this.button_init_space_mc);
             this.groupBox_main.Controls.Add(this.label_number_of_MC_iterations);
@@ -312,13 +315,86 @@
             this.groupBox_main.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox_main.Name = "groupBox_main";
             this.groupBox_main.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox_main.Size = new System.Drawing.Size(1411, 644);
+            this.groupBox_main.Size = new System.Drawing.Size(1411, 989);
             this.groupBox_main.TabIndex = 0;
             this.groupBox_main.TabStop = false;
             // 
+            // numericUpDown_grain_boundaries_energy
+            // 
+            this.numericUpDown_grain_boundaries_energy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.numericUpDown_grain_boundaries_energy.Enabled = false;
+            this.numericUpDown_grain_boundaries_energy.Location = new System.Drawing.Point(388, 133);
+            this.numericUpDown_grain_boundaries_energy.Margin = new System.Windows.Forms.Padding(4);
+            this.numericUpDown_grain_boundaries_energy.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.numericUpDown_grain_boundaries_energy.Name = "numericUpDown_grain_boundaries_energy";
+            this.numericUpDown_grain_boundaries_energy.Size = new System.Drawing.Size(160, 22);
+            this.numericUpDown_grain_boundaries_energy.TabIndex = 37;
+            this.numericUpDown_grain_boundaries_energy.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(181, 136);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(199, 17);
+            this.label3.TabIndex = 36;
+            this.label3.Text = "Grain boundaries energy level";
+            // 
+            // numericUpDown_internal_energy
+            // 
+            this.numericUpDown_internal_energy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.numericUpDown_internal_energy.Location = new System.Drawing.Point(388, 103);
+            this.numericUpDown_internal_energy.Margin = new System.Windows.Forms.Padding(4);
+            this.numericUpDown_internal_energy.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.numericUpDown_internal_energy.Name = "numericUpDown_internal_energy";
+            this.numericUpDown_internal_energy.Size = new System.Drawing.Size(160, 22);
+            this.numericUpDown_internal_energy.TabIndex = 35;
+            this.numericUpDown_internal_energy.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(181, 108);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(136, 17);
+            this.label2.TabIndex = 34;
+            this.label2.Text = "Internal energy level";
+            // 
+            // checkBox_heterogeneous
+            // 
+            this.checkBox_heterogeneous.AutoSize = true;
+            this.checkBox_heterogeneous.Location = new System.Drawing.Point(6, 122);
+            this.checkBox_heterogeneous.Name = "checkBox_heterogeneous";
+            this.checkBox_heterogeneous.Size = new System.Drawing.Size(128, 21);
+            this.checkBox_heterogeneous.TabIndex = 33;
+            this.checkBox_heterogeneous.Text = "Heterogeneous";
+            this.checkBox_heterogeneous.UseVisualStyleBackColor = true;
+            this.checkBox_heterogeneous.CheckedChanged += new System.EventHandler(this.checkBox_heterogeneous_CheckedChanged);
+            // 
             // button_energy_distribution_display
             // 
-            this.button_energy_distribution_display.Location = new System.Drawing.Point(689, 574);
+            this.button_energy_distribution_display.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button_energy_distribution_display.Location = new System.Drawing.Point(0, 197);
             this.button_energy_distribution_display.Margin = new System.Windows.Forms.Padding(4);
             this.button_energy_distribution_display.Name = "button_energy_distribution_display";
             this.button_energy_distribution_display.Size = new System.Drawing.Size(553, 28);
@@ -330,7 +406,7 @@
             // numericUpDown_MC_iterations
             // 
             this.numericUpDown_MC_iterations.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.numericUpDown_MC_iterations.Location = new System.Drawing.Point(293, 572);
+            this.numericUpDown_MC_iterations.Location = new System.Drawing.Point(293, 917);
             this.numericUpDown_MC_iterations.Margin = new System.Windows.Forms.Padding(4);
             this.numericUpDown_MC_iterations.Minimum = new decimal(new int[] {
             1,
@@ -361,7 +437,7 @@
             // 
             this.label_number_of_MC_iterations.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label_number_of_MC_iterations.AutoSize = true;
-            this.label_number_of_MC_iterations.Location = new System.Drawing.Point(120, 574);
+            this.label_number_of_MC_iterations.Location = new System.Drawing.Point(120, 919);
             this.label_number_of_MC_iterations.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_number_of_MC_iterations.Name = "label_number_of_MC_iterations";
             this.label_number_of_MC_iterations.Size = new System.Drawing.Size(160, 17);
@@ -689,7 +765,7 @@
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1311, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1313, 28);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -716,83 +792,93 @@
             this.exportDataToolStripMenuItem.Text = "Export data";
             this.exportDataToolStripMenuItem.Click += new System.EventHandler(this.exportDataToolStripMenuItem_Click);
             // 
-            // checkBox_heterogeneous
+            // button_energy_distribution_create
             // 
-            this.checkBox_heterogeneous.AutoSize = true;
-            this.checkBox_heterogeneous.Location = new System.Drawing.Point(689, 537);
-            this.checkBox_heterogeneous.Name = "checkBox_heterogeneous";
-            this.checkBox_heterogeneous.Size = new System.Drawing.Size(128, 21);
-            this.checkBox_heterogeneous.TabIndex = 33;
-            this.checkBox_heterogeneous.Text = "Heterogeneous";
-            this.checkBox_heterogeneous.UseVisualStyleBackColor = true;
-            this.checkBox_heterogeneous.CheckedChanged += new System.EventHandler(this.checkBox_heterogeneous_CheckedChanged);
+            this.button_energy_distribution_create.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button_energy_distribution_create.Location = new System.Drawing.Point(0, 161);
+            this.button_energy_distribution_create.Margin = new System.Windows.Forms.Padding(4);
+            this.button_energy_distribution_create.Name = "button_energy_distribution_create";
+            this.button_energy_distribution_create.Size = new System.Drawing.Size(553, 28);
+            this.button_energy_distribution_create.TabIndex = 38;
+            this.button_energy_distribution_create.Text = "Generate energy distribution";
+            this.button_energy_distribution_create.UseVisualStyleBackColor = true;
             // 
-            // numericUpDown_internal_energy
+            // numericUpDown_nucleons_number
             // 
-            this.numericUpDown_internal_energy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.numericUpDown_internal_energy.Location = new System.Drawing.Point(1061, 510);
-            this.numericUpDown_internal_energy.Margin = new System.Windows.Forms.Padding(4);
-            this.numericUpDown_internal_energy.Maximum = new decimal(new int[] {
+            this.numericUpDown_nucleons_number.Location = new System.Drawing.Point(393, 22);
+            this.numericUpDown_nucleons_number.Margin = new System.Windows.Forms.Padding(4);
+            this.numericUpDown_nucleons_number.Maximum = new decimal(new int[] {
             500,
             0,
             0,
             0});
-            this.numericUpDown_internal_energy.Name = "numericUpDown_internal_energy";
-            this.numericUpDown_internal_energy.Size = new System.Drawing.Size(160, 22);
-            this.numericUpDown_internal_energy.TabIndex = 35;
-            this.numericUpDown_internal_energy.Value = new decimal(new int[] {
+            this.numericUpDown_nucleons_number.Name = "numericUpDown_nucleons_number";
+            this.numericUpDown_nucleons_number.Size = new System.Drawing.Size(160, 22);
+            this.numericUpDown_nucleons_number.TabIndex = 39;
+            this.numericUpDown_nucleons_number.Value = new decimal(new int[] {
             5,
             0,
             0,
             0});
             // 
-            // label2
+            // label_nucleons
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(854, 515);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(136, 17);
-            this.label2.TabIndex = 34;
-            this.label2.Text = "Internal energy level";
+            this.label_nucleons.AutoSize = true;
+            this.label_nucleons.Location = new System.Drawing.Point(250, 24);
+            this.label_nucleons.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label_nucleons.Name = "label_nucleons";
+            this.label_nucleons.Size = new System.Drawing.Size(135, 17);
+            this.label_nucleons.TabIndex = 29;
+            this.label_nucleons.Text = "Number of nucleons";
             // 
-            // numericUpDown_grain_boundaries_energy
+            // groupBox2
             // 
-            this.numericUpDown_grain_boundaries_energy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.numericUpDown_grain_boundaries_energy.Enabled = false;
-            this.numericUpDown_grain_boundaries_energy.Location = new System.Drawing.Point(1061, 540);
-            this.numericUpDown_grain_boundaries_energy.Margin = new System.Windows.Forms.Padding(4);
-            this.numericUpDown_grain_boundaries_energy.Maximum = new decimal(new int[] {
-            500,
-            0,
-            0,
-            0});
-            this.numericUpDown_grain_boundaries_energy.Name = "numericUpDown_grain_boundaries_energy";
-            this.numericUpDown_grain_boundaries_energy.Size = new System.Drawing.Size(160, 22);
-            this.numericUpDown_grain_boundaries_energy.TabIndex = 37;
-            this.numericUpDown_grain_boundaries_energy.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
+            this.groupBox2.Controls.Add(this.button_generate_nucleons);
+            this.groupBox2.Controls.Add(this.button_grow_recrystalized);
+            this.groupBox2.Controls.Add(this.checkBox_heterogeneous);
+            this.groupBox2.Controls.Add(this.label_nucleons);
+            this.groupBox2.Controls.Add(this.button_energy_distribution_create);
+            this.groupBox2.Controls.Add(this.numericUpDown_nucleons_number);
+            this.groupBox2.Controls.Add(this.button_energy_distribution_display);
+            this.groupBox2.Controls.Add(this.numericUpDown_grain_boundaries_energy);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.numericUpDown_internal_energy);
+            this.groupBox2.Location = new System.Drawing.Point(654, 569);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(590, 289);
+            this.groupBox2.TabIndex = 40;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "SRXMC";
             // 
-            // label3
+            // button_grow_recrystalized
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(854, 543);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(199, 17);
-            this.label3.TabIndex = 36;
-            this.label3.Text = "Grain boundaries energy level";
+            this.button_grow_recrystalized.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button_grow_recrystalized.Location = new System.Drawing.Point(0, 233);
+            this.button_grow_recrystalized.Margin = new System.Windows.Forms.Padding(4);
+            this.button_grow_recrystalized.Name = "button_grow_recrystalized";
+            this.button_grow_recrystalized.Size = new System.Drawing.Size(553, 28);
+            this.button_grow_recrystalized.TabIndex = 40;
+            this.button_grow_recrystalized.Text = "Grow recrystalized";
+            this.button_grow_recrystalized.UseVisualStyleBackColor = true;
+            // 
+            // button_generate_nucleons
+            // 
+            this.button_generate_nucleons.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button_generate_nucleons.Location = new System.Drawing.Point(0, 52);
+            this.button_generate_nucleons.Margin = new System.Windows.Forms.Padding(4);
+            this.button_generate_nucleons.Name = "button_generate_nucleons";
+            this.button_generate_nucleons.Size = new System.Drawing.Size(553, 28);
+            this.button_generate_nucleons.TabIndex = 41;
+            this.button_generate_nucleons.Text = "Generate nucleons";
+            this.button_generate_nucleons.UseVisualStyleBackColor = true;
+            this.button_generate_nucleons.Click += new System.EventHandler(this.button_generate_nucleons_Click);
             // 
             // MainWindowForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1311, 690);
+            this.ClientSize = new System.Drawing.Size(1313, 1034);
             this.Controls.Add(this.groupBox_main);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -808,6 +894,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_inclusion_size)).EndInit();
             this.groupBox_main.ResumeLayout(false);
             this.groupBox_main.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_grain_boundaries_energy)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_internal_energy)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_MC_iterations)).EndInit();
             this.groupBox_run_algorithm.ResumeLayout(false);
             this.groupBox_space_init.ResumeLayout(false);
@@ -823,8 +911,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_probability)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_internal_energy)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_grain_boundaries_energy)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_nucleons_number)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -883,6 +972,12 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown numericUpDown_internal_energy;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button button_energy_distribution_create;
+        private System.Windows.Forms.Label label_nucleons;
+        private System.Windows.Forms.NumericUpDown numericUpDown_nucleons_number;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Button button_grow_recrystalized;
+        private System.Windows.Forms.Button button_generate_nucleons;
     }
 }
 

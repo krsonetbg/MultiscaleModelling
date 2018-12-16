@@ -871,32 +871,66 @@ namespace MultiscaleModelling
                 }
             }
         }
-        public Bitmap getEnergyDistributionPicture(Grain[,] state, int width, int height, int internal_energy_level, int grain_boundaries_energy_level, bool heterogeneous = false)
+
+        public void addNucleonsToExistingStructure(int number_of_grains_to_add)
+        {
+
+            for (int i = 1; i <= number_of_grains_to_add; ++i)
+            {
+                Color c = Color.FromArgb(255, rand.Next(10, 256), 0, 0);
+                var x = rand.Next(0, this.dimension - 1);
+                var y = rand.Next(0, this.dimension - 1);
+                while (this.grains_structure[x, y].ID != 0)
+                {
+                    x = rand.Next(0, this.dimension - 1);
+                    y = rand.Next(0, this.dimension - 1);
+                };
+
+                var max_grain_id = getGrainIDs().Max();
+                int new_grain_id = ++max_grain_id;
+                this.grains_structure[x, y] = new Grain(new_grain_id, 0, c, 5, true);
+                grain_ID_Color_dict.Add(new_grain_id, c);
+            }
+
+        }
+
+
+        public void calculateEnergyDistribution(Grain[,] state, int width, int height, int internal_energy_level, int grain_boundaries_energy_level, bool heterogeneous = false)
         {
             // Assign energy (homogeneous)
             for (int i = 0; i < width; ++i)
             {
-                for(int j = 0; j < height; ++j)
+                for (int j = 0; j < height; ++j)
                 {
                     state[i, j].H = internal_energy_level;
                 }
-            }
-
-
-            Bitmap energy_distribution = new Bitmap(width, height);
-            using (Graphics graph = Graphics.FromImage(energy_distribution))
-            {
-                Rectangle ImageSize = new Rectangle(0, 0, width, height);
-                graph.FillRectangle(Brushes.MidnightBlue, ImageSize);
             }
             if (heterogeneous)
             {
                 var grain_boundaries = StateHelper.findGrainBoundaries(state);
                 foreach (var bound_element in grain_boundaries)
                 {
-                    energy_distribution.SetPixel(bound_element.Item1, bound_element.Item2, Color.Crimson);
                     // Assign energy heterogeneous
                     state[bound_element.Item1, bound_element.Item2].H = grain_boundaries_energy_level;
+                }
+            }
+
+        }
+
+        public Bitmap getEnergyDistributionPicture(Grain[,] state, int width, int height, int internal_energy_level, int grain_boundaries_energy_level)
+        {
+
+            Color c = Color.Crimson;
+            Color mb = Color.MidnightBlue;
+
+            Bitmap energy_distribution = new Bitmap(width, height);
+
+            for (int i = 0; i < width; ++i)
+            {
+                for (int j = 0; j < height; ++j)
+                {
+                    Color bmp_color = state[i, j].H == internal_energy_level ? mb : c;
+                    energy_distribution.SetPixel(i, j, bmp_color);
                 }
             }
             

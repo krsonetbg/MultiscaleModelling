@@ -415,11 +415,14 @@ namespace MultiscaleModelling
             int height = width;
             int internal_energy = Convert.ToInt32(numericUpDown_internal_energy.Value);
             int grain_boundaries_energy = Convert.ToInt32(numericUpDown_grain_boundaries_energy.Value);
-            var energy_distribution_image = current_state.getEnergyDistributionPicture(current_state.grains_structure, width, height, internal_energy, grain_boundaries_energy, heterogeneous);
-            PictureBox pb = new PictureBox();
-            pb.Image = energy_distribution_image;
-            pb.Size = form.Size;
-            pb.SizeMode = PictureBoxSizeMode.Zoom;
+            current_state.calculateEnergyDistribution(current_state.grains_structure, width, height, internal_energy, grain_boundaries_energy, heterogeneous);
+            var energy_distribution_image = current_state.getEnergyDistributionPicture(current_state.grains_structure, width, height, internal_energy, grain_boundaries_energy);
+            PictureBox pb = new PictureBox
+            {
+                Image = energy_distribution_image,
+                Size = form.Size,
+                SizeMode = PictureBoxSizeMode.Zoom
+            };
 
             form.Controls.Add(pb);
         }
@@ -430,6 +433,14 @@ namespace MultiscaleModelling
                 numericUpDown_grain_boundaries_energy.Enabled = true;
             else
                 numericUpDown_grain_boundaries_energy.Enabled = false;
+        }
+
+        private void button_generate_nucleons_Click(object sender, EventArgs e)
+        {
+            if (numericUpDown_nucleons_number.Value > 0)
+            {
+                current_state.addGrainsToExistingStructure(Convert.ToInt32(numericUpDown_nucleons_number.Value));
+            }
         }
 
         private void radioButton_classic_CA_CheckedChanged(object sender, EventArgs e)
