@@ -604,7 +604,7 @@ namespace MultiscaleModelling
 
         }
 
-        private HashSet<int> mc_getNeighborsIDs(int x, int y, int dim, Grain[,] space)
+        private HashSet<int> mc_getNeighborsIDs(int x, int y, int dim, Grain[,] space, bool recrystalization = false)
         {
             // TODO
             // check if coordinates in all conditions are valid...
@@ -614,10 +614,21 @@ namespace MultiscaleModelling
             if (x + 1 < dim && y + 1 < dim)
             {
                 int checked_ID = space[x + 1, y + 1].ID;
-                bool is_not_DP = space[x + 1, y + 1].phase == 0 ? true : false;
+                bool is_not_DP = space[x + 1, y + 1].phase == 0 ? true : false;                
                 if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID!=0 && is_not_DP)
                 {
-                    neighbors_IDs.Add(checked_ID);
+                    if (recrystalization)
+                    {
+                        bool candidate_recrystalized = space[x + 1, y + 1].recrystalized;
+                        if (candidate_recrystalized)
+                        {
+                            neighbors_IDs.Add(checked_ID);
+                        }
+                    }
+                    else
+                    {
+                        neighbors_IDs.Add(checked_ID);
+                    }
                 }
             }
             if (x + 1 < dim && y - 1 >= 0 )
@@ -626,7 +637,18 @@ namespace MultiscaleModelling
                 bool is_not_DP = space[x + 1, y - 1].phase == 0 ? true : false;
                 if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0 && is_not_DP)
                 {
-                    neighbors_IDs.Add(checked_ID);
+                    if (recrystalization)
+                    {
+                        bool candidate_recrystalized = space[x + 1, y - 1].recrystalized;
+                        if (candidate_recrystalized)
+                        {
+                            neighbors_IDs.Add(checked_ID);
+                        }
+                    }
+                    else
+                    {
+                        neighbors_IDs.Add(checked_ID);
+                    }
                 }
             }
             if (x - 1 >= 0 && y + 1 < dim )
@@ -635,7 +657,18 @@ namespace MultiscaleModelling
                 bool is_not_DP = space[x - 1, y + 1].phase == 0 ? true : false;
                 if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0 && is_not_DP)
                 {
-                    neighbors_IDs.Add(checked_ID);
+                    if (recrystalization)
+                    {
+                        bool candidate_recrystalized = space[x - 1, y + 1].recrystalized;
+                        if (candidate_recrystalized)
+                        {
+                            neighbors_IDs.Add(checked_ID);
+                        }
+                    }
+                    else
+                    {
+                        neighbors_IDs.Add(checked_ID);
+                    }
                 }
             }
             if (x - 1 >= 0 && y - 1 >= 0 )
@@ -644,7 +677,18 @@ namespace MultiscaleModelling
                 bool is_not_DP = space[x - 1, y - 1].phase == 0 ? true : false;
                 if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0 && is_not_DP)
                 {
-                    neighbors_IDs.Add(checked_ID);
+                    if (recrystalization)
+                    {
+                        bool candidate_recrystalized = space[x - 1, y - 1].recrystalized;
+                        if (candidate_recrystalized)
+                        {
+                            neighbors_IDs.Add(checked_ID);
+                        }
+                    }
+                    else
+                    {
+                        neighbors_IDs.Add(checked_ID);
+                    }
                 }
             }
             // Von Neumann
@@ -654,7 +698,18 @@ namespace MultiscaleModelling
                 bool is_not_DP = space[x + 1, y].phase == 0 ? true : false;
                 if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0 && is_not_DP)
                 {
-                    neighbors_IDs.Add(checked_ID);
+                    if (recrystalization)
+                    {
+                        bool candidate_recrystalized = space[x + 1, y].recrystalized;
+                        if (candidate_recrystalized)
+                        {
+                            neighbors_IDs.Add(checked_ID);
+                        }
+                    }
+                    else
+                    {
+                        neighbors_IDs.Add(checked_ID);
+                    }
                 }
             }
             if (x - 1 >= 0 )
@@ -663,7 +718,18 @@ namespace MultiscaleModelling
                 bool is_not_DP = space[x - 1, y].phase == 0 ? true : false;
                 if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0 && is_not_DP)
                 {
-                    neighbors_IDs.Add(checked_ID);
+                    if (recrystalization)
+                    {
+                        bool candidate_recrystalized = space[x - 1, y].recrystalized;
+                        if (candidate_recrystalized)
+                        {
+                            neighbors_IDs.Add(checked_ID);
+                        }
+                    }
+                    else
+                    {
+                        neighbors_IDs.Add(checked_ID);
+                    }
                 }
             }
             if (y + 1 < dim )
@@ -672,7 +738,18 @@ namespace MultiscaleModelling
                 bool is_not_DP = space[x, y + 1].phase == 0 ? true : false;
                 if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0 && is_not_DP)
                 {
-                    neighbors_IDs.Add(checked_ID);
+                    if (recrystalization)
+                    {
+                        bool candidate_recrystalized = space[x, y + 1].recrystalized;
+                        if (candidate_recrystalized)
+                        {
+                            neighbors_IDs.Add(checked_ID);
+                        }
+                    }
+                    else
+                    {
+                        neighbors_IDs.Add(checked_ID);
+                    }
                 }
             }
             if (y - 1 >= 0 )
@@ -681,7 +758,18 @@ namespace MultiscaleModelling
                 bool is_not_DP = space[x, y - 1].phase == 0 ? true : false;
                 if (!neighbors_IDs.Contains(checked_ID) && checked_ID != self_ID && checked_ID != 0 && is_not_DP)
                 {
-                    neighbors_IDs.Add(checked_ID);
+                    if (recrystalization)
+                    {
+                        bool candidate_recrystalized = space[x, y - 1].recrystalized;
+                        if (candidate_recrystalized)
+                        {
+                            neighbors_IDs.Add(checked_ID);
+                        }
+                    }
+                    else
+                    {
+                        neighbors_IDs.Add(checked_ID);
+                    }
                 }
             }
 
@@ -773,9 +861,9 @@ namespace MultiscaleModelling
             return energy;
         }
 
-        private void mc_changeID(int x, int y, int dim, Grain[,] space)
+        private void mc_changeID(int x, int y, int dim, Grain[,] space, bool recrystalization = false)
         {
-            HashSet<int> possible_IDs = mc_getNeighborsIDs(x, y, dim, space);
+            HashSet<int> possible_IDs = mc_getNeighborsIDs(x, y, dim, space, recrystalization);
             if (possible_IDs.Count > 0)
             {
                 int new_ID = possible_IDs.ElementAt(rand.Next(possible_IDs.Count));
@@ -783,14 +871,14 @@ namespace MultiscaleModelling
             }
         }
 
-        private void mc_proceedSingleCellMonteCarlo(Tuple<int,int> cell, Grain[,] space)
+        private void mc_proceedSingleCellMonteCarlo(Tuple<int,int> cell, Grain[,] space, bool recrystalization = false)
         {
             int x = cell.Item1;
             int y = cell.Item2;
             int dim = space.GetLength(0);
             double initial_energy = mc_getCellEnergy(x, y, space);
             var previous_ID = space[x, y].ID;
-            mc_changeID(x, y, dim, space);
+            mc_changeID(x, y, dim, space, recrystalization);
             double post_change_energy = mc_getCellEnergy(x, y, space);
             double energy_difference = post_change_energy - initial_energy;
             //Console.WriteLine("Energy difference = {0}", energy_difference);
@@ -798,6 +886,7 @@ namespace MultiscaleModelling
             {
                 // Keep new state, update color
                 space[x, y].color = grain_ID_Color_dict[space[x, y].ID];
+                var t = true;
             }
             else
             {
@@ -825,7 +914,7 @@ namespace MultiscaleModelling
             return cells;
         }
 
-        public Grain[,] updateGrainsStructureMC(State state)
+        public Grain[,] updateGrainsStructureMC(State state, bool recrystalization = false)
         {
             var prev_structure = state.grains_structure;
             bool iteration_complete = false;
@@ -837,7 +926,7 @@ namespace MultiscaleModelling
             {
                 var drawn_grain_index = rand.Next(0, cells.Count);
                 var cell = cells[drawn_grain_index];
-                mc_proceedSingleCellMonteCarlo(cell, state.grains_structure);
+                mc_proceedSingleCellMonteCarlo(cell, state.grains_structure, recrystalization);
                 cells.RemoveAt(drawn_grain_index);
                 if (cells.Count == 0) iteration_complete = true;
                 ++cnt;
@@ -880,7 +969,7 @@ namespace MultiscaleModelling
                 Color c = Color.FromArgb(255, rand.Next(10, 256), 0, 0);
                 var x = rand.Next(0, this.dimension - 1);
                 var y = rand.Next(0, this.dimension - 1);
-                while (this.grains_structure[x, y].ID != 0)
+                while (this.grains_structure[x, y].recrystalized == true)
                 {
                     x = rand.Next(0, this.dimension - 1);
                     y = rand.Next(0, this.dimension - 1);

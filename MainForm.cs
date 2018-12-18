@@ -439,8 +439,35 @@ namespace MultiscaleModelling
         {
             if (numericUpDown_nucleons_number.Value > 0)
             {
-                current_state.addGrainsToExistingStructure(Convert.ToInt32(numericUpDown_nucleons_number.Value));
+                current_state.addNucleonsToExistingStructure(Convert.ToInt32(numericUpDown_nucleons_number.Value));
             }
+            Console.WriteLine("Nucleons generated!");
+            current_state.updateState(current_state);
+            Console.WriteLine("State updated!");
+            //previous_state.grains_structure = current_state.grains_structure;
+            previous_state = current_state;
+            space_display.Image = resizeImage(current_state.grains_bmp, 300, 300);
+            space_display.Refresh();
+            Console.WriteLine("Display refreshed!");
+        }
+
+        private void button_grow_recrystalized_Click(object sender, EventArgs e)
+        {
+            int number_of_iterations = Convert.ToInt32(numericUpDown_MC_iterations.Value);
+            var counter = 0;
+            do
+            {
+                current_state.grains_structure = previous_state.updateGrainsStructureMC(previous_state, true);
+                current_state.updateState(current_state);
+                space_display.Image = resizeImage(current_state.grains_bmp, 300, 300);
+                //space_display.Image = current_state.grains_bmp;
+
+                previous_state = current_state;
+                System.Threading.Thread.Sleep(1);
+                space_display.Refresh();
+                Console.WriteLine("Monte Carlo iteration: {0}", counter);
+                ++counter;
+            } while (counter < number_of_iterations);
         }
 
         private void radioButton_classic_CA_CheckedChanged(object sender, EventArgs e)
